@@ -3,13 +3,18 @@
 
 @section('content')
     <div class="bg-gradient">
-        <div class="row my-5" style="height: 500px">
-            <div class="col-8 my-auto">
-                <h1>เว็บแอพพลิเคชันสำหรับการดิพลอย</h1>
-                <h1>และการจัดการแอพพลิเคชันบนคลาวด์คอนเทนเนอร์</h1>
-            </div>
-            <div class="col-4 my-auto">
-                <img src="https://cdn.discordapp.com/attachments/318077015259611137/997501699663081543/13038.png" alt="" class="img-fluid">
+        <div class="py-5" style="height: 500px; position: relative;background: linear-gradient(45deg, #f956b2, #ea7a1a)">
+            <div class="container">
+                <div class="row">
+                    <div class="col-8 my-auto text-white">
+                        <h1>เว็บแอพพลิเคชันสำหรับการดิพลอย</h1>
+                        <h1>และการจัดการแอพพลิเคชันบนคลาวด์คอนเทนเนอร์</h1>
+                        <a href="{{ route('register') }}" class="btn btn-primary">เริ่มต้นใช้งาน</a>
+                    </div>
+                    <div class="col-4 my-auto">
+                        <img src="https://cdn.discordapp.com/attachments/318077015259611137/997501699663081543/13038.png" alt="" class="img-fluid">
+                    </div>
+                </div>
             </div>
             <div class="custom-shape-divider-bottom-1657893413">
                 <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -19,28 +24,33 @@
                 </svg>
             </div>
         </div>
-        <div class="row">
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h3>Easy to Deploy</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Hello</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-text">Hello</p>
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-4">
+                    <div class="text-center">
+                        <div class="rounded-circle m-auto" style="width: 120px;height: 120px;overflow: hidden;font-size: 5rem;background-color: #ff7f51;color: white">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <h2 class="pt-2"><b>Easy to Deploy</b></h2>
+                        <p>ออกแบบให้ทำการดิพลอย<br>แอพพลิเคชันบนคลาวด์คอนเทนเนอร์ได้ง่าย</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-text">Hello</p>
+                <div class="col-4">
+                    <div class="text-center">
+                        <div class="rounded-circle m-auto" style="width: 120px;height: 120px;overflow: hidden;font-size: 5rem;background-color: #ff7f51;color: white">
+                            <i class="fa-regular fa-thumbs-up"></i>
+                        </div>
+                        <h2 class="pt-2"><b>Easy to Use</b></h2>
+                        <p>ออกแบบให้ใช้งานง่าย<br>แม้แต่ลิงก็ใช้งานได้</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="text-center">
+                        <div class="rounded-circle m-auto" style="width: 120px;height: 120px;overflow: hidden;font-size: 5rem;background-color: #ff7f51;color: white">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <h2 class="pt-2"><b>Easy to Manage</b></h2>
+                        <p>ออกแบบให้จัดการแอพพลิเคชัน<br>ที่อยู่บนคลาวด์คอนเทนเนอร์ได้ง่าย</p>
                     </div>
                 </div>
             </div>
