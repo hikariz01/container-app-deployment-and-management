@@ -1,0 +1,29 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.custom-shape-divider-bottom-1657893413 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1657893413 svg {
+    position: relative;
+    display: block;
+    width: calc(138% + 1.3px);
+    height: 133px;
+}
+
+.custom-shape-divider-bottom-1657893413 .shape-fill {
+    fill: #F8FAFC;
+}
