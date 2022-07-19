@@ -28753,14 +28753,17 @@ var staticRenderFns = [
       _c("div", { staticClass: "row flex-nowrap" }, [
         _c(
           "div",
-          { staticClass: "col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" },
+          {
+            staticClass:
+              "col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark overflow-auto",
+            staticStyle: { height: "calc(100vh - 63px)" },
+          },
           [
             _c(
               "div",
               {
                 staticClass:
-                  "d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white overflow-auto",
-                staticStyle: { height: "calc(100vh - 63px)" },
+                  "d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white",
               },
               [
                 _c(

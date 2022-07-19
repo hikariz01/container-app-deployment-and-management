@@ -24,3 +24,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('create', [App\Http\Controllers\HomeController::class, 'create'])->name('create');
 
 Route::get('test', [App\Http\Controllers\TestController::class, 'test'])->name('test');
+
+Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+Route::group(['prefix' => 'api'], function () {
+    Route::get('namespaces', [\App\Http\Controllers\KubeController::class, 'namespaces']);
+});
