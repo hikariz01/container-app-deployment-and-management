@@ -15,3 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 logs.txt
+/08/
+.DS_Store
