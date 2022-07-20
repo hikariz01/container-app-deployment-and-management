@@ -11,7 +11,7 @@
     <meta name="description"
           content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Ample Admin Lite Template by WrapPixel</title>
+    <title>Container-App Deployment&Management</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
@@ -46,18 +46,19 @@
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
-                <a class="navbar-brand" href="dashboard.html">
+                <a class="navbar-brand" href="dashboard.html" style="background: #2f323e; font-size: 16px">
                     <!-- Logo icon -->
-                    <b class="logo-icon">
-                        <!-- Dark Logo icon -->
-                        <img src="plugins/images/logo-icon.png" alt="homepage" />
-                    </b>
+{{--                    <b class="logo-icon">--}}
+{{--                        <!-- Dark Logo icon -->--}}
+{{--                        <img src="plugins/images/logo-icon.png" alt="homepage" />--}}
+{{--                    </b>--}}
                     <!--End Logo icon -->
                     <!-- Logo text -->
-                    <span class="logo-text">
-                            <!-- dark Logo text -->
-                            <img src="plugins/images/logo-text.png" alt="homepage" />
-                        </span>
+{{--                    <span class="logo-text">--}}
+{{--                            <!-- dark Logo text -->--}}
+{{--                            <img src="plugins/images/logo-text.png" alt="homepage" />--}}
+{{--                        </span>--}}
+                    Container-App Deploy&Manage
                 </a>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
@@ -67,6 +68,20 @@
                 <!-- ============================================================== -->
                 <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
                    href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+            </div>
+            <div style="margin-left: 20px; width: 10vw">
+                <select class="form-select ml-3" aria-label="Default select example">
+                    <option selected>default</option>
+{{--                    <option value="1">One</option>--}}
+
+{{--                    @foreach($namespaces as $namespaces)--}}
+{{--                        @if($i == 0)--}}
+{{--                            <option selected>{{$namespace->getName()}}</option>--}}
+{{--                            {{$i++}}--}}
+{{--                        @endif--}}
+{{--                            <option value="{{$namespace->getName()}}">{{$namespace->getName()}}</option>--}}
+{{--                    @endforeach--}}
+                </select>
             </div>
             <!-- ============================================================== -->
             <!-- End Logo -->
@@ -141,7 +156,7 @@
     <!-- ============================================================== -->
     <!-- Left Sidebar - style you can find in sidebar.scss  -->
     <!-- ============================================================== -->
-    <aside class="left-sidebar" data-sidebarbg="skin6">
+    <aside class="left-sidebar overflow-auto" data-sidebarbg="skin6" style="height: 100vh;">
         <!-- Sidebar scroll-->
         <div class="scroll-sidebar">
             <!-- Sidebar navigation-->
@@ -152,51 +167,197 @@
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
                            aria-expanded="false">
                             <i class="far fa-clock" aria-hidden="true"></i>
-                            <span class="hide-menu">Dashboard</span>
+                            <span class="hide-menu">Workloads</span>
                         </a>
+                        <ul>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Deployments</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Daemon sets</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Jobs</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Cron Jobs</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Pods</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Replica Sets</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Stateful Sets</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.html"
                            aria-expanded="false">
                             <i class="fa fa-user" aria-hidden="true"></i>
-                            <span class="hide-menu">Profile</span>
+                            <span class="hide-menu">Service</span>
                         </a>
+                        <ul>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Services</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Ingresses</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Ingress Classes</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="basic-table.html"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
-                            <span class="hide-menu">Basic Table</span>
+                            <span class="hide-menu">Config and Storage</span>
                         </a>
+                        <ul>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Config Maps</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Secret</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Persistent Volume Claims</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Storage Classes</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link waves-effect waves-dark sidebar-link" href="fontawesome.html"
                            aria-expanded="false">
                             <i class="fa fa-font" aria-hidden="true"></i>
-                            <span class="hide-menu">Icon</span>
+                            <span class="hide-menu">Cluster</span>
                         </a>
+                        <ul>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Namespaces</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Nodes</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Cluster Roles</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Cluster Roles Bindings</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Events</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Network Policies</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Service Account</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Roles</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Role Bindings</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="map-google.html"
-                           aria-expanded="false">
-                            <i class="fa fa-globe" aria-hidden="true"></i>
-                            <span class="hide-menu">Google Map</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="blank.html"
-                           aria-expanded="false">
-                            <i class="fa fa-columns" aria-hidden="true"></i>
-                            <span class="hide-menu">Blank Page</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="404.html"
-                           aria-expanded="false">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            <span class="hide-menu">Error 404</span>
-                        </a>
-                    </li>
+{{--                    <li class="sidebar-item">--}}
+{{--                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="map-google.html"--}}
+{{--                           aria-expanded="false">--}}
+{{--                            <i class="fa fa-globe" aria-hidden="true"></i>--}}
+{{--                            <span class="hide-menu">Google Map</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                    <li class="sidebar-item">--}}
+{{--                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="blank.html"--}}
+{{--                           aria-expanded="false">--}}
+{{--                            <i class="fa fa-columns" aria-hidden="true"></i>--}}
+{{--                            <span class="hide-menu">Blank Page</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                    <li class="sidebar-item">--}}
+{{--                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="404.html"--}}
+{{--                           aria-expanded="false">--}}
+{{--                            <i class="fa fa-info-circle" aria-hidden="true"></i>--}}
+{{--                            <span class="hide-menu">Error 404</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                     <li class="text-center p-20 upgrade-btn">
                         <a href="https://www.wrappixel.com/templates/ampleadmin/"
                            class="btn d-grid btn-danger text-white" target="_blank">
@@ -215,7 +376,7 @@
     <!-- ============================================================== -->
     <!-- Page wrapper  -->
     <!-- ============================================================== -->
-    <div class="page-wrapper">
+    <div class="page-wrapper overflow-auto" style="height: calc(100vh - 60px)">
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
