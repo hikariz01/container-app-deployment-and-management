@@ -1,8 +1,9 @@
-@extends('layouts.app2')
+@extends('layouts.app2', ["namespaces"=>$namespaces])
 
 
 @section('content')
-    <table class="table table-secondary" style="padding-left: 30px">
+    @if(!is_null($deployments) && count($deployments) != 0)
+    <table class="table table-secondary" style="padding-left: 30px" id="deployment_table">
         <thead>
             <h3 style="padding-left: 30px">Deployments</h3>
         </thead>
@@ -34,8 +35,10 @@
     @endforeach
         </tbody>
     </table>
+    @endif
 
-    <table class="table table-secondary" style="padding-left: 30px">
+    @if(!is_null($daemonsets) && count($daemonsets) != 0)
+    <table class="table table-secondary" style="padding-left: 30px" id="daemonsets_table">
         <thead>
         <h3 style="padding-left: 30px">Daemonsets</h3>
         </thead>
@@ -67,9 +70,11 @@
     @endforeach
         </tbody>
     </table>
+    @endif
 
 
-    <table class="table table-secondary" style="padding-left: 30px">
+    @if(!is_null($jobs) && count($jobs) != 0)
+    <table class="table table-secondary" style="padding-left: 30px" id="jobs_table">
         <thead>
         <h3 style="padding-left: 30px">Jobs</h3>
         </thead>
@@ -101,9 +106,10 @@
 
         </tbody>
     </table>
+    @endif
 
-@if(\PHPUnit\Framework\isNull($cronjobs) == false)
-    <table class="table table-secondary" style="padding-left: 30px">
+    @if(!is_null($cronjobs) && count($cronjobs) != 0)
+    <table class="table table-secondary" style="padding-left: 30px" id="cronjobs_table">
         <thead>
         <h3 style="padding-left: 30px">Cron Jobs</h3>
         </thead>
@@ -135,11 +141,11 @@
 
         </tbody>
     </table>
-@endif
+    @endif
 
 
-{{--@if(\PHPUnit\Framework\isNull($pods) == false)--}}
-    <table class="table table-secondary" style="padding-left: 30px">
+    @if(!is_null($pods) && count($pods) != 0)
+    <table class="table table-secondary" style="padding-left: 30px" id="pods_table">
         <thead>
         <h3 style="padding-left: 30px">Pods</h3>
         </thead>
@@ -179,9 +185,10 @@
 
         </tbody>
     </table>
-{{--@endif--}}
+   @endif
 
-    <table class="table table-secondary" style="padding-left: 30px">
+    @if(!is_null($statefulsets) && count($statefulsets) != 0)
+    <table class="table table-secondary" style="padding-left: 30px" id="statefulsets_table">
         <thead>
         <h3 style="padding-left: 30px">Stateful Sets</h3>
         </thead>
@@ -213,5 +220,6 @@
 
         </tbody>
     </table>
+    @endif
 
 @endsection

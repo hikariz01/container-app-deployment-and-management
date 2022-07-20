@@ -20,6 +20,24 @@
     <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #000000AA;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -71,16 +89,12 @@
             </div>
             <div style="margin-left: 20px; width: 10vw">
                 <select class="form-select ml-3" aria-label="Default select example">
-                    <option selected>default</option>
+{{--                    <option selected value="default">default</option>--}}
 {{--                    <option value="1">One</option>--}}
+                    @foreach($namespaces as $namespace)
+                        <option value="{{$namespace->toArray()['metadata']['name']}}">{{$namespace->toArray()['metadata']['name']}}</option>
+                    @endforeach
 
-{{--                    @foreach($namespaces as $namespaces)--}}
-{{--                        @if($i == 0)--}}
-{{--                            <option selected>{{$namespace->getName()}}</option>--}}
-{{--                            {{$i++}}--}}
-{{--                        @endif--}}
-{{--                            <option value="{{$namespace->getName()}}">{{$namespace->getName()}}</option>--}}
-{{--                    @endforeach--}}
                 </select>
             </div>
             <!-- ============================================================== -->
@@ -164,50 +178,50 @@
                 <ul id="sidebarnav">
                     <!-- User Profile-->
                     <li class="sidebar-item pt-2">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}"
                            aria-expanded="false">
                             <i class="far fa-clock" aria-hidden="true"></i>
                             <span class="hide-menu">Workloads</span>
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#deployment_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Deployments</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#daemonsets_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Daemon sets</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#jobs_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Jobs</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#cronjobs_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Cron Jobs</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#pods_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Pods</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#replicasets_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Replica Sets</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#statefulsets_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Stateful Sets</span>
                                 </a>
@@ -215,7 +229,7 @@
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.html"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service') }}"
                            aria-expanded="false">
                             <i class="fa fa-user" aria-hidden="true"></i>
                             <span class="hide-menu">Service</span>
@@ -387,9 +401,9 @@
         <!-- ============================================================== -->
         <!-- footer -->
         <!-- ============================================================== -->
-        <footer class="footer text-center"> 2021 © Ample Admin brought to you by <a
-                href="https://www.wrappixel.com/">wrappixel.com</a>
-        </footer>
+{{--        <footer class="footer text-center"> 2021 © Ample Admin brought to you by <a--}}
+{{--                href="https://www.wrappixel.com/">wrappixel.com</a>--}}
+{{--        </footer>--}}
         <!-- ============================================================== -->
         <!-- End footer -->
         <!-- ============================================================== -->

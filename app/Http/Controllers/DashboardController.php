@@ -7,26 +7,32 @@ use RenokiCo\PhpK8s\K8s;
 
 class DashboardController extends Controller
 {
-    private function getCluster($url) {
+    private function getCluster($url="https://127.0.0.1:59099") {
         $cluster = KubernetesCluster::fromUrl($url);
         $cluster->loadTokenFromFile(storage_path('app/k8s_auth/token.txt'));
-        $cluster->withCaCertificate(storage_path('app/k8s_auth/test.ca.crt'));
+        $cluster->withCaCertificate('C:/Users/hikar/.minikube/ca.crt');
 
+        //C:/Users/hikar/.minikube/ca.crt (storage_path('app/k8s_auth/test.ca.crt'))
         return $cluster;
     }
 
     public function index()
     {
-        $cluster = $this->getCluster('https://192.168.10.220:6443');
-        $deployments = $cluster->getAllDeploymentsFromAllNamespaces(['default']);
 
-        $daemonsets = $cluster->getAllDaemonSetsFromAllNamespaces((['default']));
+        //https://127.0.0.1:59099 https://192.168.10.220:6443
+        $cluster = $this->getCluster();
 
-        $jobs = $cluster->getAllJobsFromAllNamespaces(['default']);
+        $namespaces = $cluster->getAllNamespaces();
 
-        $cronjobs = $cluster->getAllCronjobsFromAllNamespaces(['default']);
+        $deployments = $cluster->getAllDeployments('default');
 
-        $pods = $cluster->getAllPodsFromAllNamespaces(['default']);
+        $daemonsets = $cluster->getAllDaemonSets('default');
+
+        $jobs = $cluster->getAllJobs('default');
+
+        $cronjobs = $cluster->getAllCronjobs('default');
+
+        $pods = $cluster->getAllPods('default');
 
 
         /**
@@ -35,7 +41,7 @@ class DashboardController extends Controller
 
         // TODO: curl REPLICASET
 
-        $statefulsets = $cluster->getAllStatefulSetsFromAllNamespaces(['default']);
+        $statefulsets = $cluster->getAllStatefulSets('default');
 //        $namespaces = $cluster->getAllNamespaces();
 //
 //        $i = 0;
@@ -43,6 +49,16 @@ class DashboardController extends Controller
 
 //        dd($pods[0]->toArray()['status']['hostIP']);
 
-        return view('workloads', compact('deployments', 'daemonsets', 'jobs', 'cronjobs', 'pods', 'statefulsets'));
+        return view('workloads', compact('namespaces','deployments', 'daemonsets', 'jobs', 'cronjobs', 'pods', 'statefulsets'));
+    }
+
+    public function service() {
+
+        $cluster = $this->getCluster();
+
+        $namespaces = $cluster->getAllNamespaces();
+
+
+        return view('service', compact('namespaces'));
     }
 }
