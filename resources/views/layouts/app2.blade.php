@@ -87,14 +87,15 @@
                 <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
                    href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
             </div>
-            <div style="margin-left: 20px; width: 10vw">
+            <div style="margin-left: 20px; width: 20vw; display: inline-flex">
+                <span class="text-white m-auto" style="padding-right: 8px">namespace:</span>
                 <select class="form-select ml-3" aria-label="Default select example">
 {{--                    <option selected value="default">default</option>--}}
 {{--                    <option value="1">One</option>--}}
                     @foreach($namespaces as $namespace)
                         <option value="{{$namespace->toArray()['metadata']['name']}}">{{$namespace->toArray()['metadata']['name']}}</option>
                     @endforeach
-
+                    <option value="all">ALL</option>
                 </select>
             </div>
             <!-- ============================================================== -->
@@ -170,7 +171,7 @@
     <!-- ============================================================== -->
     <!-- Left Sidebar - style you can find in sidebar.scss  -->
     <!-- ============================================================== -->
-    <aside class="left-sidebar overflow-auto" data-sidebarbg="skin6" style="height: 100vh;">
+    <aside class="left-sidebar" data-sidebarbg="skin6" style="height: 100vh; overflow-x: hidden; overflow-y: auto">
         <!-- Sidebar scroll-->
         <div class="scroll-sidebar">
             <!-- Sidebar navigation-->
@@ -178,50 +179,50 @@
                 <ul id="sidebarnav">
                     <!-- User Profile-->
                     <li class="sidebar-item pt-2">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard')}}"
                            aria-expanded="false">
                             <i class="far fa-clock" aria-hidden="true"></i>
                             <span class="hide-menu">Workloads</span>
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#deployment_table"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard')}}#deployment_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Deployments</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#daemonsets_table"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#daemonsets_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Daemon sets</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#jobs_table"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#jobs_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Jobs</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#cronjobs_table"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#cronjobs_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Cron Jobs</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#pods_table"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#pods_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Pods</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#replicasets_table"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#replicasets_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Replica Sets</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#statefulsets_table"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#statefulsets_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Stateful Sets</span>
                                 </a>
@@ -236,19 +237,19 @@
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service') }}#services_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Services</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service') }}#ingresses_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Ingresses</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service') }}#ingressclasses_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Ingress Classes</span>
                                 </a>
@@ -256,32 +257,32 @@
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="basic-table.html"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}"
                            aria-expanded="false">
                             <i class="fa fa-table" aria-hidden="true"></i>
                             <span class="hide-menu">Config and Storage</span>
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}#configmaps_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Config Maps</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}#secrets_table"
                                    aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Secret</span>
+                                    <span class="hide-menu">> Secrets</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}#pvcs_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Persistent Volume Claims</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}#storageclasses_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Storage Classes</span>
                                 </a>
@@ -289,62 +290,62 @@
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="fontawesome.html"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}"
                            aria-expanded="false">
                             <i class="fa fa-font" aria-hidden="true"></i>
                             <span class="hide-menu">Cluster</span>
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#namespaces_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Namespaces</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#nodes_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Nodes</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#clusterRoles_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Cluster Roles</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#clusterRoleBindings_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Cluster Roles Bindings</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#events_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Events</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#networkPolicies_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Network Policies</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#serviceAccounts_table"
                                    aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Service Account</span>
+                                    <span class="hide-menu">> Service Accounts</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#roles_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Roles</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#roleBindings_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Role Bindings</span>
                                 </a>

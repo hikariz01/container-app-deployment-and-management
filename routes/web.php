@@ -29,6 +29,10 @@ Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'inde
 
 Route::get('service', [\App\Http\Controllers\DashboardController::class, 'service'])->name('service');
 
+Route::get('config_storage', [\App\Http\Controllers\DashboardController::class, 'config_storage'] )->name('config_storage');
+
+Route::get('cluster', [\App\Http\Controllers\DashboardController::class, 'cluster'])->name('cluster');
+
 Route::group(['prefix' => 'api'], function () {
     Route::get('namespaces', [\App\Http\Controllers\KubeController::class, 'namespaces']);
 });
