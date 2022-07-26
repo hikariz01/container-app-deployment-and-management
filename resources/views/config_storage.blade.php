@@ -17,8 +17,12 @@
                 <tr>
                     <td>{{$configmap->getName()}}</td>
                     <td>
-                        @foreach($configmap->getLabels()??[json_decode('{"key":"-"}')] as $key => $label)
-                            {{$key}} : {{$label}}<br>
+                        @foreach($configmap->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
                         @endforeach
                     </td>
                     <td>{{$configmap->toArray()['metadata']['creationTimestamp']}}</td>
@@ -46,8 +50,12 @@
                 <tr>
                     <td>{{$secret->getName()}}</td>
                     <td>
-                        @foreach($secret->getLabels()??[json_decode('{"key":"-"}')] as $key => $label)
-                            {{$key}} : {{$label}}<br>
+                        @foreach($secret->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
                         @endforeach
                     </td>
                     <td>{{$secret->toArray()['type']}}</td>
@@ -80,8 +88,12 @@
                 <tr>
                     <td>{{$pvc->getName()}}</td>
                     <td>
-                        @foreach($pvc->getLabels()??[json_decode('{"key":"-"}')] as $key => $label)
-                            {{$key}} : {{$label}}<br>
+                        @foreach($pvc->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
                         @endforeach
                     </td>
                     <td>{{$pvc->toArray()['status']['phase']}}</td>

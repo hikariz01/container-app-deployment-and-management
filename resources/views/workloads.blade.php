@@ -10,6 +10,9 @@
         <tbody>
         <tr>
             <td>Name</td>
+            @if(!strcmp($_GET['namespace']??"no","all"))
+            <td>Namespace</td>
+            @endif
             <td>Images</td>
             <td>Labels</td>
             <td>Pods</td>
@@ -19,17 +22,24 @@
 {{--        <h1>{{$deployment->getName()}}</h1>--}}
         <tr>
             <td>{{$deployment->getName()}}</td>
+            @if(!strcmp($_GET['namespace']??"no", 'all'))
+                <td>{{$deployment->toArray()['metadata']['namespace']}}</td>
+            @endif
             <td>
                 @foreach(json_decode($deployment->toJson())->spec->template->spec->containers as $container)
                     {{$container->image}}<br>
                 @endforeach
             </td>
             <td>
-            @foreach($deployment->getLabels() as $key=>$data)
-                {{$key}} : {{$data}}<br>
-            @endforeach
+                @foreach($deployment->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                    @if($key == "")
+                        -
+                    @else
+                        {{$key}}: {{$label}}<br>
+                    @endif
+                @endforeach
             </td>
-            <td>{{json_decode($deployment->toJson())->status->readyReplicas}}/{{json_decode($deployment->toJson())->status->replicas}}</td>
+            <td>{{json_decode($deployment->toJson())->status->readyReplicas??"0"}}/{{json_decode($deployment->toJson())->status->replicas}}</td>
             <td>{{json_decode($deployment->toJson())->metadata->creationTimestamp}}</td>
         </tr>
     @endforeach
@@ -45,6 +55,9 @@
         <tbody>
         <tr>
             <td>Name</td>
+            @if(!strcmp($_GET['namespace']??"no", 'all'))
+                <td>Namespace</td>
+            @endif
             <td>Images</td>
             <td>Labels</td>
             <td>Pods</td>
@@ -53,14 +66,21 @@
     @foreach($daemonsets as $daemonset)
         <tr>
             <td>{{$daemonset->getName()}}</td>
+            @if(!strcmp($_GET['namespace']??"no", 'all'))
+                <td>{{$daemonset->toArray()['metadata']['namespace']}}</td>
+            @endif
             <td>
             @foreach(json_decode($daemonset->toJson())->spec->template->spec->containers as $container)
                 {{$container->image}}<br>
             @endforeach
             </td>
             <td>
-                @foreach($daemonset->getLabels() as $key => $label)
-                    {{$key}} : {{$label}}<br>
+                @foreach($daemonset->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                    @if($key == "")
+                        -
+                    @else
+                        {{$key}}: {{$label}}<br>
+                    @endif
                 @endforeach
             </td>
             <td>{{json_decode($daemonset->toJson())->status->currentNumberScheduled}}/{{json_decode($daemonset->toJson())->status->desiredNumberScheduled}}</td>
@@ -81,6 +101,9 @@
         <tbody>
         <tr>
             <td>Name</td>
+            @if(!strcmp($_GET['namespace']??"no", 'all'))
+                <td>Namespace</td>
+            @endif
             <td>Images</td>
             <td>Labels</td>
             <td>Pods</td>
@@ -89,14 +112,21 @@
         @foreach($jobs as $job)
             <tr>
                 <td>{{$job->getName()}}</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>{{$job->toArray()['metadata']['namespace']}}</td>
+                @endif
                 <td>
                     @foreach(json_decode($job->toJson())->spec->template->spec->containers as $container)
                         {{$container->image}}<br>
                     @endforeach
                 </td>
                 <td>
-                    @foreach($job->getLabels() as $key => $label)
-                        {{$key}} : {{$label}}<br>
+                    @foreach($job->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                        @if($key == "")
+                            -
+                        @else
+                            {{$key}}: {{$label}}<br>
+                        @endif
                     @endforeach
                 </td>
                 <td>{{json_decode($job->toJson())->status->ready}}/{{json_decode($job->toJson())->status->succeeded}}</td>
@@ -116,6 +146,9 @@
         <tbody>
         <tr>
             <td>Name</td>
+            @if(!strcmp($_GET['namespace']??"no", 'all'))
+                <td>Namespace</td>
+            @endif
             <td>Images</td>
             <td>Labels</td>
             <td>Pods</td>
@@ -124,14 +157,21 @@
         @foreach($cronjobs as $cronjob)
             <tr>
                 <td>{{$cronjob->getName()}}</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>{{$cronjob->toArray()['metadata']['namespace']}}</td>
+                @endif
                 <td>
                     @foreach(json_decode($cronjob->toJson())->spec->template->spec->containers as $container)
                         {{$container->image}}<br>
                     @endforeach
                 </td>
                 <td>
-                    @foreach($cronjob->getLabels() as $key => $label)
-                        {{$key}} : {{$label}}<br>
+                    @foreach($cronjob->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                        @if($key == "")
+                            -
+                        @else
+                            {{$key}}: {{$label}}<br>
+                        @endif
                     @endforeach
                 </td>
                 <td>{{json_decode($cronjob->toJson())->status->ready}}/{{json_decode($cronjob->toJson())->status->succeeded}}</td>
@@ -152,6 +192,9 @@
         <tbody>
         <tr>
             <td>Name</td>
+            @if(!strcmp($_GET['namespace']??"no", 'all'))
+                <td>Namespace</td>
+            @endif
             <td>Images</td>
             <td>Labels</td>
             <td>Status</td>
@@ -162,14 +205,21 @@
         @foreach($pods as $pod)
             <tr>
                 <td>{{$pod->getName()}}</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>{{$pod->toArray()['metadata']['namespace']}}</td>
+                @endif
                 <td>
                     @foreach(json_decode($pod->toJson())->spec->containers as $container)
                         {{$container->image}}<br>
                     @endforeach
                 </td>
                 <td>
-                    @foreach($pod->getLabels() as $key => $label)
-                        {{$key}} : {{$label}}<br>
+                    @foreach($pod->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                        @if($key == "")
+                            -
+                        @else
+                            {{$key}}: {{$label}}<br>
+                        @endif
                     @endforeach
                 </td>
                 <td>{{json_decode($pod->toJson())->status->phase}}</td>
@@ -195,6 +245,9 @@
         <tbody>
         <tr>
             <td>Name</td>
+            @if(!strcmp($_GET['namespace']??"no", 'all'))
+                <td>Namespace</td>
+            @endif
             <td>Images</td>
             <td>Labels</td>
             <td>Pods</td>
@@ -203,14 +256,21 @@
         @foreach($statefulsets as $statefulset)
             <tr>
                 <td>{{$statefulset->getName()}}</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>{{$statefulset->toArray()['metadata']['namespace']}}</td>
+                @endif
                 <td>
                     @foreach($statefulset->toArray()['spec']['template']['spec']['containers'] as $container)
                         {{$container['image']}}<br>
                     @endforeach
                 </td>
                 <td>
-                    @foreach($statefulset->getLabels()??[json_decode('{"key":"-"}')] as $key => $label)
-                        {{$key}} : {{$label}}<br>
+                    @foreach($statefulset->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                        @if($key == "")
+                            -
+                        @else
+                            {{$key}}: {{$label}}<br>
+                        @endif
                     @endforeach
                 </td>
                 <td>{{$statefulset->getReadyReplicasCount()}}/{{$statefulset->getDesiredReplicasCount()}}</td>

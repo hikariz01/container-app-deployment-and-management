@@ -89,13 +89,14 @@
             </div>
             <div style="margin-left: 20px; width: 20vw; display: inline-flex">
                 <span class="text-white m-auto" style="padding-right: 8px">namespace:</span>
-                <select class="form-select ml-3" aria-label="Default select example">
+                <select id="selectedNamespace" name="selectedNamespace" class="form-select ml-3" aria-label="Namespace Select" onchange="onSelectNamespace(this)">
 {{--                    <option selected value="default">default</option>--}}
 {{--                    <option value="1">One</option>--}}
-                    @foreach($namespaces as $namespace)
-                        <option value="{{$namespace->toArray()['metadata']['name']}}">{{$namespace->toArray()['metadata']['name']}}</option>
+                    @foreach($namespaces as $ns)
+                        <option value="{{$ns->getName()}}" {{!strcmp($_GET['namespace']??"default", $ns->getName()) ? 'selected' : ''}}>{{$ns->getName()}}</option>
                     @endforeach
-                    <option value="all">ALL</option>
+                        <option value="all" {{!strcmp($_GET['namespace']??"no", "all") ? 'selected' : ''}}>ALL</option>
+
                 </select>
             </div>
             <!-- ============================================================== -->
@@ -417,6 +418,7 @@
 <!-- End Wrapper -->
 <!-- ============================================================== -->
 <!-- ============================================================== -->
+
 <!-- All Jquery -->
 <!-- ============================================================== -->
 <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
@@ -435,6 +437,16 @@
 <script src="plugins/bower_components/chartist/dist/chartist.min.js"></script>
 <script src="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
 <script src="js/pages/dashboards/dashboard1.js"></script>
+
+<script>
+    function onSelectNamespace(e) {
+        let selectNamespace = e.value;
+
+        window.location.href = `?namespace=${selectNamespace}`
+
+    }
+</script>
+
 </body>
 
 </html>

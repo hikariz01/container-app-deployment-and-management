@@ -11,6 +11,9 @@
             <tbody>
             <tr>
                 <td>Name</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>Namespace</td>
+                @endif
                 <td>Labels</td>
                 <td>Type</td>
                 <td>Cluster IP</td>
@@ -21,9 +24,16 @@
             @foreach($services as $service)
                 <tr>
                     <td>{{$service->getName()}}</td>
+                    @if(!strcmp($_GET['namespace']??"no", 'all'))
+                        <td>{{$service->toArray()['metadata']['namespace']}}</td>
+                    @endif
                     <td>
-                        @foreach($service->getLabels()??[json_decode('{"key":"-"}')] as $key => $label)
-                            {{$key}} : {{$label}}<br>
+                        @foreach($service->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
                         @endforeach
                     </td>
                     <td>{{$service->toArray()['spec']['type']}}</td>
@@ -58,6 +68,9 @@
             <tbody>
             <tr>
                 <td>Name</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>Namespace</td>
+                @endif
                 <td>Labels</td>
                 <td>Host</td>
                 <td>Paths</td>
@@ -67,9 +80,16 @@
             @foreach($ingresses as $ingress)
                 <tr>
                     <td>{{$ingress->getName()}}</td>
+                    @if(!strcmp($_GET['namespace']??"no", 'all'))
+                        <td>{{$ingress->toArray()['metadata']['namespace']}}</td>
+                    @endif
                     <td>
-                        @foreach($ingress->getLabels()??[json_decode('{"key":"-"}')] as $key => $label)
-                            {{$key}} : {{$label}}<br>
+                        @foreach($ingress->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
                         @endforeach
                     </td>
                     <td>

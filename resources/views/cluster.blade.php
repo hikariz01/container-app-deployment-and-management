@@ -18,8 +18,12 @@
                 <tr>
                     <td>{{$namespace->getName()}}</td>
                     <td>
-                        @foreach($namespace->toArray()['metadata']['labels'] as $key => $label)
-                            {{$key}}: {{$label}}<br>
+                        @foreach($namespace->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
                         @endforeach
                     </td>
                     <td>{{$namespace->toArray()['status']['phase']}}</td>
@@ -52,8 +56,12 @@
                 <tr>
                     <td>{{$node->getName()}}</td>
                     <td>
-                        @foreach($node->toArray()['metadata']['labels'] as $key => $label)
-                            {{$key}}: {{$label}}<br>
+                        @foreach($node->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
                         @endforeach
                     </td>
                     <td>
@@ -141,7 +149,7 @@
                     <td>{{$event->toArray()['reason']}}</td>
                     <td>{{$event->toArray()['message']}}</td>
                     <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
-                    <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']}}</td>
+                    <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                     <td>{{$event->toArray()['count']??"0"}}</td>
                     <td>{{$event->toArray()['firstTimestamp']}}</td>
                     <td>{{$event->toArray()['lastTimestamp']}}</td>
@@ -174,7 +182,6 @@
                             @else
                                 {{$key}}: {{$label}}<br>
                             @endif
-
                         @endforeach
                     </td>
                     <td>{{$serviceAccount->toArray()['metadata']['creationTimestamp']}}</td>

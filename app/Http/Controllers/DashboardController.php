@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Dflydev\DotAccessData\Data;
+use Illuminate\Http\Request;
 use RenokiCo\PhpK8s\KubernetesCluster;
 use RenokiCo\PhpK8s\K8s;
+
 
 class DashboardController extends Controller
 {
@@ -16,7 +19,40 @@ class DashboardController extends Controller
         return $cluster;
     }
 
-    public function index($ns='default')
+    private string $ns = "default";
+
+    /**
+     * @return string
+     */
+    public function getNs(): string
+    {
+        return $this->ns;
+    }
+
+    /**
+     * @param string $ns
+     */
+    public function setNs(string $ns): void
+    {
+        $this->ns = $ns;
+    }
+
+    public function selectedNamespace(Request $request) {
+
+        if($request->has('namespace'))
+            if ($request->get('namespace') == "all")
+                $this->setNs('');
+            else
+                $this->setNs($request->input('namespace'));
+        else
+            $this->setNs('default');
+
+        // fetch your namespace
+
+    }
+
+
+    public function index(Request $request)
     {
 
         //https://127.0.0.1:59099 https://192.168.10.220:6443
@@ -24,15 +60,17 @@ class DashboardController extends Controller
 
         $namespaces = $cluster->getAllNamespaces();
 
-        $deployments = $cluster->getAllDeployments($ns);
+        $this->selectedNamespace($request);
 
-        $daemonsets = $cluster->getAllDaemonSets($ns);
+        $deployments = $cluster->getAllDeployments($this->getNs());
 
-        $jobs = $cluster->getAllJobs($ns);
+        $daemonsets = $cluster->getAllDaemonSets($this->getNs());
 
-        $cronjobs = $cluster->getAllCronjobs($ns);
+        $jobs = $cluster->getAllJobs($this->getNs());
 
-        $pods = $cluster->getAllPods($ns);
+        $cronjobs = $cluster->getAllCronjobs($this->getNs());
+
+        $pods = $cluster->getAllPods($this->getNs());
 
 
         /**
@@ -41,7 +79,7 @@ class DashboardController extends Controller
 
         // TODO: curl REPLICASET
 
-        $statefulsets = $cluster->getAllStatefulSets($ns);
+        $statefulsets = $cluster->getAllStatefulSets($this->getNs());
 
 //        $i = 0;
 //        view('layouts.app2', compact('namespaces'), compact('i'));
@@ -51,46 +89,53 @@ class DashboardController extends Controller
         return view('workloads', compact('namespaces','deployments', 'daemonsets', 'jobs', 'cronjobs', 'pods', 'statefulsets'));
     }
 
-    public function service($ns='default') {
+    public function service(Request $request) {
 
         $cluster = $this->getCluster();
 
         $namespaces = $cluster->getAllNamespaces();
 
-        $services = $cluster->getAllServices($ns);
+        $this->selectedNamespace($request);
 
-        $ingresses = $cluster->getAllIngresses($ns);
+        $services = $cluster->getAllServices($this->getNs());
+
+        $ingresses = $cluster->getAllIngresses($this->getNs());
 
 
         // TODO: $ingressclasses = CURL เอง
 
+
         return view('service', compact('namespaces', 'services', 'ingresses'));
     }
 
-    public function config_storage($ns='default') {
+    public function config_storage(Request $request) {
 
         $cluster = $this->getCluster();
 
         $namespaces = $cluster->getAllNamespaces();
 
-        $configmaps = $cluster->getAllConfigmaps($ns);
+        $this->selectedNamespace($request);
 
-        $secrets = $cluster->getAllSecrets($ns);
+        $configmaps = $cluster->getAllConfigmaps($this->getNs());
 
-        $pvcs = $cluster->getAllPersistentVolumeClaims($ns);
+        $secrets = $cluster->getAllSecrets($this->getNs());
 
-        $storageclasses = $cluster->getAllStorageClasses($ns);
+        $pvcs = $cluster->getAllPersistentVolumeClaims($this->getNs());
+
+        $storageclasses = $cluster->getAllStorageClasses($this->getNs());
 
         return view('config_storage', compact('namespaces', 'configmaps', 'secrets', 'pvcs', 'storageclasses'));
     }
 
-    public function cluster($ns='default') {
+    public function cluster(Request $request) {
 
         $cluster = $this->getCluster();
 
         $namespaces = $cluster->getAllNamespaces();
 
-        $nodes = $cluster->getAllNodes($ns);
+        $this->selectedNamespace($request);
+
+        $nodes = $cluster->getAllNodes($this->getNs());
 
 //        $pods = $cluster->getAllPodsFromAllNamespaces();
 //
@@ -105,21 +150,22 @@ class DashboardController extends Controller
 //            $kubeCluster[$pod->toArray()['status']['hostIP']??'none'] = $kubeCluster[$pod->toArray()['status']['hostIP']] + 1;
 //        }
 
-        $clusterRoles = $cluster->getAllClusterRoles($ns);
+        $clusterRoles = $cluster->getAllClusterRoles($this->getNs());
 
-        $clusterRoleBindings = $cluster->getAllClusterRoleBindings($ns);
+        $clusterRoleBindings = $cluster->getAllClusterRoleBindings($this->getNs());
 
-        $events = $cluster->getAllEvents($ns);
+        $events = $cluster->getAllEvents($this->getNs());
 
 //        $networkPolicies
 
-        $serviceAccounts = $cluster->getAllServiceAccounts($ns);
+        $serviceAccounts = $cluster->getAllServiceAccounts($this->getNs());
 
-        $roles = $cluster->getAllRoles($ns);
+        $roles = $cluster->getAllRoles($this->getNs());
 
-        $roleBindings = $cluster->getAllRoleBindings($ns);
+        $roleBindings = $cluster->getAllRoleBindings($this->getNs());
 
         return view('cluster', compact('namespaces', 'nodes', 'clusterRoles', 'clusterRoleBindings', 'events', 'serviceAccounts', 'roles', 'roleBindings'));
 
     }
+
 }
