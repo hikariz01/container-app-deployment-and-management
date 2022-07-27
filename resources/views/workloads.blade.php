@@ -21,7 +21,7 @@
     @foreach($deployments as $deployment)
 {{--        <h1>{{$deployment->getName()}}</h1>--}}
         <tr>
-            <td>{{$deployment->getName()}}</td>
+            <td><a href="{{ route('deployment-details', ['name'=>$deployment->getName(), 'namespace'=>$_GET['namespace']??'default']) }}">{{$deployment->getName()}}</a></td>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
                 <td>{{$deployment->toArray()['metadata']['namespace']}}</td>
             @endif
@@ -65,7 +65,7 @@
         </tr>
     @foreach($daemonsets as $daemonset)
         <tr>
-            <td>{{$daemonset->getName()}}</td>
+            <td><a href="{{ route('daemonset-details', ['name'=>$daemonset->getName(), 'namespace'=>$_GET['namespace']??'default']) }}">{{$daemonset->getName()}}</a></td>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
                 <td>{{$daemonset->toArray()['metadata']['namespace']}}</td>
             @endif

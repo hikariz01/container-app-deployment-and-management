@@ -33,6 +33,10 @@ Route::get('config_storage', [\App\Http\Controllers\DashboardController::class, 
 
 Route::get('cluster', [\App\Http\Controllers\DashboardController::class, 'cluster'])->name('cluster');
 
-Route::group(['prefix' => 'api'], function () {
-    Route::get('namespaces', [\App\Http\Controllers\KubeController::class, 'namespaces']);
+
+Route::group(['prefix' => 'workloads'], function () {
+    Route::get('deployment/{namespace}/{name}', [\App\Http\Controllers\DeploymentController::class, 'deploymentDetails'])->name('deployment-details');
+
+    Route::get('daemonset/{namespace}/{name}', [\App\Http\Controllers\DaemonsetController::class, 'daemonsetDetails'])->name('daemonset-details');
+
 });
