@@ -10,14 +10,30 @@ use RenokiCo\PhpK8s\K8s;
 
 class DashboardController extends Controller
 {
-    public function getCluster($url="https://192.168.10.220:6443") {
+    public function getCluster($url="https://127.0.0.1:56839") {
         $cluster = KubernetesCluster::fromUrl($url);
         $cluster->loadTokenFromFile(storage_path('app/k8s_auth/token.txt'));
-        $cluster->withCaCertificate(storage_path('app/k8s_auth/test.ca.crt'));
+        $cluster->withCaCertificate('C:/Users/hikar/.minikube/ca.crt');
+
+        //https://192.168.10.220:6443
 
         //C:/Users/hikar/.minikube/ca.crt (storage_path('app/k8s_auth/test.ca.crt'))
         return $cluster;
     }
+
+//    public function getNodeNameByIP($ip) {
+//        $cluster = $this->getCluster();
+//
+//        $nodes = $cluster->getAllNodes('');
+//
+//        $name = '';
+//        foreach ($nodes as $node) {
+//            if (!strcmp($node->toArray()['status']['addresses'][0]['address'], $ip)) {
+//                $name = $node->getName();
+//            }
+//        }
+//        return $name;
+//    }
 
     private string $ns = "default";
 

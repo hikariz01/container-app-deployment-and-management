@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 class DeploymentController extends DashboardController
 {
+
     public function deploymentDetails($namespace, $name)
     {
         $cluster = $this->getCluster();
@@ -30,4 +31,5 @@ class DeploymentController extends DashboardController
 
         return view('workloads.deployment', compact('namespaces', 'deployment', 'age', 'conditions', 'events'));
     }
+
 }

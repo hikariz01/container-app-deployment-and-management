@@ -39,4 +39,6 @@ Route::group(['prefix' => 'workloads'], function () {
 
     Route::get('daemonset/{namespace}/{name}', [\App\Http\Controllers\DaemonsetController::class, 'daemonsetDetails'])->name('daemonset-details');
 
+    Route::get('pod/{namespace}/{name}', [\App\Http\Controllers\PodController::class, 'podDetails'])->name('pod-details');
+
 });

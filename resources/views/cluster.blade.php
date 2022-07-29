@@ -146,8 +146,8 @@
             @foreach($events as $event)
                 <tr>
                     <td>{{$event->getName()}}</td>
-                    <td>{{$event->toArray()['reason']}}</td>
-                    <td>{{$event->toArray()['message']}}</td>
+                    <td>{{$event->toArray()['reason']??'-'}}</td>
+                    <td>{{$event->toArray()['message']??'-'}}</td>
                     <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
                     <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                     <td>{{$event->toArray()['count']??"0"}}</td>

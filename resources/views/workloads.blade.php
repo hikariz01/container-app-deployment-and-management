@@ -204,7 +204,7 @@
         </tr>
         @foreach($pods as $pod)
             <tr>
-                <td>{{$pod->getName()}}</td>
+                <td><a href="{{ route('pod-details', ['name'=>$pod->getName(), 'namespace'=>$_GET['namespace']??'default']) }}">{{$pod->getName()}}</a></td>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
                     <td>{{$pod->toArray()['metadata']['namespace']}}</td>
                 @endif
