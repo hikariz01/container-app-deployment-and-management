@@ -21,7 +21,7 @@
     @foreach($deployments as $deployment)
 {{--        <h1>{{$deployment->getName()}}</h1>--}}
         <tr>
-            <td><a href="{{ route('deployment-details', ['name'=>$deployment->getName(), 'namespace'=>$_GET['namespace']??'default']) }}">{{$deployment->getName()}}</a></td>
+            <td><a href="{{ route('deployment-details', ['name'=>$deployment->getName(), 'namespace'=>$deployment->getMetadata()['namespace']??'default']) }}">{{$deployment->getName()}}</a></td>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
                 <td>{{$deployment->toArray()['metadata']['namespace']}}</td>
             @endif
@@ -65,7 +65,7 @@
         </tr>
     @foreach($daemonsets as $daemonset)
         <tr>
-            <td><a href="{{ route('daemonset-details', ['name'=>$daemonset->getName(), 'namespace'=>$_GET['namespace']??'default']) }}">{{$daemonset->getName()}}</a></td>
+            <td><a href="{{ route('daemonset-details', ['name'=>$daemonset->getName(), 'namespace'=>$daemonset->getMetadata()['namespace']??'default']) }}">{{$daemonset->getName()}}</a></td>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
                 <td>{{$daemonset->toArray()['metadata']['namespace']}}</td>
             @endif
@@ -111,7 +111,7 @@
         </tr>
         @foreach($jobs as $job)
             <tr>
-                <td>{{$job->getName()}}</td>
+                <td><a href="{{route('job-details', ['name'=>$job->getName(), 'namespace'=>$job->getMetadata()['namespace']??'default'])}}">{{$job->getName()}}</a></td>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
                     <td>{{$job->toArray()['metadata']['namespace']}}</td>
                 @endif
@@ -129,7 +129,7 @@
                         @endif
                     @endforeach
                 </td>
-                <td>{{json_decode($job->toJson())->status->ready}}/{{json_decode($job->toJson())->status->succeeded}}</td>
+                <td>{{json_decode($job->toJson())->status->ready}}/{{json_decode($job->toJson())->status->succeeded??'1'}}</td>
                 <td>{{json_decode($job->toJson())->metadata->creationTimestamp}}</td>
             </tr>
         @endforeach
@@ -151,31 +151,37 @@
             @endif
             <td>Images</td>
             <td>Labels</td>
-            <td>Pods</td>
+            <td>Schedule</td>
+            <td>Suspend</td>
+            <td>Active</td>
+            <td>Last Schedule</td>
             <td>Create Time</td>
         </tr>
         @foreach($cronjobs as $cronjob)
             <tr>
-                <td>{{$cronjob->getName()}}</td>
+                <td><a href="{{ route('cronjob-details', ['name'=>$cronjob->getName(), 'namespace'=>$cronjob->getMetadata()['namespace']??'default']) }}">{{$cronjob->getName()}}</a></td>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
-                    <td>{{$cronjob->toArray()['metadata']['namespace']}}</td>
+                    <td>{{$cronjob->getMetadata()['namespace']}}</td>
                 @endif
                 <td>
-                    @foreach(json_decode($cronjob->toJson())->spec->template->spec->containers as $container)
-                        {{$container->image}}<br>
+                    @foreach($cronjob->getJobTemplate()->getTemplate()->getSpec('containers') as $container)
+                        {{$container['image']}}<br>
                     @endforeach
                 </td>
                 <td>
-                    @foreach($cronjob->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
-                        @if($key == "")
-                            -
-                        @else
+                    @foreach($cronjob->getMetadata()['labels']??[''=>''] as $key => $label)
+                        @if(strcmp($key, ''))
                             {{$key}}: {{$label}}<br>
+                        @else
+                            -
                         @endif
                     @endforeach
                 </td>
-                <td>{{json_decode($cronjob->toJson())->status->ready}}/{{json_decode($cronjob->toJson())->status->succeeded}}</td>
-                <td>{{json_decode($cronjob->toJson())->metadata->creationTimestamp}}</td>
+                <td>{{$cronjob->getSpec('schedule')}}</td>
+                <td>{{$cronjob->getSpec('suspend') ? 'true' : 'false'}}</td>
+                <td>{{count($cronjob->getActiveJobs()->toArray())}}</td>
+                <td>{{date('d-m-Y H:i:s',$cronjob->getLastSchedule()->getTimestamp())}}</td>
+                <td>{{$cronjob->getMetadata()['creationTimestamp']}}</td>
             </tr>
         @endforeach
 
@@ -204,7 +210,7 @@
         </tr>
         @foreach($pods as $pod)
             <tr>
-                <td><a href="{{ route('pod-details', ['name'=>$pod->getName(), 'namespace'=>$_GET['namespace']??'default']) }}">{{$pod->getName()}}</a></td>
+                <td><a href="{{ route('pod-details', ['name'=>$pod->getName(), 'namespace'=>$pod->getMetadata()['namespace']??'default']) }}">{{$pod->getName()}}</a></td>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
                     <td>{{$pod->toArray()['metadata']['namespace']}}</td>
                 @endif
@@ -228,7 +234,7 @@
                         {{$status->restartCount}}<br>
                     @endforeach
                 </td>
-                <td>{{ $pod->toArray()['status']['hostIP']??'-' }}</td>
+                <td>{{ $pod->getSpec('nodeName')??'-'}}</td>
                 <td>{{json_decode($pod->toJson())->metadata->creationTimestamp}}</td>
             </tr>
         @endforeach

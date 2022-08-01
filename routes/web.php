@@ -41,4 +41,8 @@ Route::group(['prefix' => 'workloads'], function () {
 
     Route::get('pod/{namespace}/{name}', [\App\Http\Controllers\PodController::class, 'podDetails'])->name('pod-details');
 
+    Route::get('job/{namespace}/{name}', [\App\Http\Controllers\JobController::class, 'jobDetails'])->name('job-details');
+
+    Route::get('cronjob/{namespace}/{name}', [\App\Http\Controllers\CronJobController::class, 'cronjobDetails'])->name('cronjob-details');
+
 });

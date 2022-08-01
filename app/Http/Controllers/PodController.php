@@ -12,14 +12,6 @@ class PodController extends DashboardController
 
         $namespaces = $cluster->getAllNamespaces();
 
-        if (!strcmp($namespace, 'all')) {
-            foreach ($cluster->getAllPods('') as $podd) {
-                if (!strcmp($podd->getName(), $name)) {
-                    $namespace = $podd->getNamespace();
-                }
-            }
-        }
-
         $pod = $cluster->getPodByName($name, $namespace);
 
         $age = '1days';
@@ -32,6 +24,7 @@ class PodController extends DashboardController
         $containerStatuses = $pod->getContainerStatuses(false);
 
         $probe = '';
+
 
         return view('workloads.pod', compact('namespaces', 'pod', 'age', 'pvcs', 'events', 'containers', 'containerStatuses', 'probe'));
     }

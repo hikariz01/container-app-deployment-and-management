@@ -10,13 +10,13 @@ class DaemonsetController extends DashboardController
 
         $namespaces = $cluster->getAllNamespaces();
 
-        if (!strcmp($namespace, 'all')) {
-            foreach ($cluster->getAllDaemonSets('') as $dae) {
-                if (!strcmp($dae->getName(), $name)) {
-                    $namespace = $dae->getNamespace();
-                }
+
+        foreach ($cluster->getAllDaemonSets('') as $dae) {
+            if (!strcmp($dae->getName(), $name)) {
+                $namespace = $dae->getNamespace();
             }
         }
+
 
         $daemonset = $cluster->getDaemonSetByName($name, $namespace);
 

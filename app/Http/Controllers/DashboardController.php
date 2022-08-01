@@ -10,7 +10,7 @@ use RenokiCo\PhpK8s\K8s;
 
 class DashboardController extends Controller
 {
-    public function getCluster($url="https://127.0.0.1:56839") {
+    public function getCluster($url="https://127.0.0.1:55013") {
         $cluster = KubernetesCluster::fromUrl($url);
         $cluster->loadTokenFromFile(storage_path('app/k8s_auth/token.txt'));
         $cluster->withCaCertificate('C:/Users/hikar/.minikube/ca.crt');
@@ -34,6 +34,7 @@ class DashboardController extends Controller
 //        }
 //        return $name;
 //    }
+
 
     private string $ns = "default";
 
@@ -89,6 +90,7 @@ class DashboardController extends Controller
 
         $pods = $cluster->getAllPods($this->getNs());
 
+//        dd($cluster->getCronjobByName('hello', 'default')->getMetadata());
 
         /**
         $replicasets = curl

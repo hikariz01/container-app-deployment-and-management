@@ -17,7 +17,7 @@
         }
 
         code {
-            margin-left: -10%;
+            margin-left: -12.5%;
             width: 90%;
         }
     </style>
@@ -230,16 +230,18 @@
                 <td>Last Seen</td>
             </tr>
             @foreach($events as $event)
-                <tr>
-                    <td>{{$event->getName()}}</td>
-                    <td>{{$event->toArray()['reason']}}</td>
-                    <td>{{$event->toArray()['message']}}</td>
-                    <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
-                    <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
-                    <td>{{$event->toArray()['count']??"0"}}</td>
-                    <td>{{$event->toArray()['firstTimestamp']}}</td>
-                    <td>{{$event->toArray()['lastTimestamp']}}</td>
-                </tr>
+                @if(str_contains($event->toArray()['involvedObject']['name']??"", $pod->getName()))
+                    <tr>
+                        <td>{{$event->getName()}}</td>
+                        <td>{{$event->toArray()['reason']}}</td>
+                        <td>{{$event->toArray()['message']}}</td>
+                        <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
+                        <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
+                        <td>{{$event->toArray()['count']??"0"}}</td>
+                        <td>{{$event->toArray()['firstTimestamp']}}</td>
+                        <td>{{$event->toArray()['lastTimestamp']}}</td>
+                    </tr>
+                @endif
             @endforeach
         @else
             <tr class="text-center">
@@ -272,12 +274,29 @@
                 <tr>
                     <td>Ready</td>
                     <td>Started</td>
-                    <td>Started At</td>
+                    @foreach($containerStatuses[$i]['state']??[] as $key => $value)
+                        @if(!strcmp($key, 'running'))
+                            <td>Started At</td>
+                        @elseif(!strcmp($key, 'terminated') || !strcmp($key, 'waiting'))
+                            <td>Reason</td>
+                        @else
+                            <td>{{ucwords($key)}}</td>
+                        @endif
+                    @endforeach
                 </tr>
                 <tr>
                     <td>{{$containerStatuses[$i]['ready'] ? 'true' : 'false'}}</td>
                     <td>{{$containerStatuses[$i]['started'] ? 'true' : 'false'}}</td>
-                    <td>{{$containerStatuses[$i]['state']['running']['startedAt']}}</td>
+{{--                    <td>{{$containerStatuses[$i]['state']['running']['startedAt']??'-'}}</td>--}}
+                    @foreach($containerStatuses[$i]['state']??[] as $key => $value)
+                        @if(!strcmp($key, 'running'))
+                            <td>{{$value['startedAt']??'-'}}</td>
+                        @elseif(!strcmp($key, 'terminated') || !strcmp($key, 'waiting'))
+                            <td>{{$value['reason']??'-'}}</td>
+                        @else
+                            <td>{{$value['reason']??'-'}}</td>
+                        @endif
+                    @endforeach
                 </tr>
                 @if(count($containers[$i]['args']??[]) != 0 && !is_null($containers[$i]['args']??null))
                     <tr>
