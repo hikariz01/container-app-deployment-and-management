@@ -154,17 +154,21 @@
 {{--            <td>{{$pod->toArray()['metadata']['creationTimestamp']}}</td>--}}
 {{--            <td>{{$age}}</td>--}}
 {{--            <td>{{$pod->getResourceUid()}}</td>--}}
-            <td>REPLICASET</td>
-            <td>REPLICASET</td>
-            <td>REPLICASET</td>
-            <td>REPLICASET</td>
+            @foreach($owners as $owner)
+{{--                TODO ทำ Route ที่สามารถเลือก kind ของ workloads ได้--}}
+                <td><a href="#">{{$owner['metadata']['name']}}</a></td>
+                <td>{{$owner['kind']}}</td>
+                <td>{{$owner['status']['readyReplicas']}}/{{$owner['status']['replicas']}}</td>
+                <td>{{$owner['metadata']['creationTimestamp']}}</td>
+            @endforeach
+
         </tr>
         <tr>
             <th colspan="5">Labels</th>
         </tr>
         <tr>
             <td colspan="5">
-                @foreach($pod->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                @foreach($owner['metadata']['labels']??json_decode('{"":""}') as $key => $label)
                     @if($key == "")
                         -
                     @else
@@ -178,10 +182,9 @@
         </tr>
         <tr>
             <td colspan="5">
-                @foreach($pod->toArray()['spec']['containers'] as $container)
+                @foreach($owner['spec']['template']['spec']['containers'] as $container)
                     {{$container['image']}}<br>
                 @endforeach
-
             </td>
         </tr>
         </tbody>
@@ -194,13 +197,35 @@
         </thead>
         <tbody>
 
-        @if(!is_null($pvcs) && count($pvcs) != 0)
+        @if(count($pvcs) != 0)
             <tr>
-                <td>Name</td>
+                <th>Name</th>
+                <th>Labels</th>
+                <th>Status</th>
+                <th>Volume</th>
+                <th>Capacity</th>
+                <th>Access Modes</th>
+                <th>Storage Class</th>
+                <th>Create Time</th>
             </tr>
             @foreach($pvcs as $pvc)
                 <tr>
-                    <td>{{$pvc->getName()}}</td>
+                    <td><a href="#">{{$pvc->getName()}}</a></td>
+                    <td>
+                        @foreach($pvc->getLabels() as $key => $label)
+                            {{$key}}: {{$label}}<br>
+                        @endforeach
+                    </td>
+                    <td>{{$pvc->getStatus('phase')??'?'}}</td>
+                    <td><a href="#">{{$pvc->getSpec('volumeName')}}</a></td>
+                    <td>{{$pvc->getStatus('capacity')['storage']}}</td>
+                    <td>
+                        @foreach($pvc->getStatus('accessModes') as $accessMode)
+                            {{$accessMode}}<br>
+                        @endforeach
+                    </td>
+                    <td>{{$pvc->getSpec('storageClassName')}}</td>
+                    <td>{{$pvc->getMetadata()['creationTimestamp']}}</td>
                 </tr>
             @endforeach
         @else

@@ -45,4 +45,6 @@ Route::group(['prefix' => 'workloads'], function () {
 
     Route::get('cronjob/{namespace}/{name}', [\App\Http\Controllers\CronJobController::class, 'cronjobDetails'])->name('cronjob-details');
 
+    Route::get('statefulset/{namespace}/{name}', [\App\Http\Controllers\StatefulSetController::class, 'statefulsetDetails'])->name('statefulset-details');
+
 });

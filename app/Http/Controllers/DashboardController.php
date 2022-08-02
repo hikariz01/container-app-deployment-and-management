@@ -10,10 +10,10 @@ use RenokiCo\PhpK8s\K8s;
 
 class DashboardController extends Controller
 {
-    public function getCluster($url="https://127.0.0.1:55013") {
+    public function getCluster($url="https://192.168.10.220:6443") {
         $cluster = KubernetesCluster::fromUrl($url);
         $cluster->loadTokenFromFile(storage_path('app/k8s_auth/token.txt'));
-        $cluster->withCaCertificate('C:/Users/hikar/.minikube/ca.crt');
+        $cluster->withCaCertificate(storage_path('app/k8s_auth/test.ca.crt'));
 
         //https://192.168.10.220:6443
 

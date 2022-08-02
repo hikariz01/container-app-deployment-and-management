@@ -261,7 +261,7 @@
         </tr>
         @foreach($statefulsets as $statefulset)
             <tr>
-                <td>{{$statefulset->getName()}}</td>
+                <td><a href="{{ route('statefulset-details', ['name'=>$statefulset->getName(), 'namespace'=>$statefulset->getMetadata()['namespace']??'default']) }}">{{$statefulset->getName()}}</a></td>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
                     <td>{{$statefulset->toArray()['metadata']['namespace']}}</td>
                 @endif
