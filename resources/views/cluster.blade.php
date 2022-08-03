@@ -84,6 +84,46 @@
         </table>
     @endif
 
+    @if(!is_null($persistentvolumes) && count($persistentvolumes) != 0)
+        <table class="table table-secondary" style="padding-left: 30px" >
+            <thead>
+            <h3 style="padding-left: 30px" id=persistentvolumes_table">Persistent Volumes</h3>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Name</td>
+                <td>Capacity</td>
+                <td>Access Modes</td>
+                <td>Reclaim Policy</td>
+                <td>Status</td>
+                <td>Claim</td>
+                <td>Storage Class</td>
+                <td>Reason</td>
+                <td>Create Time</td>
+            </tr>
+            @foreach($persistentvolumes as $persistentvolume)
+                <tr>
+                    <td>{{$persistentvolume->getName()}}</td>
+                    <td>{{$persistentvolume->getCapacity()}}</td>
+                    <td>
+                        @foreach($persistentvolume->getAccessModes() as $accessMode)
+                            {{$accessMode}}<br>
+                        @endforeach
+                    </td>
+                    <td>{{$persistentvolume->getSpec('persistentVolumeReclaimPolicy')}}</td>
+                    <td>{{$persistentvolume->getStatus('phase')}}</td>
+                    <td><a href="{{ route('pvc-details', ['name'=>$persistentvolume->getSpec('claimRef')['name'], 'namespace'=>$persistentvolume->getSpec('claimRef')['namespace']]) }}">{{$persistentvolume->getSpec('claimRef')['namespace'].'/'.$persistentvolume->getSpec('claimRef')['name']}}</a></td>
+                    <td>{{$persistentvolume->getSpec('storageClassName')}}</td>
+{{--                    TODO FIND REASON FOR THIS--}}
+                    <td>DUNNO</td>
+                    <td>{{$persistentvolume->toArray()['metadata']['creationTimestamp']}}</td>
+                </tr>
+            @endforeach
+
+            </tbody>
+        </table>
+    @endif
+
     @if(!is_null($clusterRoles) && count($clusterRoles) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>

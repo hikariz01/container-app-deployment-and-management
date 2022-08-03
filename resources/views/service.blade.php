@@ -23,7 +23,7 @@
             </tr>
             @foreach($services as $service)
                 <tr>
-                    <td>{{$service->getName()}}</td>
+                    <td><a href="{{ route('service-details', ['name'=>$service->getName(), 'namespace'=>$service->getMetadata()['namespace']??'default']) }}">{{$service->getName()}}</a></td>
                     @if(!strcmp($_GET['namespace']??"no", 'all'))
                         <td>{{$service->toArray()['metadata']['namespace']}}</td>
                     @endif
@@ -79,7 +79,7 @@
             </tr>
             @foreach($ingresses as $ingress)
                 <tr>
-                    <td>{{$ingress->getName()}}</td>
+                    <td><a href="{{ route('ingress-details', ['name'=>$ingress->getName(), 'namespace'=>$ingress->getMetadata()['namespace']??'default']) }}">{{$ingress->getName()}}</a></td>
                     @if(!strcmp($_GET['namespace']??"no", 'all'))
                         <td>{{$ingress->toArray()['metadata']['namespace']}}</td>
                     @endif
@@ -94,7 +94,7 @@
                     </td>
                     <td>
                         @foreach($ingress->toArray()['spec']['rules'] as $rule)
-                            {{$rule['host']}}<br>
+                            <a href="{{'https://'.$rule['host']}}" target="_blank">{{$rule['host']}}</a><br>
                         @endforeach
                     </td>
                     <td>
@@ -118,5 +118,7 @@
             </tbody>
         </table>
     @endif
+
+{{--    TODO INGRESS CLASS PAGE--}}
 
 @endsection

@@ -169,6 +169,8 @@ class DashboardController extends Controller
 //            $kubeCluster[$pod->toArray()['status']['hostIP']??'none'] = $kubeCluster[$pod->toArray()['status']['hostIP']] + 1;
 //        }
 
+        $persistentvolumes = $cluster->getAllPersistentVolumes($this->getNs());
+
         $clusterRoles = $cluster->getAllClusterRoles($this->getNs());
 
         $clusterRoleBindings = $cluster->getAllClusterRoleBindings($this->getNs());
@@ -183,7 +185,7 @@ class DashboardController extends Controller
 
         $roleBindings = $cluster->getAllRoleBindings($this->getNs());
 
-        return view('cluster', compact('namespaces', 'nodes', 'clusterRoles', 'clusterRoleBindings', 'events', 'serviceAccounts', 'roles', 'roleBindings'));
+        return view('cluster', compact('namespaces', 'nodes', 'persistentvolumes', 'clusterRoles', 'clusterRoleBindings', 'events', 'serviceAccounts', 'roles', 'roleBindings'));
 
     }
 

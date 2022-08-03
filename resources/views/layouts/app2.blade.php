@@ -310,6 +310,12 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#persistentvolumes_table"
+                                   aria-expanded="false" style="padding-left: 50px">
+                                    <span class="hide-menu">> Persistent Volumes</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#clusterRoles_table"
                                    aria-expanded="false" style="padding-left: 50px">
                                     <span class="hide-menu">> Cluster Roles</span>

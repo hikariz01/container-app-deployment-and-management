@@ -48,3 +48,20 @@ Route::group(['prefix' => 'workloads'], function () {
     Route::get('statefulset/{namespace}/{name}', [\App\Http\Controllers\StatefulSetController::class, 'statefulsetDetails'])->name('statefulset-details');
 
 });
+
+Route::group(['prefix' => 'service'], function () {
+   Route::get('services/{namespace}/{name}', [\App\Http\Controllers\ServiceController::class, 'serviceDetails'])->name('service-details');
+
+   Route::get('ingress/{namespace}/{name}', [\App\Http\Controllers\IngressController::class, 'ingressDetails'])->name('ingress-details');
+});
+
+Route::group(['prefix' => 'config_storage'], function () {
+    Route::get('configmap/{namespace}/{name}', [\App\Http\Controllers\ConfigmapController::class, 'configmapDetails'])->name('configmap-details');
+
+    Route::get('secret/{namespace}/{name}', [\App\Http\Controllers\SecretController::class, 'secretDetails'])->name('secret-details');
+
+    Route::get('pvc/{namespace}/{name}', [\App\Http\Controllers\PvcController::class, 'pvcDetails'])->name('pvc-details');
+
+    Route::get('storageclass/{name}', [\App\Http\Controllers\StorageclassController::class, 'storageclassDetails'])->name('storageclass-details');
+
+});

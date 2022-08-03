@@ -10,12 +10,18 @@
             <tbody>
             <tr>
                 <td>Name</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>Namespace</td>
+                @endif
                 <td>Labels</td>
                 <td>Create Time</td>
             </tr>
             @foreach($configmaps as $configmap)
                 <tr>
-                    <td>{{$configmap->getName()}}</td>
+                    <td><a href="{{ route('configmap-details', ['name'=>$configmap->getName(), 'namespace'=>$configmap->getMetadata()['namespace']??'default']) }}">{{$configmap->getName()}}</a></td>
+                    @if(!strcmp($_GET['namespace']??"no", 'all'))
+                        <td>{{$configmap->getNamespace()}}</td>
+                    @endif
                     <td>
                         @foreach($configmap->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
                             @if($key == "")
@@ -42,13 +48,19 @@
             <tbody>
             <tr>
                 <td>Name</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>Namespace</td>
+                @endif
                 <td>Labels</td>
                 <td>Type</td>
                 <td>Create Time</td>
             </tr>
             @foreach($secrets as $secret)
                 <tr>
-                    <td>{{$secret->getName()}}</td>
+                    <td><a href="{{ route('secret-details', ['name'=>$secret->getName(), 'namespace'=>$secret->getMetadata()['namespace']??'default']) }}">{{$secret->getName()}}</a></td>
+                    @if(!strcmp($_GET['namespace']??"no", 'all'))
+                        <td>{{$secret->getNamespace()}}</td>
+                    @endif
                     <td>
                         @foreach($secret->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
                             @if($key == "")
@@ -76,6 +88,9 @@
             <tbody>
             <tr>
                 <td>Name</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>Namespace</td>
+                @endif
                 <td>Labels</td>
                 <td>Status</td>
                 <td>Volume</td>
@@ -86,7 +101,10 @@
             </tr>
             @foreach($pvcs as $pvc)
                 <tr>
-                    <td>{{$pvc->getName()}}</td>
+                    <td><a href="{{ route('pvc-details', ['name'=>$pvc->getName(), 'namespace'=>$pvc->getMetadata()['namespace']??'default']) }}">{{$pvc->getName()}}</a></td>
+                    @if(!strcmp($_GET['namespace']??"no", 'all'))
+                        <td>{{$pvc->getNamespace()}}</td>
+                    @endif
                     <td>
                         @foreach($pvc->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
                             @if($key == "")
@@ -127,7 +145,7 @@
             </tr>
             @foreach($storageclasses as $storageclass)
                 <tr>
-                    <td>{{$storageclass->getName()}}</td>
+                    <td><a href="{{ route('storageclass-details', ['name'=>$storageclass->getName()]) }}">{{$storageclass->getName()}}</a></td>
                     <td>{{$storageclass->toArray()['provisioner']}}</td>
                     <td>
                         @foreach($storageclass->toArray()['parameters'] as $key => $value)
