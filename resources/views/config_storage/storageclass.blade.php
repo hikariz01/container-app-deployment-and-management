@@ -74,8 +74,12 @@
         </tr>
         <tr>
             <td>
-                @foreach($storageclass->getParameters() as $key => $value)
-                    {{$key}}: {{$value}}<br>
+                @foreach($storageclass->getParameters()??[''=>''] as $key => $value)
+                    @if($key === '')
+                        -
+                    @else
+                        {{$key}}: {{$value}}<br>
+                    @endif
                 @endforeach
             </td>
         </tr>
@@ -112,8 +116,7 @@
                 <td>{{$persistentvolume->getStatus('phase')}}</td>
                 <td><a href="{{ route('pvc-details', ['name'=>$persistentvolume->getSpec('claimRef')['name'], 'namespace'=>$persistentvolume->getSpec('claimRef')['namespace']]) }}">{{$persistentvolume->getSpec('claimRef')['namespace'].'/'.$persistentvolume->getSpec('claimRef')['name']}}</a></td>
                 <td>{{$persistentvolume->getSpec('storageClassName')}}</td>
-                {{--                    TODO FIND REASON FOR THIS--}}
-                <td>DUNNO</td>
+                <td>{{$persistentvolume->getStatus('reason')??'-'}}</td>
                 <td>{{$persistentvolume->toArray()['metadata']['creationTimestamp']}}</td>
             </tr>
         @endforeach

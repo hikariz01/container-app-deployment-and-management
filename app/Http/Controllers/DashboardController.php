@@ -156,18 +156,28 @@ class DashboardController extends Controller
 
         $nodes = $cluster->getAllNodes($this->getNs());
 
-//        $pods = $cluster->getAllPodsFromAllNamespaces();
-//
-//        $kubeCluster = [];
-//
-//        foreach ($nodes as $node) {
-//            $kubeCluster[$node->toArray()['status']['addresses'][0]['address']] = 0;
-//        }
-//        $kubeCluster['none'] = 0;
-//
-//        foreach ($pods as $pod) {
-//            $kubeCluster[$pod->toArray()['status']['hostIP']??'none'] = $kubeCluster[$pod->toArray()['status']['hostIP']] + 1;
-//        }
+        $pods = $cluster->getAllPodsFromAllNamespaces();
+
+        $podCount = [];
+
+        $podPercent = [];
+
+        foreach ($nodes as $node) {
+            $podCount[$node->getName()] = [];
+            $podPercent[$node->getName()] = 0.0;
+        }
+
+        foreach ($nodes as $node) {
+            foreach ($pods as $pod) {
+                if ($pod->getSpec('nodeName') === $node->getName()) {
+                    $podCount[$node->getName()][] = $pod->getName();
+                }
+            }
+
+//            foreach ($podCount as $podPerPercent) {
+//                $podPercent[$node->getName()] = bcdiv(floatval(count($podPerPercent)), floatval($node->getStatus('capacity')['pods']), 7) * 100;
+//            }
+        }
 
         $persistentvolumes = $cluster->getAllPersistentVolumes($this->getNs());
 
@@ -185,7 +195,7 @@ class DashboardController extends Controller
 
         $roleBindings = $cluster->getAllRoleBindings($this->getNs());
 
-        return view('cluster', compact('namespaces', 'nodes', 'persistentvolumes', 'clusterRoles', 'clusterRoleBindings', 'events', 'serviceAccounts', 'roles', 'roleBindings'));
+        return view('cluster', compact('namespaces', 'nodes', 'persistentvolumes', 'clusterRoles', 'clusterRoleBindings', 'events', 'serviceAccounts', 'roles', 'roleBindings', 'podCount'));
 
     }
 

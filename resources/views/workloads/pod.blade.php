@@ -142,51 +142,52 @@
         <h3 style="padding-left: 30px"id="deployment_table">Controlled by</h3>
         </thead>
         <tbody>
-        <tr>
-            <th>Name</th>
-            <th>Kind</th>
-            <th>Pods</th>
-            <th>Age</th>
-        </tr>
-        <tr>
-{{--            <td>{{$pod->getName()}}</td>--}}
-{{--            <td>{{$pod->getNamespace()}}</td>--}}
-{{--            <td>{{$pod->toArray()['metadata']['creationTimestamp']}}</td>--}}
-{{--            <td>{{$age}}</td>--}}
-{{--            <td>{{$pod->getResourceUid()}}</td>--}}
-            @foreach($owners as $owner)
-{{--                TODO ทำ Route ที่สามารถเลือก kind ของ workloads ได้--}}
-                <td><a href="#">{{$owner['metadata']['name']}}</a></td>
-                <td>{{$owner['kind']}}</td>
-                <td>{{$owner['status']['readyReplicas']}}/{{$owner['status']['replicas']}}</td>
-                <td>{{$owner['metadata']['creationTimestamp']}}</td>
-            @endforeach
+        @if($owners != [])
+            <tr>
+                <th>Name</th>
+                <th>Kind</th>
+                <th>Pods</th>
+                <th>Age</th>
+            </tr>
+            <tr>
+                @foreach($owners as $owner)
+    {{--                TODO ทำ Route ที่สามารถเลือก kind ของ workloads ได้--}}
+                    <td><a href="#">{{$owner['metadata']['name']}}</a></td>
+                    <td>{{$owner['kind']}}</td>
+                    <td>{{$owner['status']['readyReplicas']}}/{{$owner['status']['replicas']}}</td>
+                    <td>{{$owner['metadata']['creationTimestamp']}}</td>
+                @endforeach
 
-        </tr>
-        <tr>
-            <th colspan="5">Labels</th>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @foreach($owner['metadata']['labels']??json_decode('{"":""}') as $key => $label)
-                    @if($key == "")
-                        -
-                    @else
-                        {{$key}}: {{$label}}<br>
-                    @endif
-                @endforeach
-            </td>
-        </tr>
-        <tr>
-            <th colspan="5">Images</th>
-        </tr>
-        <tr>
-            <td colspan="5">
-                @foreach($owner['spec']['template']['spec']['containers'] as $container)
-                    {{$container['image']}}<br>
-                @endforeach
-            </td>
-        </tr>
+            </tr>
+            <tr>
+                <th colspan="5">Labels</th>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @foreach($owner['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                        @if($key == "")
+                            -
+                        @else
+                            {{$key}}: {{$label}}<br>
+                        @endif
+                    @endforeach
+                </td>
+            </tr>
+            <tr>
+                <th colspan="5">Images</th>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @foreach($owner['spec']['template']['spec']['containers'] as $container)
+                        {{$container['image']}}<br>
+                    @endforeach
+                </td>
+            </tr>
+        @else
+            <tr class="text-center">
+                <th colspan="5">No Resource Found...</th>
+            </tr>
+        @endif
         </tbody>
     </table>
 
@@ -245,14 +246,14 @@
 
         @if(count($events) != 0 && !is_null($events))
             <tr>
-                <td>Name</td>
-                <td>Reason</td>
-                <td>Message</td>
-                <td>Source</td>
-                <td>Sub-Object</td>
-                <td>Count</td>
-                <td>First Seen</td>
-                <td>Last Seen</td>
+                <th>Name</th>
+                <th>Reason</th>
+                <th>Message</th>
+                <th>Source</th>
+                <th>Sub-Object</th>
+                <th>Count</th>
+                <th>First Seen</th>
+                <th>Last Seen</th>
             </tr>
             @foreach($events as $event)
                 @if(str_contains($event->toArray()['involvedObject']['name']??"", $pod->getName()))
@@ -265,6 +266,10 @@
                         <td>{{$event->toArray()['count']??"0"}}</td>
                         <td>{{$event->toArray()['firstTimestamp']}}</td>
                         <td>{{$event->toArray()['lastTimestamp']}}</td>
+                    </tr>
+                @else
+                    <tr class="text-center">
+                        <th colspan="8">No Event Found...</th>
                     </tr>
                 @endif
             @endforeach
@@ -297,15 +302,15 @@
                     <th colspan="6">Status</th>
                 </tr>
                 <tr>
-                    <td>Ready</td>
-                    <td>Started</td>
+                    <th>Ready</th>
+                    <th>Started</th>
                     @foreach($containerStatuses[$i]['state']??[] as $key => $value)
                         @if(!strcmp($key, 'running'))
-                            <td>Started At</td>
+                            <th>Started At</th>
                         @elseif(!strcmp($key, 'terminated') || !strcmp($key, 'waiting'))
-                            <td>Reason</td>
+                            <th>Reason</th>
                         @else
-                            <td>{{ucwords($key)}}</td>
+                            <th>{{ucwords($key)}}</th>
                         @endif
                     @endforeach
                 </tr>
@@ -374,12 +379,12 @@
                     <table class="table table-secondary table-bordered mb-0">
                         <tbody>
                             <tr>
-                                <td>Name</td>
-                                <td>Read Only</td>
-                                <td>Mount Path</td>
-                                <td>Sub Path</td>
-                                <td>Source Type</td>
-                                <td>Source Name</td>
+                                <th>Name</th>
+                                <th>Read Only</th>
+                                <th>Mount Path</th>
+                                <th>Sub Path</th>
+                                <th>Source Type</th>
+                                <th>Source Name</th>
                             </tr>
                             @foreach($containers[$i]['volumeMounts'] as $volumeMount)
                                 <tr>

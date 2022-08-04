@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-class NamespaceController extends Controller
+class NamespaceController extends DashboardController
 {
-    public function selectedNamespace(Request $request) {
+    public function namespaceDetails($name) {
 
-        if($request->has('namespace'))
-            $ns = $request->input('namespace');
-        else
-            $ns = 'default';
+        $cluster = $this->getCluster();
 
-        // fetch your namespace
+        $namespaces = $cluster->getAllNamespaces();
 
+        $namespace = $cluster->getNamespaceByName($name, '');
+
+        $age = '1days';
+
+        $quotas = [];
+        $limits = [];
+//        TODO CURL resourcequotas and limitrange
+
+        $events = $namespace->getEvents();
+
+
+        return view('cluster.namespace', compact('namespaces', 'namespace', 'age', 'events', 'quotas', 'limits'));
     }
 }

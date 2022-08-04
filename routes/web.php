@@ -65,3 +65,22 @@ Route::group(['prefix' => 'config_storage'], function () {
     Route::get('storageclass/{name}', [\App\Http\Controllers\StorageclassController::class, 'storageclassDetails'])->name('storageclass-details');
 
 });
+
+Route::group(['prefix' => 'cluster'], function () {
+   Route::get('namespace/{name}', [\App\Http\Controllers\NamespaceController::class, 'namespaceDetails'])->name('namespace-details');
+
+   Route::get('node/{name}', [\App\Http\Controllers\NodeController::class, 'nodeDetails'])->name('node-details');
+
+   Route::get('persistentvolume/{name}', [\App\Http\Controllers\PersistentVolumeController::class, 'pvDetails'])->name('pv-details');
+
+   Route::get('clusterrole/{name}', [\App\Http\Controllers\ClusterRoleController::class, 'clusterroleDetails'])->name('clusterrole-details');
+
+   Route::get('clusterrolebinding/{name}', [\App\Http\Controllers\ClusterRoleBindingController::class, 'clusterrolebindingDetails'])->name('clusterrolebinding-details');
+
+   Route::get('serviceaccount/{namespace}/{name}', [\App\Http\Controllers\ServiceAccountController::class, 'serviceaccountDetails'])->name('serviceaccount-details');
+
+   Route::get('role/{namespace}/{name}', [\App\Http\Controllers\RoleController::class, 'roleDetails'])->name('role-details');
+
+   Route::get('rolebinding/{namespace}/{name}', [\App\Http\Controllers\RoleBindingController::class, 'rolebindingDetails'])->name('rolebinding-details');
+
+});

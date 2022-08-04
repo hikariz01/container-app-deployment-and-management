@@ -73,8 +73,7 @@
         <tr>
             <td>{{$pvc->getStatus('phase')??'-'}}</td>
             <td>{{$pvc->getStorageClass()}}</td>
-{{--            TODO ADD LINK TO VOLUME--}}
-            <td><a href="#">{{$pvc->getSpec('volumeName')}}</a></td>
+            <td><a href="{{ route('pv-details', ['name'=>$pvc->getSpec('volumeName')]) }}">{{$pvc->getSpec('volumeName')}}</a></td>
         </tr>
         <tr>
             <th colspan="3">Capacity</th>

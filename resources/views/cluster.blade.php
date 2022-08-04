@@ -16,7 +16,7 @@
             </tr>
             @foreach($namespaces as $namespace)
                 <tr>
-                    <td>{{$namespace->getName()}}</td>
+                    <td><a href="{{ route('namespace-details', ['name'=>$namespace->getName()]) }}">{{$namespace->getName()}}</a></td>
                     <td>
                         @foreach($namespace->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
                             @if($key == "")
@@ -54,7 +54,7 @@
             </tr>
             @foreach($nodes as $node)
                 <tr>
-                    <td>{{$node->getName()}}</td>
+                    <td><a href="{{ route('node-details', ['name'=>$node->getName()]) }}">{{$node->getName()}}</a></td>
                     <td>
                         @foreach($node->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
                             @if($key == "")
@@ -75,7 +75,7 @@
                     <td>{{$node->getAllocatableInfo()['cpu']}}</td>
                     <td>{{$node->getCapacity()['memory']}}</td>
                     <td>{{$node->getAllocatableInfo()['memory']}}</td>
-                    <td>{{$node->getCapacity()['pods']}}</td>
+                    <td>{{count($podCount[$node->getName()])}}</td>
                     <td>{{$node->toArray()['metadata']['creationTimestamp']}}</td>
                 </tr>
             @endforeach
@@ -103,7 +103,7 @@
             </tr>
             @foreach($persistentvolumes as $persistentvolume)
                 <tr>
-                    <td>{{$persistentvolume->getName()}}</td>
+                    <td><a href="{{ route('pv-details', ['name'=>$persistentvolume->getName()]) }}">{{$persistentvolume->getName()}}</a></td>
                     <td>{{$persistentvolume->getCapacity()}}</td>
                     <td>
                         @foreach($persistentvolume->getAccessModes() as $accessMode)
@@ -114,8 +114,7 @@
                     <td>{{$persistentvolume->getStatus('phase')}}</td>
                     <td><a href="{{ route('pvc-details', ['name'=>$persistentvolume->getSpec('claimRef')['name'], 'namespace'=>$persistentvolume->getSpec('claimRef')['namespace']]) }}">{{$persistentvolume->getSpec('claimRef')['namespace'].'/'.$persistentvolume->getSpec('claimRef')['name']}}</a></td>
                     <td>{{$persistentvolume->getSpec('storageClassName')}}</td>
-{{--                    TODO FIND REASON FOR THIS--}}
-                    <td>DUNNO</td>
+                    <td>{{$persistentvolume->getStatus('reason')??'-'}}</td>
                     <td>{{$persistentvolume->toArray()['metadata']['creationTimestamp']}}</td>
                 </tr>
             @endforeach
@@ -136,7 +135,7 @@
             </tr>
             @foreach($clusterRoles as $clusterRole)
                 <tr>
-                    <td>{{$clusterRole->getName()}}</td>
+                    <td><a href="{{ route('clusterrole-details', ['name'=>$clusterRole->getName()]) }}">{{$clusterRole->getName()}}</a></td>
                     <td>{{$clusterRole->toArray()['metadata']['creationTimestamp']}}</td>
                 </tr>
             @endforeach
@@ -158,7 +157,7 @@
             </tr>
             @foreach($clusterRoleBindings as $clusterRoleBinding)
                 <tr>
-                    <td>{{$clusterRoleBinding->getName()}}</td>
+                    <td><a href="{{ route('clusterrolebinding-details', ['name'=>$clusterRoleBinding->getName()]) }}">{{$clusterRoleBinding->getName()}}</a></td>
                     <td>{{$clusterRoleBinding->toArray()['metadata']['creationTimestamp']}}</td>
                 </tr>
             @endforeach
@@ -189,6 +188,7 @@
                     <td>{{$event->toArray()['reason']??'-'}}</td>
                     <td>{{$event->toArray()['message']??'-'}}</td>
                     <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
+{{--                    TODO Add link to object--}}
                     <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                     <td>{{$event->toArray()['count']??"0"}}</td>
                     <td>{{$event->toArray()['firstTimestamp']}}</td>
@@ -209,12 +209,18 @@
             <tbody>
             <tr>
                 <td>Name</td>
+                @if($_GET['namespace']??'default' === 'all')
+                    <td>Namespace</td>
+                @endif
                 <td>Labels</td>
                 <td>Create Time</td>
             </tr>
             @foreach($serviceAccounts as $serviceAccount)
                 <tr>
-                    <td>{{$serviceAccount->getName()}}</td>
+                    <td><a href="{{ route('serviceaccount-details', ['name'=>$serviceAccount->getName(), 'namespace'=>$serviceAccount->getMetadata()['namespace']??'default']) }}">{{$serviceAccount->getName()}}</a></td>
+                    @if($_GET['namespace']??'default' === 'all')
+                        <td>{{$serviceAccount->getMetadata()['namespace']??'-'}}</td>
+                    @endif
                     <td>
                         @foreach($serviceAccount->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
                             @if($key == "")
@@ -241,11 +247,17 @@
             <tbody>
             <tr>
                 <td>Name</td>
+                @if($_GET['namespace']??'default' === 'all')
+                    <td>Namespace</td>
+                @endif
                 <td>Create Time</td>
             </tr>
             @foreach($roles as $role)
                 <tr>
-                    <td>{{$role->getName()}}</td>
+                    <td><a href="{{ route('role-details', ['name'=>$role->getName(), 'namespace'=>$role->getMetadata()['namespace']??'default']) }}">{{$role->getName()}}</a></td>
+                    @if($_GET['namespace']??'default' === 'all')
+                        <td>{{$role->getMetadata()['namespace']??'-'}}</td>
+                    @endif
                     <td>{{$role->toArray()['metadata']['creationTimestamp']}}</td>
                 </tr>
             @endforeach
@@ -262,11 +274,17 @@
             <tbody>
             <tr>
                 <td>Name</td>
+                @if($_GET['namespace']??'default' === 'all')
+                    <td>Namespace</td>
+                @endif
                 <td>Create Time</td>
             </tr>
             @foreach($roleBindings as $roleBinding)
                 <tr>
-                    <td>{{$roleBinding->getName()}}</td>
+                    <td><a href="{{ route('rolebinding-details', ['name'=>$roleBinding->getName(), 'namespace'=>$roleBinding->getMetadata()['namespace']??'default']) }}">{{$roleBinding->getName()}}</a></td>
+                    @if($_GET['namespace']??'default' === 'all')
+                        <td>{{$roleBinding->getMetadata()['namespace']??'-'}}</td>
+                    @endif
                     <td>{{$roleBinding->toArray()['metadata']['creationTimestamp']}}</td>
                 </tr>
             @endforeach
