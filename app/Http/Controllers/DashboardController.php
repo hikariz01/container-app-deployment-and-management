@@ -115,6 +115,7 @@ class DashboardController extends Controller
 
 //        dd($pods[0]->toArray()['status']['hostIP']);
 
+
         return view('workloads', compact('namespaces','deployments', 'daemonsets', 'jobs', 'cronjobs', 'pods', 'statefulsets', 'replicasets'));
     }
 

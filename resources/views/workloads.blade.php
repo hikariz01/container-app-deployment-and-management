@@ -40,7 +40,7 @@
                 @endforeach
             </td>
             <td>{{json_decode($deployment->toJson())->status->readyReplicas??"0"}}/{{json_decode($deployment->toJson())->status->replicas}}</td>
-            <td>{{json_decode($deployment->toJson())->metadata->creationTimestamp}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($deployment->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
         </tr>
     @endforeach
         </tbody>
@@ -84,7 +84,7 @@
                 @endforeach
             </td>
             <td>{{json_decode($daemonset->toJson())->status->currentNumberScheduled}}/{{json_decode($daemonset->toJson())->status->desiredNumberScheduled}}</td>
-            <td>{{json_decode($daemonset->toJson())->metadata->creationTimestamp}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($daemonset->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
         </tr>
 
     @endforeach
@@ -130,7 +130,7 @@
                     @endforeach
                 </td>
                 <td>{{json_decode($job->toJson())->status->ready}}/{{json_decode($job->toJson())->status->succeeded??'1'}}</td>
-                <td>{{json_decode($job->toJson())->metadata->creationTimestamp}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($job->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 
@@ -181,7 +181,7 @@
                 <td>{{$cronjob->getSpec('suspend') ? 'true' : 'false'}}</td>
                 <td>{{count($cronjob->getActiveJobs()->toArray())}}</td>
                 <td>{{date('d-m-Y H:i:s',$cronjob->getLastSchedule()->getTimestamp())}}</td>
-                <td>{{$cronjob->getMetadata()['creationTimestamp']}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($cronjob->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 
@@ -235,7 +235,7 @@
                     @endforeach
                 </td>
                 <td>{{ $pod->getSpec('nodeName')??'-'}}</td>
-                <td>{{json_decode($pod->toJson())->metadata->creationTimestamp}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($pod->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 
@@ -282,7 +282,7 @@
                         @endforeach
                     </td>
                     <td>{{$replicaset['status']['readyReplicas']}}/{{$replicaset['status']['replicas']}}</td>
-                    <td>{{$replicaset['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($replicaset['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -329,7 +329,7 @@
                     @endforeach
                 </td>
                 <td>{{$statefulset->getReadyReplicasCount()}}/{{$statefulset->getDesiredReplicasCount()}}</td>
-                <td>{{$statefulset->toArray()['metadata']['creationTimestamp']}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($statefulset->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 

@@ -211,7 +211,7 @@
             </tr>
             @foreach($pvcs as $pvc)
                 <tr>
-                    <td><a href="{{ route('pvc-details', ['name'=>$pvc->getName(), 'namespaces'=>$pvc->getNamespace()]) }}">{{$pvc->getName()}}</a></td>
+                    <td><a href="{{ route('pvc-details', ['name'=>$pvc->getName(), 'namespace'=>$pvc->getNamespace()??'default']) }}">{{$pvc->getName()}}</a></td>
                     <td>
                         @foreach($pvc->getLabels() as $key => $label)
                             {{$key}}: {{$label}}<br>

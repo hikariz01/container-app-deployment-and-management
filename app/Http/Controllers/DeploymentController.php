@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DeploymentController extends DashboardController
@@ -14,7 +15,14 @@ class DeploymentController extends DashboardController
 
         $deployment = $cluster->getDeploymentByName($name, $namespace);
 
-        $age = "1days";
+        $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($deployment->toArray()['metadata']['creationTimestamp'], 'UTC'));
+
+        if ($age != 1) {
+            $age .= ' days';
+        }
+        else {
+            $age .= ' day';
+        }
 
         $conditions = $deployment->getConditions();
 
