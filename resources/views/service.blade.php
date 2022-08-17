@@ -121,4 +121,27 @@
 
 {{--    TODO INGRESS CLASS PAGE--}}
 
+    @if(!is_null($ingressclasses) && count($ingressclasses) != 0)
+        <table class="table table-secondary" style="padding-left: 30px" >
+            <thead>
+            <h3 style="padding-left: 30px" id="ingressclasses_table">Ingress Classes</h3>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Name</td>
+                <td>Controller</td>
+                <td>Create Time</td>
+            </tr>
+            @foreach($ingressclasses as $ingressclass)
+                <tr>
+                    <td><a href="{{ route('ingressclass-details', ['name'=>$ingressclass['metadata']['name']]) }}">{{$ingressclass['metadata']['name']}}</a></td>
+                    <td>{{$ingressclass['spec']['controller']}}</td>
+                    <td>{{$ingressclass['metadata']['creationTimestamp']}}</td>
+                </tr>
+            @endforeach
+
+            </tbody>
+        </table>
+    @endif
+
 @endsection

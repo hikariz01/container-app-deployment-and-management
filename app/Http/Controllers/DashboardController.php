@@ -6,6 +6,7 @@ use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use RenokiCo\PhpK8s\KubernetesCluster;
 use RenokiCo\PhpK8s\K8s;
+use Illuminate\Support\Facades\Http;
 
 
 class DashboardController extends Controller
@@ -70,6 +71,13 @@ class DashboardController extends Controller
     }
 
 
+    public function curlAPI($endpoint) {
+        return Http::withHeaders(
+            ['Authorization'=>'Bearer '.env('KUBE_API_TOKEN')],
+        )->withoutVerifying()->get($endpoint)->json();
+    }
+
+
     public function index(Request $request)
     {
 
@@ -98,6 +106,8 @@ class DashboardController extends Controller
 
         // TODO: curl REPLICASET
 
+        $replicasets = $this->curlAPI(($this->getNs() != '') ? 'https://192.168.10.220:6443/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : 'https://192.168.10.220:6443/apis/apps/v1/replicasets')['items'];
+
         $statefulsets = $cluster->getAllStatefulSets($this->getNs());
 
 //        $i = 0;
@@ -105,7 +115,7 @@ class DashboardController extends Controller
 
 //        dd($pods[0]->toArray()['status']['hostIP']);
 
-        return view('workloads', compact('namespaces','deployments', 'daemonsets', 'jobs', 'cronjobs', 'pods', 'statefulsets'));
+        return view('workloads', compact('namespaces','deployments', 'daemonsets', 'jobs', 'cronjobs', 'pods', 'statefulsets', 'replicasets'));
     }
 
     public function service(Request $request) {
@@ -123,8 +133,9 @@ class DashboardController extends Controller
 
         // TODO: $ingressclasses = CURL เอง
 
+        $ingressclasses = $this->curlAPI(env('KUBE_API_SERVER').'/apis/networking.k8s.io/v1/ingressclasses')['items'];
 
-        return view('service', compact('namespaces', 'services', 'ingresses'));
+        return view('service', compact('namespaces', 'services', 'ingresses', 'ingressclasses'));
     }
 
     public function config_storage(Request $request) {
@@ -188,6 +199,8 @@ class DashboardController extends Controller
         $events = $cluster->getAllEvents($this->getNs());
 
 //        $networkPolicies
+
+//        TODO networkPolicies ใส่หรือไม่ใส่
 
         $serviceAccounts = $cluster->getAllServiceAccounts($this->getNs());
 

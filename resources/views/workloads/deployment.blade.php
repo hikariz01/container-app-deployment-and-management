@@ -156,39 +156,67 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">New Replica Set</h3>
+        <h3 style="padding-left: 30px"id="deployment_table">Replica Set</h3>
         </thead>
         <tbody>
         <tr>
-            <th>Updated</th>
-            <th>Total</th>
-            <th>Available</th>
+            <th>Name</th>
+            <th>Namespace</th>
+            <th>Age</th>
+            <th>Pods</th>
         </tr>
-        <tr>
-            <td>To be Updated</td>
-            <td>To be Updated</td>
-            <td>To be Updated</td>
-        </tr>
+        @foreach($replicasets as $replicaset)
+            <tr>
+                <td><a href="{{ route('replicaset-details', ['name'=>$replicaset['metadata']['name'], 'namespace'=>$replicaset['metadata']['namespace']??'default']) }}">{{$replicaset['metadata']['name']}}</a></td>
+                <td>{{$replicaset['metadata']['namespace']}}</td>
+                <td>{{$age}}</td>
+                <td>{{$replicaset['status']['readyReplicas']}}/{{$replicaset['status']['replicas']}}</td>
+            </tr>
+            <tr>
+                <th colspan="5">Labels</th>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @foreach($replicaset['metadata']['labels']??json_decode('{"":""}') as $key => $value)
+                        @if($key == "")
+                            -
+                        @else
+                            {{$key}}: {{$value}}<br>
+                        @endif
+                    @endforeach
+                </td>
+            </tr>
+            <tr>
+                <th colspan="5">Images</th>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    @foreach($replicaset['spec']['template']['spec']['containers'] as $container)
+                        {{$container['image']}}<br>
+                    @endforeach
+                </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 
-    <table class="table table-secondary table-borderless" style="padding-left: 30px">
-        <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Old Replica Set</h3>
-        </thead>
-        <tbody>
-        <tr>
-            <th>Updated</th>
-            <th>Total</th>
-            <th>Available</th>
-        </tr>
-        <tr>
-            <td>To be Updated</td>
-            <td>To be Updated</td>
-            <td>To be Updated</td>
-        </tr>
-        </tbody>
-    </table>
+{{--    <table class="table table-secondary table-borderless" style="padding-left: 30px">--}}
+{{--        <thead>--}}
+{{--        <h3 style="padding-left: 30px"id="deployment_table">Old Replica Set</h3>--}}
+{{--        </thead>--}}
+{{--        <tbody>--}}
+{{--        <tr>--}}
+{{--            <th>Updated</th>--}}
+{{--            <th>Total</th>--}}
+{{--            <th>Available</th>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td>To be Updated</td>--}}
+{{--            <td>To be Updated</td>--}}
+{{--            <td>To be Updated</td>--}}
+{{--        </tr>--}}
+{{--        </tbody>--}}
+{{--    </table>--}}
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>

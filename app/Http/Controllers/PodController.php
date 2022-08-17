@@ -23,7 +23,8 @@ class PodController extends DashboardController
                 $owners[] = $cluster->getStatefulSetByName($ownerRef['name'], $namespace)->toArray();
             }
             elseif (!strcmp($ownerRef['kind'],'ReplicaSet')) {
-//                $owners[] = TODO CURL REPLICASETS
+//                TODO CHECK IF AVAILABLE
+                $owners[] = $this->curlAPI(env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$namespace.'/replicasets/'.$ownerRef['name']);
             }
         }
 

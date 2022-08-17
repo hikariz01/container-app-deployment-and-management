@@ -195,7 +195,7 @@
             @foreach($ingresses as $ingress)
                 <tr>
 {{--                    TODO LINK INGRESS--}}
-                    <td><a href=""></a>{{$ingress->getName()}}</td>
+                    <td><a href="{{ route('ingress-details', ['name'=>$ingress->getName(), 'namespace'=>$ingress->getNamespace()]) }}">{{$ingress->getName()}}</a></td>
                     <td>{{$ingress->toArray()['metadata']['namespace']}}</td>
                     <td>
                         @foreach($ingress->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)

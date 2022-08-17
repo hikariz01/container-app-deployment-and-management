@@ -45,6 +45,8 @@ Route::group(['prefix' => 'workloads'], function () {
 
     Route::get('cronjob/{namespace}/{name}', [\App\Http\Controllers\CronJobController::class, 'cronjobDetails'])->name('cronjob-details');
 
+    Route::get('replicaset/{namespace}/{name}', [\App\Http\Controllers\ReplicasetController::class, 'replicasetDetails'])->name('replicaset-details');
+
     Route::get('statefulset/{namespace}/{name}', [\App\Http\Controllers\StatefulSetController::class, 'statefulsetDetails'])->name('statefulset-details');
 
 });
@@ -53,6 +55,8 @@ Route::group(['prefix' => 'service'], function () {
    Route::get('services/{namespace}/{name}', [\App\Http\Controllers\ServiceController::class, 'serviceDetails'])->name('service-details');
 
    Route::get('ingress/{namespace}/{name}', [\App\Http\Controllers\IngressController::class, 'ingressDetails'])->name('ingress-details');
+
+   Route::get('ingressclass/{name}', [\App\Http\Controllers\IngressClassController::class, 'ingressclassDetails'])->name('ingressclass-details');
 });
 
 Route::group(['prefix' => 'config_storage'], function () {

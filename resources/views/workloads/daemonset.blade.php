@@ -170,7 +170,7 @@
         </tr>
         @foreach($services as $service)
             <tr>
-                <td>{{$service->getName()}}</td>
+                <td><a href="{{ route('service-details', ['name'=>$service->getName(), 'namespace'=>$service->getNamespace()??'default']) }}">{{$service->getName()}}</a></td>
                 <td>{{$service->getNamespace()}}</td>
                 <td>
                     @foreach($service->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)

@@ -241,7 +241,56 @@
 
         </tbody>
     </table>
-   @endif
+    @endif
+
+
+
+    @if(!is_null($replicasets) && count($replicasets) != 0)
+        <table class="table table-secondary" style="padding-left: 30px" >
+            <thead>
+            <h3 style="padding-left: 30px" id="replicasets_table">Replicasets</h3>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Name</td>
+                @if(!strcmp($_GET['namespace']??"no", 'all'))
+                    <td>Namespace</td>
+                @endif
+                <td>Images</td>
+                <td>Labels</td>
+                <td>Pods</td>
+                <td>Create Time</td>
+            </tr>
+            @foreach($replicasets as $replicaset)
+                <tr>
+                    <td><a href="{{ route('replicaset-details', ['name'=>$replicaset['metadata']['name'], 'namespace'=>$replicaset['metadata']['namespace']??'default']) }}">{{$replicaset['metadata']['name']}}</a></td>
+                    @if(!strcmp($_GET['namespace']??"no", 'all'))
+                        <td>{{$replicaset['metadata']['namespace']}}</td>
+                    @endif
+                    <td>
+                        @foreach($replicaset['spec']['template']['spec']['containers'] as $container)
+                            {{$container['image']}}<br>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach($replicaset['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
+                        @endforeach
+                    </td>
+                    <td>{{$replicaset['status']['readyReplicas']}}/{{$replicaset['status']['replicas']}}</td>
+                    <td>{{$replicaset['metadata']['creationTimestamp']}}</td>
+                </tr>
+            @endforeach
+
+            </tbody>
+        </table>
+    @endif
+
+
 
     @if(!is_null($statefulsets) && count($statefulsets) != 0)
     <table class="table table-secondary" style="padding-left: 30px" >
