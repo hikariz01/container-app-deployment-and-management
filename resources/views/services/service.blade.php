@@ -110,16 +110,25 @@
             <th>Ready</th>
             </tr>
             @foreach($endpoints['subsets'] as $subset)
-                    <tr>
-                        @foreach($subset['addresses'] as $address)
+                @foreach($subset['ports'] as $port)
+                        @foreach($subset['addresses'] as $key => $address)
+                        <tr>
                             <td>{{$address['ip']}}</td>
+                            <td>{{$port['name']??'-'}}, {{$port['port']??'-'}}, {{$port['protocol']??'-'}}</td>
+                            <td>{{$address['nodeName']??'none'}}</td>
+                            <td>true</td>
+                        </tr>
                         @endforeach
-                        @for($i=0;$i < count($subset['addresses']);$i++)
-                            <td>{{$subset['ports'][$i]['name'] . ', ' . $subset['ports'][$i]['port'] . ', ' . $subset['ports'][$i]['protocol']}}</td>
-                        @endfor
-                    </tr>
+                        @foreach($subset['notReadyAddresses']??[] as $key => $address)
+                            <tr>
+                                <td>{{$address['ip']}}</td>
+                                <td>{{$port['name']??'-'}}, {{$port['port']??'-'}}, {{$port['protocol']??'-'}}</td>
+                                <td>{{$address['nodeName']??'none'}}</td>
+                                <td>false</td>
+                            </tr>
+                        @endforeach
+                @endforeach
             @endforeach
-
         @else
             <tr class="text-center">
                 <th>Resource not found...</th>

@@ -14,8 +14,9 @@ class NamespaceController extends DashboardController
 
         $age = $this->getAge($namespace);
 
-        $quotas = [];
-        $limits = [];
+        $quotas = $this->curlAPI(env('KUBE_API_SERVER').'/api/v1/namespaces/'.$namespace->getNamespace().'/resourcequotas')['items'];
+
+        $limits = $this->curlAPI(env('KUBE_API_SERVER').'/api/v1/namespaces/'.$namespace->getNamespace().'/limitranges')['items'];
 //        TODO CURL resourcequotas and limitrange
 
         $events = $namespace->getEvents();
