@@ -24,7 +24,7 @@
         <tr>
             <td>{{$deployment->getName()}}</td>
             <td>{{$deployment->getNamespace()}}</td>
-            <td>{{$deployment->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($deployment->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$deployment->getResourceUid()}}</td>
         </tr>
@@ -145,8 +145,8 @@
                 <tr>
                     <td>{{$condition['type']}}</td>
                     <td>{{$condition['status']}}</td>
-                    <td>{{$condition['lastUpdateTime']}}</td>
-                    <td>{{$condition['lastTransitionTime']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['metadata']['lastTransitionTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     <td>{{$condition['reason']}}</td>
                     <td>{{$condition['message']}}</td>
                 </tr>
@@ -165,11 +165,11 @@
             <th>Age</th>
             <th>Pods</th>
         </tr>
-        @foreach($replicasets as $replicaset)
+        @foreach($replicasets as $key => $replicaset)
             <tr>
                 <td><a href="{{ route('replicaset-details', ['name'=>$replicaset['metadata']['name'], 'namespace'=>$replicaset['metadata']['namespace']??'default']) }}">{{$replicaset['metadata']['name']}}</a></td>
                 <td>{{$replicaset['metadata']['namespace']}}</td>
-                <td>{{$age}}</td>
+                <td>{{$replicasetAge[$key]}}</td>
                 <td>{{$replicaset['status']['readyReplicas']}}/{{$replicaset['status']['replicas']}}</td>
             </tr>
             <tr>
@@ -224,6 +224,7 @@
         </thead>
         <tbody>
         <tr class="text-center">
+{{--            TODO CHECK HORIZONTAL POD AUTOSCALER--}}
             <th>Items : To be Updated</th>
         </tr>
         </tbody>
@@ -254,8 +255,8 @@
                     <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
                     <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                     <td>{{$event->toArray()['count']??"0"}}</td>
-                    <td>{{$event->toArray()['firstTimestamp']}}</td>
-                    <td>{{$event->toArray()['lastTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
         @else

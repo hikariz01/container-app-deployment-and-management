@@ -18,7 +18,7 @@ class JobController extends DashboardController
 
         $job = $cluster->getJobByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($job);
 
         $pods = $job->getPods();
 

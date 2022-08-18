@@ -88,7 +88,7 @@
             <th>Service Account</th>
         </tr>
         <tr>
-            <td><a href="#">{{$pod->toArray()['spec']['nodeName']}}</a></td>
+            <td><a href="{{ route('node-details', ['name'=>$pod->getSpec('nodeName')]) }}">{{$pod->toArray()['spec']['nodeName']}}</a></td>
             <td>{{$pod->getStatus('phase')}}</td>
             <td>
                 @foreach($pod->getPodIps() as $podIP)
@@ -101,7 +101,7 @@
                     {{$containerStatus['restartCount']}}<br>
                 @endforeach
             </td>
-            <td><a href="#">{{$pod->toArray()['spec']['serviceAccountName']??''}}</a></td>
+            <td><a href="{{ route('serviceaccount-details', ['name'=>$pod->getSpec('serviceAccountName'), 'namespace'=>$pod->getNamespace()]) }}">{{$pod->toArray()['spec']['serviceAccountName']??''}}</a></td>
         </tr>
         </tbody>
     </table>
@@ -152,7 +152,11 @@
             <tr>
                 @foreach($owners as $owner)
     {{--                TODO ทำ Route ที่สามารถเลือก kind ของ workloads ได้--}}
-                    <td><a href="#">{{$owner['metadata']['name']}}</a></td>
+                    @if($owner['kind'] === 'ReplicaSet')
+                        <td><a href="{{ route('replicaset-details', ['name'=>$owner['metadata']['name'], 'namespace'=>$owner['metadata']['namespace']??'default']) }}">{{$owner['metadata']['name']}}</a></td>
+                    @elseif($owner['kind'] === 'StatefulSet')
+                        <td><a href="{{ route('statefulset-details', ['name'=>$owner['metadata']['name'], 'namespace'=>$owner['metadata']['namespace']??'default']) }}">{{$owner['metadata']['name']}}</a></td>
+                    @endif
                     <td>{{$owner['kind']}}</td>
                     <td>{{$owner['status']['readyReplicas']}}/{{$owner['status']['replicas']}}</td>
                     <td>{{$owner['metadata']['creationTimestamp']}}</td>
@@ -218,7 +222,7 @@
                         @endforeach
                     </td>
                     <td>{{$pvc->getStatus('phase')??'?'}}</td>
-                    <td><a href="#">{{$pvc->getSpec('volumeName')}}</a></td>
+                    <td><a href="{{ route('pv-details', ['name'=>$pvc->getSpec('volumeName')]) }}">{{$pvc->getSpec('volumeName')}}</a></td>
                     <td>{{$pvc->getStatus('capacity')['storage']}}</td>
                     <td>
                         @foreach($pvc->getStatus('accessModes') as $accessMode)

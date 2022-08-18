@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use RenokiCo\PhpK8s\KubernetesCluster;
@@ -75,6 +76,23 @@ class DashboardController extends Controller
         return Http::withHeaders(
             ['Authorization'=>'Bearer '.env('KUBE_API_TOKEN')],
         )->withoutVerifying()->get($endpoint)->json();
+    }
+
+
+    public function getAge($resource) {
+        if (is_array($resource)) {
+            $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($resource['metadata']['creationTimestamp'], 'UTC'));
+        }
+        else {
+            $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($resource->toArray()['metadata']['creationTimestamp'], 'UTC'));
+        }
+        if ($age > 1) {
+            $age .= ' days';
+        }
+        else {
+            $age .= ' day';
+        }
+        return $age;
     }
 
 

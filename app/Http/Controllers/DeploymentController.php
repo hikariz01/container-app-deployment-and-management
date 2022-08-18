@@ -15,14 +15,7 @@ class DeploymentController extends DashboardController
 
         $deployment = $cluster->getDeploymentByName($name, $namespace);
 
-        $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($deployment->toArray()['metadata']['creationTimestamp'], 'UTC'));
-
-        if ($age != 1) {
-            $age .= ' days';
-        }
-        else {
-            $age .= ' day';
-        }
+        $age = $this->getAge($deployment);
 
         $conditions = $deployment->getConditions();
 
@@ -41,9 +34,15 @@ class DeploymentController extends DashboardController
 
         $replicasets = $this->curlAPI(env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$namespace.'/replicasets?labelSelector='.$labelSelector)['items'];
 
+        $replicasetAge = [];
+
+        foreach ($replicasets as $replicaset) {
+            $replicasetAge[] = $this->getAge($replicaset);
+        }
+
         $events = $deployment->getEvents();
 
-        return view('workloads.deployment', compact('namespaces', 'deployment', 'age', 'conditions', 'events','replicasets'));
+        return view('workloads.deployment', compact('namespaces', 'deployment', 'age', 'conditions', 'events','replicasets', 'replicasetAge'));
     }
 
 }

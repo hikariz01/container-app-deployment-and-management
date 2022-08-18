@@ -20,7 +20,7 @@ class DaemonsetController extends DashboardController
 
         $daemonset = $cluster->getDaemonSetByName($name, $namespace);
 
-        $age = "2days";
+        $age = $this->getAge($daemonset);
 
         $selector = $daemonset->getSelectors()['matchLabels'];
 
