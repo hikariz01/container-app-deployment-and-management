@@ -13,7 +13,7 @@ class ServiceAccountController extends DashboardController
 
         $sa = $cluster->getServiceAccountByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($sa);
 
         return view('cluster.serviceaccount', compact('namespaces', 'sa', 'age'));
     }

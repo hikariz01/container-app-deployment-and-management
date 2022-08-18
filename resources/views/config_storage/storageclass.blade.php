@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>{{$storageclass->getName()}}</td>
-            <td>{{$storageclass->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($storageclass->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$storageclass->getResourceUid()}}</td>
         </tr>
@@ -117,7 +117,7 @@
                 <td><a href="{{ route('pvc-details', ['name'=>$persistentvolume->getSpec('claimRef')['name'], 'namespace'=>$persistentvolume->getSpec('claimRef')['namespace']]) }}">{{$persistentvolume->getSpec('claimRef')['namespace'].'/'.$persistentvolume->getSpec('claimRef')['name']}}</a></td>
                 <td>{{$persistentvolume->getSpec('storageClassName')}}</td>
                 <td>{{$persistentvolume->getStatus('reason')??'-'}}</td>
-                <td>{{$persistentvolume->toArray()['metadata']['creationTimestamp']}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($persistentvolume->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 

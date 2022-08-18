@@ -11,9 +11,9 @@ class IngressClassController extends DashboardController
 
         $namespaces = $cluster->getAllNamespaces();
 
-        $age = '1days';
-
         $ingressclass = $this->curlAPI(env('KUBE_API_SERVER').'/apis/networking.k8s.io/v1/ingressclasses/'.$name);
+
+        $age = $this->getAge($ingressclass);
 
         return view('services.ingressclass', compact('namespaces', 'age', 'ingressclass'));
     }

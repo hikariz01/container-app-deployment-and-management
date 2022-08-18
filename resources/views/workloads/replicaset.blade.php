@@ -23,7 +23,7 @@
         <tr>
             <td>{{$replicaset['metadata']['name']}}</td>
             <td>{{$replicaset['metadata']['namespace']}}</td>
-            <td>{{$replicaset['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($replicaset['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$replicaset['metadata']['uid']}}</td>
         </tr>
@@ -146,7 +146,7 @@
                     @endforeach
                 </td>
                 <td>{{$pod['spec']['nodeName']??'-'}}</td>
-                <td>{{$pod['metadata']['creationTimestamp']}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($pod['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 
@@ -199,7 +199,7 @@
                             {{$externalIP['ip']??"-"}}<br>
                         @endforeach
                     </td>
-                    <td>{{$service['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($service['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
         @else
@@ -228,6 +228,9 @@
                 <td>First Seen</td>
                 <td>Last Seen</td>
             </tr>
+            <tr class="text-center">
+                <th colspan="8">Resource Not Found...</th>
+            </tr>
             @foreach($events as $event)
                 @if(str_contains($event['involvedObject']['name']??"", $replicaset['metadata']['name']))
                     <tr>
@@ -237,8 +240,8 @@
                         <td>{{$event['source']['component']??"-"}}/{{$event['source']['host']??"-"}}</td>
                         <td>{{$event['involvedObject']['kind']}}/{{$event['involvedObject']['name']??""}}</td>
                         <td>{{$event['count']??"0"}}</td>
-                        <td>{{$event['firstTimestamp']}}</td>
-                        <td>{{$event['lastTimestamp']}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     </tr>
                 @endif
             @endforeach

@@ -25,7 +25,7 @@
         <tr>
             <td>{{$sa->getName()}}</td>
             <td>{{$sa->getNamespace()}}</td>
-            <td>{{$sa->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($sa->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$sa->getResourceUid()}}</td>
         </tr>

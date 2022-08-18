@@ -12,7 +12,7 @@ class RoleBindingController extends DashboardController
 
         $rolebinding = $cluster->getRoleBindingByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($rolebinding);
 
         $role = $cluster->getRoleByName($rolebinding->getRole()['name'], $namespace);
 

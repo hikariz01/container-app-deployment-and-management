@@ -37,7 +37,7 @@
         <tr>
             <td>{{$pod->getName()}}</td>
             <td>{{$pod->getNamespace()}}</td>
-            <td>{{$pod->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($pod->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$pod->getResourceUid()}}</td>
         </tr>
@@ -126,8 +126,8 @@
             <tr>
                 <td>{{$condition['type']}}</td>
                 <td>{{$condition['status']}}</td>
-                <td>{{$condition['lastProbeTime']??'-'}}</td>
-                <td>{{$condition['lastTransitionTime']}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($condition['lastProbeTime']??'0', 'UTC')->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastProbeTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'0', 'UTC')->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 <td>{{$condition['reason']??'-'}}</td>
                 <td>{{$condition['message']??'-'}}</td>
             </tr>
@@ -150,7 +150,7 @@
                 <th>Age</th>
             </tr>
             <tr>
-                @foreach($owners as $owner)
+                @foreach($owners as $key => $owner)
     {{--                TODO ทำ Route ที่สามารถเลือก kind ของ workloads ได้--}}
                     @if($owner['kind'] === 'ReplicaSet')
                         <td><a href="{{ route('replicaset-details', ['name'=>$owner['metadata']['name'], 'namespace'=>$owner['metadata']['namespace']??'default']) }}">{{$owner['metadata']['name']}}</a></td>
@@ -159,7 +159,7 @@
                     @endif
                     <td>{{$owner['kind']}}</td>
                     <td>{{$owner['status']['readyReplicas']}}/{{$owner['status']['replicas']}}</td>
-                    <td>{{$owner['metadata']['creationTimestamp']}}</td>
+                    <td>{{$ownersAge[$key]}}</td>
                 @endforeach
 
             </tr>
@@ -230,7 +230,7 @@
                         @endforeach
                     </td>
                     <td>{{$pvc->getSpec('storageClassName')}}</td>
-                    <td>{{$pvc->getMetadata()['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($pvc->getMetadata()['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
         @else
@@ -268,8 +268,8 @@
                         <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
                         <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                         <td>{{$event->toArray()['count']??"0"}}</td>
-                        <td>{{$event->toArray()['firstTimestamp']}}</td>
-                        <td>{{$event->toArray()['lastTimestamp']}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     </tr>
                 @else
                     <tr class="text-center">
@@ -324,7 +324,7 @@
 {{--                    <td>{{$containerStatuses[$i]['state']['running']['startedAt']??'-'}}</td>--}}
                     @foreach($containerStatuses[$i]['state']??[] as $key => $value)
                         @if(!strcmp($key, 'running'))
-                            <td>{{$value['startedAt']??'-'}}</td>
+                            <td>{{\Carbon\Carbon::createFromTimeString($value['startedAt']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($value['startedAt']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                         @elseif(!strcmp($key, 'terminated') || !strcmp($key, 'waiting'))
                             <td>{{$value['reason']??'-'}}</td>
                         @else

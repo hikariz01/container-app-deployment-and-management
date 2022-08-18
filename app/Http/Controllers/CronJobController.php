@@ -12,7 +12,7 @@ class CronJobController extends DashboardController
 
         $cronjob = $cluster->getCronjobByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($cronjob);
 
         $activeJobs = $cronjob->getStatus('active');
 

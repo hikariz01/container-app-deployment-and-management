@@ -14,7 +14,7 @@ class IngressController extends DashboardController
 
         $ingress = $cluster->getIngressByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($ingress);
 
         $events = $ingress->getEvents();
 

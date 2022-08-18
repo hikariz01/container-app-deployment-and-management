@@ -12,7 +12,7 @@ class ConfigmapController extends DashboardController
 
         $configmap = $cluster->getConfigmapByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($configmap);
 
         return view('config_storage.configmap', compact('namespaces', 'configmap', 'age'));
     }

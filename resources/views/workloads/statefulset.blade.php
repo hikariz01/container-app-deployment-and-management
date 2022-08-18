@@ -23,7 +23,7 @@
         <tr>
             <td>{{$statefulset->getName()}}</td>
             <td>{{$statefulset->getNamespace()}}</td>
-            <td>{{$statefulset->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($statefulset->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$statefulset->getResourceUid()}}</td>
         </tr>
@@ -136,7 +136,7 @@
                     @endforeach
                 </td>
                 <td>{{$pod->getSpec('nodeName')??'-'}}</td>
-                <td>{{$pod->toArray()['metadata']['creationTimestamp']}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($pod->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 
@@ -170,8 +170,8 @@
                         <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
                         <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                         <td>{{$event->toArray()['count']??"0"}}</td>
-                        <td>{{$event->toArray()['firstTimestamp']}}</td>
-                        <td>{{$event->toArray()['lastTimestamp']}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     </tr>
                 @endif
             @endforeach

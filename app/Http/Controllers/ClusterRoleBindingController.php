@@ -13,7 +13,7 @@ class ClusterRoleBindingController extends DashboardController
 
         $crb = $cluster->getClusterRoleBindingByName($name, '');
 
-        $age = '1days';
+        $age = $this->getAge($crb);
 
         $cr = $cluster->getClusterRoleByName($crb->getRole()['name'], '');
 

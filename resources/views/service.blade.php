@@ -52,7 +52,7 @@
                             {{$externalIP['ip']??"-"}}<br>
                         @endforeach
                     </td>
-                    <td>{{$service->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($service->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -111,7 +111,7 @@
                             @endforeach
                         @endforeach
                     </td>
-                    <td>{{$ingress->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($ingress->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -136,7 +136,7 @@
                 <tr>
                     <td><a href="{{ route('ingressclass-details', ['name'=>$ingressclass['metadata']['name']]) }}">{{$ingressclass['metadata']['name']}}</a></td>
                     <td>{{$ingressclass['spec']['controller']}}</td>
-                    <td>{{$ingressclass['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($ingressclass['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 

@@ -13,7 +13,7 @@ class PersistentVolumeController extends DashboardController
 
         $pv = $cluster->getPersistentVolumeByName($name, '');
 
-        $age = '1days';
+        $age = $this->getAge($pv);
 
         $types = [];
 

@@ -16,7 +16,7 @@
         }
 
         code {
-            margin-left: -12.5%;
+            margin-left: -13vw;
             width: 80vw;
         }
     </style>
@@ -37,7 +37,7 @@
         <tr>
             <td>{{$configmap->getName()}}</td>
             <td>{{$configmap->getNamespace()}}</td>
-            <td>{{$configmap->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($configmap->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$configmap->getResourceUid()}}</td>
         </tr>
@@ -78,15 +78,24 @@
         </thead>
         <tbody>
         @if(!is_null($configmap->getData()))
-            <tr>
-                <th>
+            @foreach($configmap->getData() as $key => $data)
+                <tr>
+                    <th>{{$key}}</th>
+                </tr>
+                <tr>
+                    <td>
                     <pre>
                         <code class="codebox">
-                            {{json_encode($configmap->getData())}}
+                            @if(base64_encode(base64_decode($data, true)) === $data)
+                                {{base64_decode($data)}}
+                            @else
+                                {{$data}}
+                            @endif
                         </code>
                     </pre>
-                </th>
-            </tr>
+                    </td>
+                </tr>
+            @endforeach
         @else
             <tr>
                 <td>There is no data.</td>

@@ -105,8 +105,8 @@
             <tr>
                 <td>{{$condition['type']}}</td>
                 <td>{{$condition['status']}}</td>
-                <td>{{\Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                <td>{{\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['metadata']['lastTransitionTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($condition['lastProbeTime']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastProbeTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 <td>{{$condition['reason']??'-'}}</td>
                 <td>{{$condition['message']??'-'}}</td>
             </tr>

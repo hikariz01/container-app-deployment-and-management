@@ -25,7 +25,7 @@
         <tr>
             <td>{{$role->getName()}}</td>
             <td>{{$role->getNamespace()}}</td>
-            <td>{{$role->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($role->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$role->getResourceUid()}}</td>
         </tr>

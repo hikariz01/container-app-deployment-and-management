@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>{{$crb->getName()}}</td>
-            <td>{{$crb->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($crb->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$crb->getResourceUid()}}</td>
         </tr>

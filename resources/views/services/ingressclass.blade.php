@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td>{{$ingressclass['metadata']['name']}}</td>
-            <td>{{$ingressclass['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($ingressclass['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$ingressclass['metadata']['uid']}}</td>
         </tr>

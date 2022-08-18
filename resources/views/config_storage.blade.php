@@ -31,7 +31,8 @@
                             @endif
                         @endforeach
                     </td>
-                    <td>{{$configmap->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($configmap->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+
                 </tr>
             @endforeach
 
@@ -71,7 +72,7 @@
                         @endforeach
                     </td>
                     <td>{{$secret->toArray()['type']}}</td>
-                    <td>{{$secret->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($secret->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -123,7 +124,7 @@
                         @endforeach
                     </td>
                     <td>{{$pvc->toArray()['spec']['storageClassName']}}</td>
-                    <td>{{$pvc->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($pvc->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -152,7 +153,7 @@
                             {{$key}}: {{$value}}<br>
                         @endforeach
                     </td>
-                    <td>{{$storageclass->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($storageclass->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 

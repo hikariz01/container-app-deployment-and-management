@@ -13,7 +13,7 @@ class RoleController extends DashboardController
 
         $role = $cluster->getRoleByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($role);
 
         return view('cluster.role', compact('namespaces', 'role', 'age'));
     }

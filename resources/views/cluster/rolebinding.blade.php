@@ -25,7 +25,7 @@
         <tr>
             <td>{{$rolebinding->getName()}}</td>
             <td>{{$rolebinding->getNamespace()}}</td>
-            <td>{{$rolebinding->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($rolebinding->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$rolebinding->getResourceUid()}}</td>
         </tr>

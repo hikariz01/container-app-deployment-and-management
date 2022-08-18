@@ -13,7 +13,7 @@ class StatefulSetController extends DashboardController
 
         $statefulset = $cluster->getStatefulSetByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($statefulset);
 
         $selector = $statefulset->getSelectors()['matchLabels'];
 

@@ -12,7 +12,7 @@ class NamespaceController extends DashboardController
 
         $namespace = $cluster->getNamespaceByName($name, '');
 
-        $age = '1days';
+        $age = $this->getAge($namespace);
 
         $quotas = [];
         $limits = [];

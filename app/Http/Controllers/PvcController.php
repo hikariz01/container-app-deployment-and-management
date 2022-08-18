@@ -13,7 +13,7 @@ class PvcController extends DashboardController
 
         $pvc = $cluster->getPersistentVolumeClaimByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($pvc);
 
         return view('config_storage.pvc', compact('namespaces', 'pvc', 'age'));
     }

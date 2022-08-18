@@ -103,8 +103,8 @@
             <th>Max Unavailable</th>
         </tr>
         <tr>
-            <td>{{$deployment->toArray()['spec']['strategy']['rollingUpdate']['maxSurge']}}</td>
-            <td>{{$deployment->toArray()['spec']['strategy']['rollingUpdate']['maxUnavailable']}}</td>
+            <td>{{$deployment->toArray()['spec']['strategy']['rollingUpdate']['maxSurge']??'none'}}</td>
+            <td>{{$deployment->toArray()['spec']['strategy']['rollingUpdate']['maxUnavailable']??'none'}}</td>
         </tr>
         </tbody>
     </table>
@@ -145,8 +145,8 @@
                 <tr>
                     <td>{{$condition['type']}}</td>
                     <td>{{$condition['status']}}</td>
-                    <td>{{\Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                    <td>{{\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'0', 'UTC')->addHours(7)->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($condition['metadata']['lastTransitionTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>{{!\Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'9999', 'UTC')->isValid() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'9999', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>{{!\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'9999', 'UTC')->isValid() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'9999', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     <td>{{$condition['reason']}}</td>
                     <td>{{$condition['message']}}</td>
                 </tr>

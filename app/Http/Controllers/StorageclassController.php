@@ -12,7 +12,7 @@ class StorageclassController extends DashboardController
 
         $storageclass = $cluster->getStorageClassByName($name, '');
 
-        $age = '1days';
+        $age = $this->getAge($storageclass);
 
         $persistentvolumes_All = $cluster->getAllPersistentVolumes('');
 

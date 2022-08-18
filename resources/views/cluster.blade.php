@@ -27,7 +27,7 @@
                         @endforeach
                     </td>
                     <td>{{$namespace->toArray()['status']['phase']}}</td>
-                    <td>{{$namespace->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($namespace->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -76,7 +76,7 @@
                     <td>{{$node->getCapacity()['memory']}}</td>
                     <td>{{$node->getAllocatableInfo()['memory']}}</td>
                     <td>{{count($podCount[$node->getName()])}}</td>
-                    <td>{{$node->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($node->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -115,7 +115,7 @@
                     <td><a href="{{ route('pvc-details', ['name'=>$persistentvolume->getSpec('claimRef')['name'], 'namespace'=>$persistentvolume->getSpec('claimRef')['namespace']]) }}">{{$persistentvolume->getSpec('claimRef')['namespace'].'/'.$persistentvolume->getSpec('claimRef')['name']}}</a></td>
                     <td>{{$persistentvolume->getSpec('storageClassName')}}</td>
                     <td>{{$persistentvolume->getStatus('reason')??'-'}}</td>
-                    <td>{{$persistentvolume->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($persistentvolume->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -136,7 +136,7 @@
             @foreach($clusterRoles as $clusterRole)
                 <tr>
                     <td><a href="{{ route('clusterrole-details', ['name'=>$clusterRole->getName()]) }}">{{$clusterRole->getName()}}</a></td>
-                    <td>{{$clusterRole->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($clusterRole->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -158,7 +158,7 @@
             @foreach($clusterRoleBindings as $clusterRoleBinding)
                 <tr>
                     <td><a href="{{ route('clusterrolebinding-details', ['name'=>$clusterRoleBinding->getName()]) }}">{{$clusterRoleBinding->getName()}}</a></td>
-                    <td>{{$clusterRoleBinding->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($clusterRoleBinding->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -191,8 +191,8 @@
 {{--                    TODO Add link to object--}}
                     <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                     <td>{{$event->toArray()['count']??"0"}}</td>
-                    <td>{{$event->toArray()['firstTimestamp']}}</td>
-                    <td>{{$event->toArray()['lastTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -230,7 +230,7 @@
                             @endif
                         @endforeach
                     </td>
-                    <td>{{$serviceAccount->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($serviceAccount->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -258,7 +258,7 @@
                     @if($_GET['namespace']??'default' === 'all')
                         <td>{{$role->getMetadata()['namespace']??'-'}}</td>
                     @endif
-                    <td>{{$role->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($role->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -285,7 +285,7 @@
                     @if($_GET['namespace']??'default' === 'all')
                         <td>{{$roleBinding->getMetadata()['namespace']??'-'}}</td>
                     @endif
-                    <td>{{$roleBinding->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($roleBinding->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 

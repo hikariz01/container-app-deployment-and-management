@@ -25,7 +25,7 @@
         <tr>
             <td>{{$cronjob->getName()}}</td>
             <td>{{$cronjob->getNamespace()}}</td>
-            <td>{{$cronjob->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($cronjob->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$cronjob->getResourceUid()}}</td>
         </tr>
@@ -116,7 +116,7 @@
                         @endforeach
                     </td>
                     <td>{{$activeJob->getStatus('ready')}}/{{$activeJob->getStatus('succeeded')??'1'}}</td>
-                    <td>{{$activeJob->getMetadata()['creationTimestamp']??'-'}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($activeJob->toArray()['metadata']['creationTimestamp']??'0', 'UTC')->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($activeJob->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
         @else
@@ -162,7 +162,8 @@
                         @endforeach
                     </td>
                     <td>{{$inactiveJob->getStatus('ready')}}/{{$inactiveJob->getStatus('succeeded')??'1'}}</td>
-                    <td>{{$inactiveJob->getMetadata()['creationTimestamp']??'-'}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($inactiveJob->toArray()['metadata']['creationTimestamp']??'0', 'UTC')->isToday() ? '-' : \Carbon\Carbon::createFromTimeString($inactiveJob->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+
                 </tr>
             @endforeach
 
@@ -201,8 +202,8 @@
                         <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
                         <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                         <td>{{$event->toArray()['count']??"0"}}</td>
-                        <td>{{$event->toArray()['firstTimestamp']}}</td>
-                        <td>{{$event->toArray()['lastTimestamp']}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     </tr>
                 @endif
             @endforeach

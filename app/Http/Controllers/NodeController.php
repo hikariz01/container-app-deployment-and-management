@@ -12,7 +12,7 @@ class NodeController extends DashboardController
 
         $node = $cluster->getNodeByName($name, '');
 
-        $age = '1days';
+        $age = $this->getAge($node);
 
         $podCount = [];
 

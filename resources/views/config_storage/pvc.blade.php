@@ -24,7 +24,7 @@
         <tr>
             <td>{{$pvc->getName()}}</td>
             <td>{{$pvc->getNamespace()}}</td>
-            <td>{{$pvc->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($pvc->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$pvc->getResourceUid()}}</td>
         </tr>

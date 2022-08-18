@@ -14,7 +14,7 @@ class PodController extends DashboardController
 
         $pod = $cluster->getPodByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($pod);
 
         $owners = [];
 
@@ -26,6 +26,12 @@ class PodController extends DashboardController
 //                TODO CHECK IF AVAILABLE
                 $owners[] = $this->curlAPI(env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$namespace.'/replicasets/'.$ownerRef['name']);
             }
+        }
+
+        $ownersAge = [];
+
+        foreach ($owners as $owner) {
+            $ownersAge[] = $this->getAge($owner);
         }
 
         $pvc_names = [];
@@ -49,6 +55,6 @@ class PodController extends DashboardController
 
         $probe = '';
 
-        return view('workloads.pod', compact('namespaces', 'pod', 'age', 'pvcs', 'events', 'containers', 'containerStatuses', 'probe', 'pvcs', 'owners'));
+        return view('workloads.pod', compact('namespaces', 'pod', 'age', 'pvcs', 'events', 'containers', 'containerStatuses', 'probe', 'pvcs', 'owners', 'ownersAge'));
     }
 }

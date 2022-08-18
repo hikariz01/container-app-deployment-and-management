@@ -12,7 +12,7 @@ class SecretController extends DashboardController
 
         $secret = $cluster->getSecretByName($name, $namespace);
 
-        $age = '1days';
+        $age = $this->getAge($secret);
 
         return view('config_storage.secret', compact('namespaces','secret', 'age'));
     }

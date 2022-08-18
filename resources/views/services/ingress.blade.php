@@ -24,7 +24,7 @@
         <tr>
             <td>{{$ingress->getName()}}</td>
             <td>{{$ingress->getNamespace()}}</td>
-            <td>{{$ingress->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($ingress->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$ingress->getResourceUid()}}</td>
         </tr>
@@ -142,8 +142,8 @@
                         <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
                         <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                         <td>{{$event->toArray()['count']??"0"}}</td>
-                        <td>{{$event->toArray()['firstTimestamp']}}</td>
-                        <td>{{$event->toArray()['lastTimestamp']}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     </tr>
                 @endif
             @endforeach

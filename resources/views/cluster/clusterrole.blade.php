@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>{{$clusterrole->getName()}}</td>
-            <td>{{$clusterrole->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($clusterrole->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$clusterrole->getResourceUid()}}</td>
         </tr>

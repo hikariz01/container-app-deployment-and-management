@@ -24,7 +24,7 @@
         <tr>
             <td>{{$service->getName()}}</td>
             <td>{{$service->getNamespace()}}</td>
-            <td>{{$service->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($service->getMetadata()['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$service->getResourceUid()}}</td>
         </tr>
@@ -169,7 +169,7 @@
                     @endforeach
                 </td>
                 <td>{{$pod->getSpec('nodeName')??'-'}}</td>
-                <td>{{$pod->toArray()['metadata']['creationTimestamp']}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($pod->getMetadata()['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 
@@ -225,7 +225,7 @@
                             @endforeach
                         @endforeach
                     </td>
-                    <td>{{$ingress->toArray()['metadata']['creationTimestamp']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($ingress->getMetadata()['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
         @else
@@ -263,8 +263,8 @@
                         <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
                         <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                         <td>{{$event->toArray()['count']??"0"}}</td>
-                        <td>{{$event->toArray()['firstTimestamp']}}</td>
-                        <td>{{$event->toArray()['lastTimestamp']}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     </tr>
                 @endif
             @endforeach

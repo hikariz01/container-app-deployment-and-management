@@ -38,7 +38,7 @@
         <tr>
             <td>{{$secret->getName()}}</td>
             <td>{{$secret->getNamespace()}}</td>
-            <td>{{$secret->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($secret->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$secret->getResourceUid()}}</td>
         </tr>

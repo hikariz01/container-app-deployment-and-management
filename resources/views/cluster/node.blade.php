@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>{{$node->getName()}}</td>
-            <td>{{$node->toArray()['metadata']['creationTimestamp']}}</td>
+            <td>{{\Carbon\Carbon::createFromTimeString($node->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             <td>{{$age}}</td>
             <td>{{$node->getResourceUid()}}</td>
         </tr>
@@ -142,8 +142,8 @@
             <tr>
                 <td>{{$condition['type']}}</td>
                 <td>{{$condition['status']}}</td>
-                <td>{{$condition['lastHeartbeatTime']}}</td>
-                <td>{{$condition['lastTransitionTime']}}</td>
+                <td>{{!\Carbon\Carbon::createFromTimeString($condition['lastHeartbeatTime']??'9999', 'UTC')->isValid() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastHeartbeatTime']??'9999', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>{{!\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'9999', 'UTC')->isValid() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'9999', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 <td>{{$condition['reason']}}</td>
                 <td>{{$condition['message']}}</td>
             </tr>
@@ -192,7 +192,7 @@
                     @endforeach
                 </td>
                 <td>{{$pod->getSpec('nodeName')??'-'}}</td>
-                <td>{{$pod->toArray()['metadata']['creationTimestamp']}}</td>
+                <td>{{\Carbon\Carbon::createFromTimeString($pod->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
             </tr>
         @endforeach
 
