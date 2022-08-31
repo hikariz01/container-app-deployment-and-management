@@ -6,20 +6,22 @@
     @if(!is_null($services) && count($services) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="services_table">Services</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="services_table">Services</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Labels</td>
-                <td>Type</td>
-                <td>Cluster IP</td>
-                <td>Ports</td>
-                <td>External IP</td>
-                <td>Create Time</td>
+                <th>Labels</th>
+                <th>Type</th>
+                <th>Cluster IP</th>
+                <th>Ports</th>
+                <th>External IP</th>
+                <th>Create Time</th>
             </tr>
             @foreach($services as $service)
                 <tr>
@@ -63,19 +65,21 @@
     @if(!is_null($ingresses) && count($ingresses) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="ingresses_table">Ingresses</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="ingresses_table">Ingresses</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Labels</td>
-                <td>Host</td>
-                <td>Paths</td>
-                <td>Service</td>
-                <td>Create Time</td>
+                <th>Labels</th>
+                <th>Host</th>
+                <th>Paths</th>
+                <th>Service</th>
+                <th>Create Time</th>
             </tr>
             @foreach($ingresses as $ingress)
                 <tr>
@@ -124,13 +128,15 @@
     @if(!is_null($ingressclasses) && count($ingressclasses) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="ingressclasses_table">Ingress Classes</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="ingressclasses_table">Ingress Classes</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
-                <td>Controller</td>
-                <td>Create Time</td>
+                <th>Name</th>
+                <th>Controller</th>
+                <th>Create Time</th>
             </tr>
             @foreach($ingressclasses as $ingressclass)
                 <tr>

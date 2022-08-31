@@ -141,7 +141,7 @@
                 <td>{{$pod->toArray()['status']['phase']}}</td>
                 <td>
                     @foreach($pod->toArray()['status']['containerStatuses']??["restartCount"=>"-"] as $status)
-                        {{$status['restartCount']}}<br>
+                        {{$status['restartCount']??'-'}}<br>
                     @endforeach
                 </td>
                 <td>{{$pod->getSpec('nodeName')??'-'}}</td>

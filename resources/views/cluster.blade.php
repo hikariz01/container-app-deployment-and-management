@@ -5,14 +5,16 @@
     @if(!is_null($namespaces) && count($namespaces) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="namespaces_table">Namespaces</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="namespaces_table">Namespaces</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
-                <td>Labels</td>
-                <td>Phase</td>
-                <td>Create Time</td>
+                <th>Name</th>
+                <th>Labels</th>
+                <th>Phase</th>
+                <th>Create Time</th>
             </tr>
             @foreach($namespaces as $namespace)
                 <tr>
@@ -38,19 +40,21 @@
     @if(!is_null($nodes) && count($nodes) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="nodes_table">Nodes</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="nodes_table">Nodes</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
-                <td>Labels</td>
-                <td>Ready</td>
-                <td>CPU Requests(cores)</td>
-                <td>CPU Limits(cores)</td>
-                <td>Memory Requests(bytes)</td>
-                <td>Memory Limits(bytes)</td>
-                <td>Pods</td>
-                <td>Create Time</td>
+                <th>Name</th>
+                <th>Labels</th>
+                <th>Ready</th>
+                <th>CPU Requests(cores)</th>
+                <th>CPU Limits(cores)</th>
+                <th>Memory Requests(bytes)</th>
+                <th>Memory Limits(bytes)</th>
+                <th>Pods</th>
+                <th>Create Time</th>
             </tr>
             @foreach($nodes as $node)
                 <tr>
@@ -87,19 +91,21 @@
     @if(!is_null($persistentvolumes) && count($persistentvolumes) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id=persistentvolumes_table">Persistent Volumes</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id=persistentvolumes_table">Persistent Volumes</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
-                <td>Capacity</td>
-                <td>Access Modes</td>
-                <td>Reclaim Policy</td>
-                <td>Status</td>
-                <td>Claim</td>
-                <td>Storage Class</td>
-                <td>Reason</td>
-                <td>Create Time</td>
+                <th>Name</th>
+                <th>Capacity</th>
+                <th>Access Modes</th>
+                <th>Reclaim Policy</th>
+                <th>Status</th>
+                <th>Claim</th>
+                <th>Storage Class</th>
+                <th>Reason</th>
+                <th>Create Time</th>
             </tr>
             @foreach($persistentvolumes as $persistentvolume)
                 <tr>
@@ -126,12 +132,14 @@
     @if(!is_null($clusterRoles) && count($clusterRoles) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="clusterRoles_table">Cluster Roles</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="clusterRoles_table">Cluster Roles</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
-                <td>Create Time</td>
+                <th>Name</th>
+                <th>Create Time</th>
             </tr>
             @foreach($clusterRoles as $clusterRole)
                 <tr>
@@ -148,12 +156,14 @@
     @if(!is_null($clusterRoleBindings) && count($clusterRoleBindings) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="clusterRoleBindings_table">Cluster Role Bindings</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="clusterRoleBindings_table">Cluster Role Bindings</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
-                <td>Create Time</td>
+                <th>Name</th>
+                <th>Create Time</th>
             </tr>
             @foreach($clusterRoleBindings as $clusterRoleBinding)
                 <tr>
@@ -169,18 +179,20 @@
     @if(!is_null($events) && count($events) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="events_table">Events</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="events_table">Events</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
-                <td>Reason</td>
-                <td>Message</td>
-                <td>Source</td>
-                <td>Object</td>
-                <td>Count</td>
-                <td>First Seen</td>
-                <td>Last Seen</td>
+                <th>Name</th>
+                <th>Reason</th>
+                <th>Message</th>
+                <th>Source</th>
+                <th>Object</th>
+                <th>Count</th>
+                <th>First Seen</th>
+                <th>Last Seen</th>
             </tr>
             @foreach($events as $event)
                 <tr>
@@ -191,8 +203,8 @@
 {{--                    TODO Add link to object--}}
                     <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                     <td>{{$event->toArray()['count']??"0"}}</td>
-                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach
 
@@ -204,16 +216,18 @@
     @if(!is_null($serviceAccounts) && count($serviceAccounts) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="serviceAccounts_table">Service Accounts</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="serviceAccounts_table">Service Accounts</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if($_GET['namespace']??'default' === 'all')
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Labels</td>
-                <td>Create Time</td>
+                <th>Labels</th>
+                <th>Create Time</th>
             </tr>
             @foreach($serviceAccounts as $serviceAccount)
                 <tr>
@@ -242,15 +256,17 @@
     @if(!is_null($roles) && count($roles) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="roles_table">Roles</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="roles_table">Roles</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if($_GET['namespace']??'default' === 'all')
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Create Time</td>
+                <th>Create Time</th>
             </tr>
             @foreach($roles as $role)
                 <tr>
@@ -269,15 +285,17 @@
     @if(!is_null($roleBindings) && count($roleBindings) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="roleBindings_table">Role Bindings</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="roleBindings_table">Role Bindings</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if($_GET['namespace']??'default' === 'all')
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Create Time</td>
+                <th>Create Time</th>
             </tr>
             @foreach($roleBindings as $roleBinding)
                 <tr>

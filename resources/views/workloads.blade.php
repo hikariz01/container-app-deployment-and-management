@@ -5,18 +5,20 @@
     @if(!is_null($deployments) && count($deployments) != 0)
     <table class="table table-secondary" style="padding-left: 30px">
         <thead>
-            <h3 style="padding-left: 30px"id="deployment_table">Deployments</h3>
+            <tr>
+                <td colspan="10"><h3 style="padding-left: 30px"id="deployment_table">Deployments</h3></td>
+            </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Name</td>
+            <th>Name</th>
             @if(!strcmp($_GET['namespace']??"no","all"))
-            <td>Namespace</td>
+            <th>Namespace</th>
             @endif
-            <td>Images</td>
-            <td>Labels</td>
-            <td>Pods</td>
-            <td>Create Time</td>
+            <th>Images</th>
+            <th>Labels</th>
+            <th>Pods</th>
+            <th>Create Time</th>
         </tr>
     @foreach($deployments as $deployment)
 {{--        <h1>{{$deployment->getName()}}</h1>--}}
@@ -50,18 +52,20 @@
     @if(!is_null($daemonsets) && count($daemonsets) != 0)
     <table class="table table-secondary" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px" id="daemonsets_table">Daemonsets</h3>
+            <tr>
+                <td colspan="10"><h3 style="padding-left: 30px" id="daemonsets_table">Daemonsets</h3></td>
+            </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Name</td>
+            <th>Name</th>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
-                <td>Namespace</td>
+                <th>Namespace</th>
             @endif
-            <td>Images</td>
-            <td>Labels</td>
-            <td>Pods</td>
-            <td>Create Time</td>
+            <th>Images</th>
+            <th>Labels</th>
+            <th>Pods</th>
+            <th>Create Time</th>
         </tr>
     @foreach($daemonsets as $daemonset)
         <tr>
@@ -96,18 +100,20 @@
     @if(!is_null($jobs) && count($jobs) != 0)
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="jobs_table">Jobs</h3>
+            <tr>
+                <td colspan="10"><h3 style="padding-left: 30px" id="jobs_table">Jobs</h3></td>
+            </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Name</td>
+            <th>Name</th>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
-                <td>Namespace</td>
+                <th>Namespace</th>
             @endif
-            <td>Images</td>
-            <td>Labels</td>
-            <td>Pods</td>
-            <td>Create Time</td>
+            <th>Images</th>
+            <th>Labels</th>
+            <th>Pods</th>
+            <th>Create Time</th>
         </tr>
         @foreach($jobs as $job)
             <tr>
@@ -141,21 +147,23 @@
     @if(!is_null($cronjobs) && count($cronjobs) != 0)
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="cronjobs_table">Cron Jobs</h3>
+            <tr>
+                <td colspan="10"><h3 style="padding-left: 30px" id="cronjobs_table">Cron Jobs</h3></td>
+            </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Name</td>
+            <th>Name</th>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
-                <td>Namespace</td>
+                <th>Namespace</th>
             @endif
-            <td>Images</td>
-            <td>Labels</td>
-            <td>Schedule</td>
-            <td>Suspend</td>
-            <td>Active</td>
-            <td>Last Schedule</td>
-            <td>Create Time</td>
+            <th>Images</th>
+            <th>Labels</th>
+            <th>Schedule</th>
+            <th>Suspend</th>
+            <th>Active</th>
+            <th>Last Schedule</th>
+            <th>Create Time</th>
         </tr>
         @foreach($cronjobs as $cronjob)
             <tr>
@@ -193,20 +201,22 @@
     @if(!is_null($pods) && count($pods) != 0)
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="pods_table">Pods</h3>
+            <tr>
+                <td colspan="10"><h3 style="padding-left: 30px" id="pods_table">Pods</h3></td>
+            </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Name</td>
+            <th>Name</th>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
-                <td>Namespace</td>
+                <th>Namespace</th>
             @endif
-            <td>Images</td>
-            <td>Labels</td>
-            <td>Status</td>
-            <td>Restarts</td>
-            <td>Running on Host</td>
-            <td>Create Time</td>
+            <th>Images</th>
+            <th>Labels</th>
+            <th>Status</th>
+            <th>Restarts</th>
+            <th>Running on Host</th>
+            <th>Create Time</th>
         </tr>
         @foreach($pods as $pod)
             <tr>
@@ -248,18 +258,20 @@
     @if(!is_null($replicasets) && count($replicasets) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="replicasets_table">Replicasets</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="replicasets_table">Replicasets</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Images</td>
-                <td>Labels</td>
-                <td>Pods</td>
-                <td>Create Time</td>
+                <th>Images</th>
+                <th>Labels</th>
+                <th>Pods</th>
+                <th>Create Time</th>
             </tr>
             @foreach($replicasets as $replicaset)
                 <tr>
@@ -295,18 +307,20 @@
     @if(!is_null($statefulsets) && count($statefulsets) != 0)
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="statefulsets_table">Stateful Sets</h3>
+            <tr>
+                <td colspan="10"><h3 style="padding-left: 30px" id="statefulsets_table">Stateful Sets</h3></td>
+            </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Name</td>
+            <th>Name</th>
             @if(!strcmp($_GET['namespace']??"no", 'all'))
-                <td>Namespace</td>
+                <th>Namespace</th>
             @endif
-            <td>Images</td>
-            <td>Labels</td>
-            <td>Pods</td>
-            <td>Create Time</td>
+            <th>Images</th>
+            <th>Labels</th>
+            <th>Pods</th>
+            <th>Create Time</th>
         </tr>
         @foreach($statefulsets as $statefulset)
             <tr>

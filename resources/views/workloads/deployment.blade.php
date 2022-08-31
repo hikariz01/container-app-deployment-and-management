@@ -223,10 +223,35 @@
         <h3 style="padding-left: 30px"id="deployment_table">Horizontal Pod Autoscalers</h3>
         </thead>
         <tbody>
-        <tr class="text-center">
-{{--            TODO CHECK HORIZONTAL POD AUTOSCALER--}}
-            <th>Items : To be Updated</th>
-        </tr>
+        @if(count($hrztPodAutoScaler) != 0)
+            <tr>
+                <th>Name</th>
+                <th>Max Replicas</th>
+                <th>Min Replicas</th>
+                <th>Current Replicas</th>
+                <th>Scale Target</th>
+                <th>Target CPU Utilization</th>
+                <th>Last Scale Time</th>
+                <th>Created</th>
+            </tr>
+            @foreach($hrztPodAutoScaler as $podAutoScaler)
+                <tr>
+                    <td>{{$podAutoScaler['metadata']['name']}}</td>
+                    <td>{{$podAutoScaler['spec']['maxReplicas']??'-'}}</td>
+                    <td>{{$podAutoScaler['spec']['minReplicas']??'-'}}</td>
+                    <td>{{$podAutoScaler['status']['currentReplicas']??'-'}}</td>
+                    <td>{{$podAutoScaler['spec']['scaleTargetRef']['name']??'-'}}</td>
+                    <td>{{$podAutoScaler['spec']['targetCPUUtilizationPercentage']}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($podAutoScaler['status']['lastScaleTime']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($podAutoScaler['metadata']['creationTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                </tr>
+            @endforeach
+        @else
+            <tr class="text-center">
+    {{--            TODO CHECK HORIZONTAL POD AUTOSCALER--}}
+                <th colspan="10">Resource Not Found...</th>
+            </tr>
+        @endif
         </tbody>
     </table>
 

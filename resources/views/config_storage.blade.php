@@ -5,16 +5,18 @@
     @if(!is_null($configmaps) && count($configmaps) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="configmaps_table">Config Maps</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="configmaps_table">Config Maps</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Labels</td>
-                <td>Create Time</td>
+                <th>Labels</th>
+                <th>Create Time</th>
             </tr>
             @foreach($configmaps as $configmap)
                 <tr>
@@ -44,17 +46,19 @@
     @if(!is_null($secrets) && count($secrets) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="secrets_table">Secrets</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="secrets_table">Secrets</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Labels</td>
-                <td>Type</td>
-                <td>Create Time</td>
+                <th>Labels</th>
+                <th>Type</th>
+                <th>Create Time</th>
             </tr>
             @foreach($secrets as $secret)
                 <tr>
@@ -84,21 +88,23 @@
     @if(!is_null($pvcs) && count($pvcs) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="pvcs_table">Persistent Volume Claims</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="pvcs_table">Persistent Volume Claims</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
+                <th>Name</th>
                 @if(!strcmp($_GET['namespace']??"no", 'all'))
-                    <td>Namespace</td>
+                    <th>Namespace</th>
                 @endif
-                <td>Labels</td>
-                <td>Status</td>
-                <td>Volume</td>
-                <td>Capacity</td>
-                <td>Access Modes</td>
-                <td>Storage Class</td>
-                <td>Create Time</td>
+                <th>Labels</th>
+                <th>Status</th>
+                <th>Volume</th>
+                <th>Capacity</th>
+                <th>Access Modes</th>
+                <th>Storage Class</th>
+                <th>Create Time</th>
             </tr>
             @foreach($pvcs as $pvc)
                 <tr>
@@ -135,14 +141,16 @@
     @if(!is_null($storageclasses) && count($storageclasses) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
-            <h3 style="padding-left: 30px" id="storageclasses_table">Storage Classes</h3>
+                <tr>
+                    <td colspan="10"><h3 style="padding-left: 30px" id="storageclasses_table">Storage Classes</h3></td>
+                </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Name</td>
-                <td>Provisioner</td>
-                <td>Parameters</td>
-                <td>Create Time</td>
+                <th>Name</th>
+                <th>Provisioner</th>
+                <th>Parameters</th>
+                <th>Create Time</th>
             </tr>
             @foreach($storageclasses as $storageclass)
                 <tr>

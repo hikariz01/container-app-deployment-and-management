@@ -79,7 +79,7 @@
         <h3 style="padding-left: 30px"id="deployment_table">Data</h3>
         </thead>
         <tbody>
-        @if(!is_null($secret->getData()))
+        @if(!is_null($secret->getData()) && count($secret->getData()) != 0)
             @foreach($secret->getData() as $key => $data)
             <tr>
                 <th>{{$key}}</th>

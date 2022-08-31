@@ -64,7 +64,7 @@
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
-                <a class="navbar-brand" href="dashboard.html" style="background: #2f323e; font-size: 16px">
+                <a class="navbar-brand" href="{{ route('dashboard') }}" style="background: #2f323e; font-size: 16px">
                     <!-- Logo icon -->
 {{--                    <b class="logo-icon">--}}
 {{--                        <!-- Dark Logo icon -->--}}
@@ -87,7 +87,7 @@
                 <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
                    href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
             </div>
-            <div style="margin-left: 20px; width: 20vw; display: inline-flex">
+            <div style="margin-left: 20px; width: 23vw; display: inline-flex">
                 <span class="text-white m-auto" style="padding-right: 8px">namespace:</span>
                 <select id="selectedNamespace" name="selectedNamespace" class="form-select ml-3" aria-label="Namespace Select" onchange="onSelectNamespace(this)">
 {{--                    <option selected value="default">default</option>--}}
@@ -98,6 +98,9 @@
                         <option value="all" {{!strcmp($_GET['namespace']??"no", "all") ? 'selected' : ''}}>ALL</option>
 
                 </select>
+            </div>
+            <div style="margin-left: 20px; width: 20vw;">
+                <a href="{{ route('create') }}" class="btn btn-success">Create</a>
             </div>
             <!-- ============================================================== -->
             <!-- End Logo -->
@@ -180,181 +183,181 @@
                 <ul id="sidebarnav">
                     <!-- User Profile-->
                     <li class="sidebar-item pt-2">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard')}}"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard', ['namespace'=>$_GET['namespace']??'default']) }}"
                            aria-expanded="false">
-                            <i class="far fa-clock" aria-hidden="true"></i>
+                            <i class="fa fa-briefcase" aria-hidden="true"></i>
                             <span class="hide-menu">Workloads</span>
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard')}}#deployment_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Deployments</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard', ['namespace'=>$_GET['namespace']??'default'])}}#deployment_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Deployments</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#daemonsets_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Daemon sets</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard', ['namespace'=>$_GET['namespace']??'default']) }}#daemonsets_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Daemon sets</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#jobs_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Jobs</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard', ['namespace'=>$_GET['namespace']??'default']) }}#jobs_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Jobs</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#cronjobs_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Cron Jobs</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard', ['namespace'=>$_GET['namespace']??'default']) }}#cronjobs_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Cron Jobs</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#pods_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Pods</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard', ['namespace'=>$_GET['namespace']??'default']) }}#pods_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Pods</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#replicasets_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Replica Sets</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard', ['namespace'=>$_GET['namespace']??'default']) }}#replicasets_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Replica Sets</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard') }}#statefulsets_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Stateful Sets</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('dashboard', ['namespace'=>$_GET['namespace']??'default']) }}#statefulsets_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Stateful Sets</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service') }}"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service', ['namespace'=>$_GET['namespace']??'default']) }}"
                            aria-expanded="false">
-                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <i class="fa fa-globe" aria-hidden="true"></i>
                             <span class="hide-menu">Service</span>
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service') }}#services_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Services</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service', ['namespace'=>$_GET['namespace']??'default']) }}#services_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Services</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service') }}#ingresses_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Ingresses</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service', ['namespace'=>$_GET['namespace']??'default']) }}#ingresses_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Ingresses</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service') }}#ingressclasses_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Ingress Classes</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('service', ['namespace'=>$_GET['namespace']??'default']) }}#ingressclasses_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Ingress Classes</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage', ['namespace'=>$_GET['namespace']??'default']) }}"
                            aria-expanded="false">
-                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <i class="fa fa-database" aria-hidden="true"></i>
                             <span class="hide-menu">Config and Storage</span>
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}#configmaps_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Config Maps</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage', ['namespace'=>$_GET['namespace']??'default']) }}#configmaps_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Config Maps</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}#secrets_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Secrets</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage', ['namespace'=>$_GET['namespace']??'default']) }}#secrets_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Secrets</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}#pvcs_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Persistent Volume Claims</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage', ['namespace'=>$_GET['namespace']??'default']) }}#pvcs_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Persistent Volume Claims</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage') }}#storageclasses_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Storage Classes</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('config_storage', ['namespace'=>$_GET['namespace']??'default']) }}#storageclasses_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Storage Classes</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}"
+                        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}"
                            aria-expanded="false">
-                            <i class="fa fa-font" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
                             <span class="hide-menu">Cluster</span>
                         </a>
                         <ul>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#namespaces_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Namespaces</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#namespaces_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Namespaces</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#nodes_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Nodes</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#nodes_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Nodes</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#persistentvolumes_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Persistent Volumes</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#persistentvolumes_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Persistent Volumes</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#clusterRoles_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Cluster Roles</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#clusterRoles_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Cluster Roles</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#clusterRoleBindings_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Cluster Roles Bindings</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#clusterRoleBindings_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Cluster Roles Bindings</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#events_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Events</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#events_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Events</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#networkPolicies_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Network Policies</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#networkPolicies_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Network Policies</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#serviceAccounts_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Service Accounts</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#serviceAccounts_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Service Accounts</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#roles_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Roles</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#roles_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Roles</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster') }}#roleBindings_table"
-                                   aria-expanded="false" style="padding-left: 50px">
-                                    <span class="hide-menu">> Role Bindings</span>
+                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#roleBindings_table"
+                                   aria-expanded="false" style="padding-left: 30px">
+                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Role Bindings</span>
                                 </a>
                             </li>
                         </ul>

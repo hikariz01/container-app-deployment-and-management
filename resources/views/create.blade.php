@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.app2', ['namespaces'=>$namespaces])
 
 @section('content')
-    <div class="container">
-        <h1>Hello</h1>
-    </div>
+
+
+
 @endsection
