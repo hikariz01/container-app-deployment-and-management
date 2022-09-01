@@ -21,8 +21,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('create', [\App\Http\Controllers\Create\CreateController::class, 'create'])->name('create');
-
 Route::get('test', [App\Http\Controllers\TestController::class, 'test'])->name('test');
 
 Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
@@ -88,3 +86,18 @@ Route::group(['prefix' => 'cluster'], function () {
    Route::get('rolebinding/{namespace}/{name}', [\App\Http\Controllers\RoleBindingController::class, 'rolebindingDetails'])->name('rolebinding-details');
 
 });
+
+Route::group(['prefix' => 'create'], function () {
+
+
+});
+
+//Create Section
+
+Route::get('create', [\App\Http\Controllers\Create\CreateController::class, 'create'])->name('create');
+//Route::view('create', 'create');
+Route::post('create', [\App\Http\Controllers\Create\CreateController::class, 'createResource'])->name('create-resource');
+Route::view('create-resource', 'create.workloads.createDeployment');
+
+Route::post('result', [\App\Http\Controllers\Create\CreateController::class, 'result'])->name('result');
+Route::view('result-page', 'result.result');

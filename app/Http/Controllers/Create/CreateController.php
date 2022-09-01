@@ -4,15 +4,52 @@ namespace App\Http\Controllers\Create;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Http\Request;
 
 class CreateController extends DashboardController
 {
-    public function create()
-    {
+    public function getNamespaces() {
         $cluster = $this->getCluster();
 
-        $namespaces = $cluster->getAllNamespaces();
+        return $cluster->getAllNamespaces();
+    }
 
-        return view('create', compact('namespaces'));
+    public function create()
+    {
+
+        $namespaces = $this->getNamespaces();
+
+        $resourceTypes = ['Workloads'=>['Deployment', 'Daemon set', 'Job', 'Cron Job', 'Pod', 'Replica Set', 'Stateful Set'],
+            'Service'=>['Service', 'Ingress', 'Ingress Class'],
+            'Config and Storage'=>['Config Map', 'Secret', 'Persistent Volume Claim', 'Storage Class'],
+            'Cluster'=>['Namespace', 'Persistent Volume', 'Cluster Role', 'Cluster Role Binding', 'Service Account', 'Role', 'Role Binding']
+        ];
+
+
+        return view('create', compact('namespaces', 'resourceTypes'));
+    }
+
+    public function createResource(Request $req) {
+
+        $namespaces = $this->getNamespaces();
+
+        $data = $req->input();
+
+        switch ($data['selectResourceType']??'') {
+            case 'Deployment':
+                return view('create.workloads.createDeployment', compact('namespaces', 'data'));
+            default:
+                return view('create.workloads.createDeployment', compact('namespaces', 'data'));
+        }
+
+    }
+
+    public function result(Request $req) {
+        $namespaces = $this->getNamespaces();
+
+        $data = $req->input();
+
+        return view('result.result', compact('namespaces', 'data'));
+
     }
 }

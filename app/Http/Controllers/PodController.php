@@ -18,7 +18,7 @@ class PodController extends DashboardController
 
         $owners = [];
 
-        foreach ($pod->getMetadata()['ownerReferences'] as $ownerRef) {
+        foreach ($pod->getMetadata()['ownerReferences']??[] as $ownerRef) {
             if (!strcmp($ownerRef['kind'], 'StatefulSet')) {
                 $owners[] = $cluster->getStatefulSetByName($ownerRef['name'], $namespace)->toArray();
             }
