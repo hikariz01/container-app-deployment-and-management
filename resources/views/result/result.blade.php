@@ -2,6 +2,5 @@
 
 @section('content')
 
-    {{dd($data)}}
 
 @endsection
