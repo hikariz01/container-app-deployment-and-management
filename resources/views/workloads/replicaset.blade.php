@@ -98,8 +98,8 @@
             <th colspan="4">Desired</th>
         </tr>
         <tr>
-            <td colspan="4">{{$replicaset['status']['readyReplicas']}}</td>
-            <td colspan="4">{{$replicaset['status']['replicas']}}</td>
+            <td colspan="4">{{$replicaset['status']['readyReplicas']??'0'}}</td>
+            <td colspan="4">{{$replicaset['status']['replicas']??'-'}}</td>
         </tr>
         </tbody>
     </table>
@@ -240,8 +240,8 @@
                         <td>{{$event['source']['component']??"-"}}/{{$event['source']['host']??"-"}}</td>
                         <td>{{$event['involvedObject']['kind']}}/{{$event['involvedObject']['name']??""}}</td>
                         <td>{{$event['count']??"0"}}</td>
-                        <td>{{\Carbon\Carbon::createFromTimeString($event['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                        <td>{{\Carbon\Carbon::createFromTimeString($event['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event['firstTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event['lastTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     </tr>
                 @endif
             @endforeach

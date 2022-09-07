@@ -120,9 +120,9 @@
             <th>Available</th>
         </tr>
         <tr>
-            <td>{{$deployment->toArray()['status']['updatedReplicas']}}</td>
-            <td>{{$deployment->getDesiredReplicasCount()}}</td>
-            <td>{{$deployment->getAvailableReplicasCount()}}</td>
+            <td>{{$deployment->toArray()['status']['updatedReplicas']??'0'}}</td>
+            <td>{{$deployment->getDesiredReplicasCount()??'-'}}</td>
+            <td>{{$deployment->getAvailableReplicasCount()??'0'}}</td>
         </tr>
         </tbody>
     </table>
@@ -170,7 +170,7 @@
                 <td><a href="{{ route('replicaset-details', ['name'=>$replicaset['metadata']['name'], 'namespace'=>$replicaset['metadata']['namespace']??'default']) }}">{{$replicaset['metadata']['name']}}</a></td>
                 <td>{{$replicaset['metadata']['namespace']}}</td>
                 <td>{{$replicasetAge[$key]}}</td>
-                <td>{{$replicaset['status']['readyReplicas']}}/{{$replicaset['status']['replicas']}}</td>
+                <td>{{$replicaset['status']['readyReplicas']??'0'}}/{{$replicaset['status']['replicas']??'-'}}</td>
             </tr>
             <tr>
                 <th colspan="5">Labels</th>

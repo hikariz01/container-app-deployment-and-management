@@ -2,5 +2,6 @@
 
 @section('content')
 
+    {{dd($e)}}
 
 @endsection

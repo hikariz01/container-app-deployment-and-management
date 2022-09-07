@@ -293,7 +293,7 @@
                             @endif
                         @endforeach
                     </td>
-                    <td>{{$replicaset['status']['readyReplicas']}}/{{$replicaset['status']['replicas']}}</td>
+                    <td>{{$replicaset['status']['readyReplicas']??'0'}}/{{$replicaset['status']['replicas']??'-'}}</td>
                     <td>{{\Carbon\Carbon::createFromTimeString($replicaset['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                 </tr>
             @endforeach

@@ -47,12 +47,12 @@
                             <button type="button" class="btn btn-success" onclick="add('deploymentLabel')"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
-                    <div class="row my-1" id="deploymentLabelRow-1">
+                    <div class="row my-1" id="deploymentLabelRow-0">
                         <div class="col-5">
-                            <input type="text" name="deploymentLabelKey1" class="form-control" value="deployment-name" readonly>
+                            <input type="text" name="deploymentLabel[0][key]" class="form-control" value="deployment-name" readonly>
                         </div>
                         <div class="col-5">
-                            <input type="text" name="deploymentLabelValue1" class="form-control" placeholder="Deployment Name" value="" readonly>
+                            <input type="text" name="deploymentLabel[0][value]" class="form-control" placeholder="Deployment Name" value="" readonly>
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-danger" onclick="remove('deploymentLabel', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
@@ -84,12 +84,12 @@
                             <button type="button" class="btn btn-success" onclick="add('labelSelector')"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
-                    <div class="row my-1" id="labelSelectorRow-1">
+                    <div class="row my-1" id="labelSelectorRow-0">
                         <div class="col-5">
-                            <input type="text" name="labelSelectorKey1" class="form-control" value="deployment-name" readonly>
+                            <input type="text" name="labelSelector[0][key]" class="form-control" value="deployment-name" readonly>
                         </div>
                         <div class="col-5">
-                            <input type="text" name="labelSelectorValue1" class="form-control" placeholder="Deployment Name" value="" readonly>
+                            <input type="text" name="labelSelector[0][value]" class="form-control" placeholder="Deployment Name" value="" readonly>
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-danger" onclick="remove('labelSelector', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
@@ -128,12 +128,12 @@
                             <button type="button" class="btn btn-success" onclick="add('podLabel')"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
-                    <div class="row my-1" id="podLabelRow-1">
+                    <div class="row my-1" id="podLabelRow-0">
                         <div class="col-5">
-                            <input type="text" name="podLabelKey1" class="form-control" value="deployment-name" readonly>
+                            <input type="text" name="podLabel[0][key]" class="form-control" value="deployment-name" readonly>
                         </div>
                         <div class="col-5">
-                            <input type="text" name="podLabelValue1" class="form-control" placeholder="Deployment Name" value="" readonly>
+                            <input type="text" name="podLabel[0][value]" class="form-control" placeholder="Deployment Name" value="" readonly>
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-danger" onclick="remove('podLabel', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
@@ -164,12 +164,12 @@
                             <button type="button" class="btn btn-success" onclick="add('containerLabel')"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
-                    <div class="row my-1" id="containerLabelRow-1">
+                    <div class="row my-1" id="containerLabelRow-0">
                         <div class="col-5">
-                            <input type="text" name="containerLabelKey1" class="form-control" value="deployment-name" readonly>
+                            <input type="text" name="containerLabel[0][key]" class="form-control" value="deployment-name" readonly>
                         </div>
                         <div class="col-5">
-                            <input type="text" name="containerLabelValue1" class="form-control" placeholder="Deployment Name" value="" readonly>
+                            <input type="text" name="containerLabel[0][value]" class="form-control" placeholder="Deployment Name" value="" readonly>
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-danger" onclick="remove('containerLabel', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
@@ -197,27 +197,27 @@
                             <button type="button" class="btn btn-success" onclick="addPort()"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
-                    <div class="row my-1" id="containerPortRow-1">
-                        <div class="col-2">
+                    <div class="row my-1" id="containerPortRow-0">
+                        <div class="col-4">
                             <label for="containerPortName">Port Name</label>
-                            <input type="text" name="containerPortName1" class="form-control" placeholder="Port Name">
-                        </div>
-                        <div class="col-2">
-                            <label for="containerPortPort">Port</label>
-                            <input type="number" name="containerPortPort1" class="form-control" placeholder="Port">
-                        </div>
-                        <div class="col-2">
-                            <label for="containerPortProtocol">Protocol</label>
-                            <input type="text" name="containerPortProtocol1" class="form-control" placeholder="Port Protocol">
+                            <input type="text" name="containerPort[0][name]" class="form-control" placeholder="Port Name">
                         </div>
                         <div class="col-3">
-                            <label for="containerPortHostIP">Host IP</label>
-                            <input type="text" name="containerPortHostIP1" class="form-control" placeholder="Port HostIP">
+                            <label for="containerPortPort">Port</label>
+                            <input type="number" name="containerPort[0][containerPort]" class="form-control" placeholder="Port">
                         </div>
-                        <div class="col-2">
-                            <label for="containerPortHostPort">Host Port</label>
-                            <input type="text" name="containerPortHostPort1" class="form-control" placeholder="Port Host Port">
+                        <div class="col-4">
+                            <label for="containerPortProtocol">Protocol</label>
+                            <input type="text" name="containerPort[0][protocol]" class="form-control" placeholder="Port Protocol">
                         </div>
+{{--                        <div class="col-3">--}}
+{{--                            <label for="containerPortHostIP">Host IP</label>--}}
+{{--                            <input type="text" name="containerPortHostIP1" class="form-control" placeholder="Port HostIP">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-2">--}}
+{{--                            <label for="containerPortHostPort">Host Port</label>--}}
+{{--                            <input type="text" name="containerPortHostPort1" class="form-control" placeholder="Port Host Port">--}}
+{{--                        </div>--}}
                         <div class="col-1 mt-auto">
                             <button type="button" class="btn btn-danger" onclick="remove('containerPort', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
                         </div>
@@ -238,18 +238,18 @@
                 <div class="col-12 my-1" id="envVariable">
                     <div class="row">
                         <div class="col-10">
-                            <label for="selector" class="col-form-label">Environment Variables</label>
+                            <label for="envVariable" class="col-form-label">Environment Variables</label>
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-success" onclick="add('envVariable')"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
-                    <div class="row my-1" id="envVariableRow-1">
+                    <div class="row my-1" id="envVariableRow-0">
                         <div class="col-5">
-                            <input type="text" name="envVariableKey1" class="form-control" placeholder="Name">
+                            <input type="text" name="envVariable[0][key]" class="form-control" placeholder="Name">
                         </div>
                         <div class="col-5">
-                            <input type="text" name="envVariableValue1" class="form-control" placeholder="Value">
+                            <input type="text" name="envVariable[0][value]" class="form-control" placeholder="Value">
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-danger" onclick="remove('envVariable', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
@@ -257,6 +257,40 @@
                     </div>
                 </div>
 
+{{--                <div class="col-12 my-1" id="mountVolume">--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-11">--}}
+{{--                            <label for="mountVolume" class="col-form-label">Mount</label>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-1 mt-auto">--}}
+{{--                            <button type="button" class="btn btn-success" onclick="addMount()"><i class="fa fa-plus" aria-hidden="true"></i></button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row my-1" id="mountVolumeRow-1">--}}
+{{--                        <div class="col-3">--}}
+{{--                            <label for="mountName1" class="col-form-label">Name</label>--}}
+{{--                            <input type="text" name="mountName1" class="form-control" placeholder="Name">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3">--}}
+{{--                            <label for="mountPath1" class="col-form-label">Mount Path</label>--}}
+{{--                            <input type="text" name="mountPath1" class="form-control" placeholder="Mount Path">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-2">--}}
+{{--                            <label for="mountReadOnly1" class="col-form-label">Read Only</label>--}}
+{{--                            <select name="mountReadOnly1" id="mountReadOnly1" class="form-control">--}}
+{{--                                <option value="1">true</option>--}}
+{{--                                <option value="0" selected>false</option>--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3">--}}
+{{--                            <label for="mountSubPath" class="col-form-label">Sub Path</label>--}}
+{{--                            <input type="text" name="mountSubPath1" class="form-control" placeholder="Sub Path">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-1 mt-auto">--}}
+{{--                            <button type="button" class="btn btn-danger" onclick="remove('mountVolume', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
 
             <a id="more" href="#" class="btn btn-outline-primary" onclick="$('.advancedOption').slideToggle(function(){$('#more').html($('.details').is(':visible')?'Hide Advanced Options':'Advanced Options');});">Advanced Options</a>
@@ -265,12 +299,13 @@
     </div>
 
     <script>
-        let deploymentLabelCount = 1
-        let labelSelectorCount = 1
-        let podLabelCount = 1
-        let portCount = 1
-        let envVarCount = 1
+        let deploymentLabelCount = 0
+        let labelSelectorCount = 0
+        let podLabelCount = 0
+        let portCount = 0
+        let envVarCount = 0
         let labelSelectorArr = [1]
+        let mountCount = 0
 
         // function arrayRemove(arr, value) {
         //
@@ -295,24 +330,27 @@
             }
             let labelSelector = document.getElementById(name)
             labelSelector.innerHTML +=
-                '<div class="row my-1" id="'+name+'Row-'+tempCount+'"> \
+                '<div class="row my-1" id="'+name+'Row-'+tempCount+'" class="form-control"> \
                     <div class="col-5"> \
-                        <input type="text" name="'+name+'Key'+tempCount+'" class="form-control" placeholder="key"> \
+                        <input type="text" name="'+name+'['+tempCount+'][key]" class="form-control" placeholder="key"> \
                     </div> \
                     <div class="col-5"> \
-                        <input type="text" name="'+name+'Value'+tempCount+'" class="form-control" placeholder="value"> \
+                        <input type="text" name="'+name+'['+tempCount+'][value]" class="form-control" placeholder="value"> \
                     </div> \
                     <div class="col-2"> \
                         <button type="button" class="btn btn-danger '+tempCount+'" onclick="remove(\''+name+'\', this)"><i class="fa fa-minus" aria-hidden="true"></i></button> \
                     </div> \
                 </div>'
+            changeFunction(document.getElementsByName('name')[0])
             // console.log(labelSelectorArr)
         }
 
         function remove(name, e) {
             let number = e.className.split(' ')[2]
-            let removedLabelSelector = document.getElementById(name+'Row-'+number)
-            removedLabelSelector.remove()
+            if (number !== 0) {
+                let removedLabelSelector = document.getElementById(name+'Row-'+number)
+                removedLabelSelector.remove()
+            }
             // labelSelectorArr = arrayRemove(labelSelectorArr, number)
             // console.log(labelSelectorArr)
         }
@@ -322,36 +360,56 @@
             portCount++
             port.innerHTML += '\
                 <div class="row my-1" id="containerPortRow-'+portCount+'"> \
-                    <div class="col-2"> \
-                        <input type="text" name="containerPortName'+portCount+'" class="form-control" placeholder="Port Name"> \
-                    </div> \
-                    <div class="col-2"> \
-                        <input type="text" name="containerPortPort'+portCount+'" class="form-control" placeholder="Port"> \
-                    </div> \
-                    <div class="col-2"> \
-                        <input type="text" name="containerPortProtocol'+portCount+'" class="form-control" placeholder="Port Protocol"> \
+                    <div class="col-4"> \
+                        <input type="text" name="containerPort['+portCount+'][name]" class="form-control" placeholder="Port Name"> \
                     </div> \
                     <div class="col-3"> \
-                        <input type="text" name="containerPortHostIP'+portCount+'" class="form-control" placeholder="Port HostIP"> \
+                        <input type="text" name="containerPort['+portCount+'][containerPort]" class="form-control" placeholder="Port"> \
                     </div> \
-                    <div class="col-2"> \
-                        <input type="text" name="containerPortHostPort'+portCount+'" class="form-control" placeholder="Port Host Port"> \
+                    <div class="col-4"> \
+                        <input type="text" name="containerPort['+portCount+'][protocol]" class="form-control" placeholder="Port Protocol"> \
                     </div> \
                     <div class="col-1 mt-auto"> \
                         <button type="button" class="btn btn-danger '+portCount+'" onclick="remove(\'containerPort\', this)"><i class="fa fa-minus" aria-hidden="true"></i></button> \
                     </div> \
                 </div>'
+            changeFunction(document.getElementsByName('name')[0])
         }
 
+        // function addMount() {
+        //     let mount = document.getElementById('mountVolume');
+        //     ++mountCount
+        //     mount.innerHTML += '\
+        //     <div class="row my-1" id="mountVolumeRow-'+mountCount+'"> \
+        //         <div class="col-3"> \
+        //             <input type="text" name="mountName'+mountCount+'" class="form-control" placeholder="Name"> \
+        //         </div> \
+        //         <div class="col-3"> \
+        //             <input type="text" name="mountPath'+mountCount+'" class="form-control" placeholder="Mount Path"> \
+        //         </div> \
+        //         <div class="col-2"> \
+        //             <select name="mountReadOnly'+mountCount+'" id="mountReadOnly'+mountCount+'" class="form-control"> \
+        //                 <option value="1">true</option> \
+        //                 <option value="0" selected>false</option> \
+        //             </select> \
+        //         </div> \
+        //         <div class="col-3"> \
+        //             <input type="text" name="mountSubPath'+mountCount+'" class="form-control" placeholder="Sub Path"> \
+        //         </div> \
+        //         <div class="col-1"> \
+        //             <button type="button" class="btn btn-danger '+mountCount+'" onclick="remove(\'mountVolume\', this)"><i class="fa fa-minus" aria-hidden="true"></i></button> \
+        //         </div> \
+        //     </div>'
+        // }
+
         function changeFunction(e) {
-            let appName = document.getElementsByName('labelSelectorValue1')[0];
-            let appLabel = document.getElementsByName('deploymentLabelValue1')[0];
+            let appName = document.getElementsByName('labelSelector[0][value]')[0];
+            let appLabel = document.getElementsByName('deploymentLabel[0][value]')[0];
             let podName = document.getElementsByName('podName')[0];
-            let podLabel = document.getElementsByName('podLabelValue1')[0];
+            let podLabel = document.getElementsByName('podLabel[0][value]')[0];
             let containerName = document.getElementsByName('containerName')[0];
-            let containerLabel = document.getElementsByName('containerLabelValue1')[0];
+            let containerLabel = document.getElementsByName('containerLabel[0][value]')[0];
             appLabel.value = appName.value = podLabel.value = podName.placeholder = containerName.placeholder = containerLabel.value = e.value;
-            console.log(appName)
         }
 
         function podNameCheck() {

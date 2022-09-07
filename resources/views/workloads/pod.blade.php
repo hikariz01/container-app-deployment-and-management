@@ -158,7 +158,7 @@
                         <td><a href="{{ route('statefulset-details', ['name'=>$owner['metadata']['name'], 'namespace'=>$owner['metadata']['namespace']??'default']) }}">{{$owner['metadata']['name']}}</a></td>
                     @endif
                     <td>{{$owner['kind']}}</td>
-                    <td>{{$owner['status']['readyReplicas']}}/{{$owner['status']['replicas']}}</td>
+                    <td>{{$owner['status']['readyReplicas']??'0'}}/{{$owner['status']['replicas']??'-'}}</td>
                     <td>{{$ownersAge[$key]}}</td>
                 @endforeach
 
@@ -268,13 +268,13 @@
                         <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
                         <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
                         <td>{{$event->toArray()['count']??"0"}}</td>
-                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     </tr>
-                @else
-                    <tr class="text-center">
-                        <th colspan="8">No Event Found...</th>
-                    </tr>
+{{--                @else--}}
+{{--                    <tr class="text-center">--}}
+{{--                        <th colspan="8">No Event Found...</th>--}}
+{{--                    </tr>--}}
                 @endif
             @endforeach
         @else
@@ -350,15 +350,20 @@
                         <th colspan="6">Environment Variables</th>
                     </tr>
                     <tr>
-                        @foreach($containers[$i]['env'] as $env)
-                            <td >{{$env['name']}}</td>
-                        @endforeach
+                        <th colspan="2">Name</th>
+                        <th colspan="2">Value</th>
                     </tr>
-                    <tr>
                         @foreach($containers[$i]['env'] as $env)
-                            <td >{{$env['value']??'-'}}</td>
+                            <tr>
+                                <td colspan="2">{{$env['name']}}</td>
+                                <td colspan="2">{{$env['value']??'-'}}</td>
+                            </tr>
                         @endforeach
-                    </tr>
+{{--                    <tr>--}}
+{{--                        @foreach($containers[$i]['env'] as $env)--}}
+{{--                            --}}
+{{--                        @endforeach--}}
+{{--                    </tr>--}}
                 @endif
                 @if(count($containers[$i]['command']??[]) != 0 && !is_null($containers[$i]['command']??null))
                     <tr>
