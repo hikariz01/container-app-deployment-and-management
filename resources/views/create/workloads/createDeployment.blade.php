@@ -291,6 +291,7 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                </div>--}}
+
             </div>
 
             <a id="more" href="#" class="btn btn-outline-primary" onclick="$('.advancedOption').slideToggle(function(){$('#more').html($('.details').is(':visible')?'Hide Advanced Options':'Advanced Options');});">Advanced Options</a>

@@ -24,7 +24,9 @@ class CreateDeploymentController extends Controller
         $arguments = [];
         $env = [];
         $annotation = [];
-        $mountVolumes = [];
+//        $mountVolumes = [];
+        $portCount = 0;
+
 
         $container = K8s::container();
 
@@ -63,11 +65,12 @@ class CreateDeploymentController extends Controller
             if ($key === 'containerPort' && $value !== null) {
                 foreach ($value as $label) {
                     if (isset($label['name']))
-                        $containerPort[]['name'] = $label['name'];
+                        $containerPort[$portCount]['name'] = $label['name'];
                     if (isset($label['containerPort']))
-                        $containerPort[]['containerPort'] = (int) $label['containerPort'];
+                        $containerPort[$portCount]['containerPort'] = (int) $label['containerPort'];
                     if (isset($label['protocol']))
-                        $containerPort[]['protocol'] = $label['protocol'];
+                        $containerPort[$portCount]['protocol'] = $label['protocol'];
+                    $portCount++;
                 }
                 continue;
             }
@@ -101,9 +104,10 @@ class CreateDeploymentController extends Controller
                 $container->setArgs($arguments);
                 continue;
             }
-            if ($key === 'envVariable' && $value !== null) {
+            if ($key === 'envVariable') {
                 foreach ($value as $label) {
-                    $env[$label['key']] = $label['value'];
+                    if ($label['key'] !== null)
+                        $env[$label['key']] = $label['value'];
                 }
                 continue;
             }
