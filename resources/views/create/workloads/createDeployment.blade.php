@@ -291,6 +291,73 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                </div>--}}
+                <div class="col-12">
+                    <h4>Probe</h4>
+                </div>
+                <div class="col-12" id="startupProbe">
+                    <div class="row">
+                        <div class="col-12">
+                            <b><label for="startupProbe" class="col-form-label">Startup Probe</label></b>
+                        </div>
+                    </div>
+                    <div class="row" id="startupProbeRow">
+                        <div class="col-2">
+                            <label for="startupProbeInitialDelaySeconds" class="col-form-label">Initial Delay Seconds</label>
+                            <input type="number" name="startupProbe['initialDelaySeconds']" class="form-control" placeholder="Initial Delay Seconds">
+                        </div>
+                        <div class="col-2">
+                            <label for="startupProbePeriodSeconds" class="col-form-label">Period Seconds</label>
+                            <input type="number" name="startupProbe['periodSeconds']" class="form-control" placeholder="Period Seconds">
+                        </div>
+                        <div class="col-2">
+                            <label for="startupProbeTimeoutSeconds" class="col-form-label">Timeout Seconds</label>
+                            <input type="number" name="startupProbe['timeoutSeconds']" class="form-control" placeholder="Timeout Seconds">
+                        </div>
+                        <div class="col-3">
+                            <label for="startupProbeFailureThreshold" class="col-form-label">Failure Threshold</label>
+                            <input type="number" name="startupProbe['failureThreshold']" class="form-control" placeholder="Failure Threshold">
+                        </div>
+                        <div class="col-3">
+                            <label for="startupProbeSuccessThreshold" class="col-form-label">Success Threshold</label>
+                            <input type="number" name="startupProbe['successThreshold']" class="form-control" placeholder="Success Threshold">
+                        </div>
+
+
+                        <div class="col-12">
+                            <label for="command" class="col-form-label">Command</label>
+                            <input type="text" name="startupProbe['command']" class="form-control" placeholder="<cmd>,<cmd>">
+                        </div>
+
+
+                        <div class="col-6">
+                            <label for="startupProbeTCPSocketPort" class="col-form-label">TCP Socket Port</label>
+                            <input type="text" name="startupProbe['tcp']['port']" class="form-control" placeholder="TCP Port">
+                        </div>
+                        <div class="col-6">
+                            <label for="startupProbeTCPSocketHostIP" class="col-form-label">TCP Socket Host IP</label>
+                            <input type="text" name="startupProbe['tcp']['host']" class="form-control" placeholder="Host IP">
+                        </div>
+
+
+                        <div class="col-2">
+                            <label for="startupProbeHTTPScheme" class="col-form-label">HTTP Scheme</label>
+                            <select name="startupProbe['http']['scheme']" id="startupProbeScheme" class="form-control">
+                                <option value="HTTP">HTTP</option>
+                                <option value="HTTPS">HTTPS</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <label for="startupProbeHTTPPath" class="col-form-label">HTTP Path</label>
+                            <input type="number" name="startupProbe['http']['path']" class="form-control" placeholder="Path">
+                        </div>
+                        <div class="col-2">
+                            <label for="startupProbeHTTPPort" class="col-form-label">HTTP Port</label>
+                            <input type="number" name="startupProbe['http']['port']" class="form-control" placeholder="port">
+                        </div>
+
+
+                    </div>
+                </div>
 
             </div>
 
