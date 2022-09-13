@@ -10,6 +10,34 @@ use RenokiCo\PhpK8s\KubernetesCluster;
 
 class CreateDeploymentController extends Controller
 {
+
+    public function selectedProbe(Request $req, $probe, $probeType) {
+        if ($req->get($probeType.'Handler') === 'http') {
+            if ($req->get($probeType)['http']['path'] !== null && $req->get($probeType)['http']['port'] !== null) {
+                $headers = [];
+                foreach ($req->get($probeType)['http']['header'] as $header) {
+                    if ($header['name'] !== null && $header['value'] !== null)
+                        $headers[$header['name']] = $header['value'];
+                }
+                $probe->http($req->get($probeType)['http']['path'],(int) $req->get($probeType)['http']['port'], $headers, $req->get($probeType)['http']['scheme']);
+            }
+        }
+        elseif ($req->get($probeType.'Handler') === 'command') {
+            if ($req->get($probeType)['command'] != null) {
+                $command = explode(',', $req->get($probeType)['command']);
+                $probe->command($command);
+            }
+        }
+        elseif ($req->get($probeType.'Handler') === 'tcp') {
+            if ($req->get($probeType)['tcp']['host'] !== null) {
+                $probe->tcp((int) $req->get($probeType)['tcp']['port'], $req->get($probeType)['tcp']['host']);
+            }
+            else if ($req->get($probeType)['tcp']['port'] !== null){
+                $probe->tcp((int) $req->get($probeType)['tcp']['port']);
+            }
+        }
+    }
+
     /**
      * @throws KubernetesAPIException
      */
@@ -189,6 +217,72 @@ class CreateDeploymentController extends Controller
 //                $pod->addVolumes([$volume]);
 //            }
 //        }
+
+        if (($req->get('startupProbe')['initialDelaySeconds'] !== null
+            && $req->get('startupProbe')['periodSeconds'] !== null
+            && $req->get('startupProbe')['timeoutSeconds'] !== null
+            && $req->get('startupProbe')['failureThreshold'] !== null
+            && $req->get('startupProbe')['successThreshold'] !== null)
+            && (($req->get('startupProbe')['http']['path'] !== null
+                && $req->get('startupProbe')['http']['port'] !== null)
+                || $req->get('startupProbe')['command'] !== null
+                || $req->get('startupProbe')['tcp']['port'] !== null)) {
+            $probe = K8s::probe()
+                ->setInitialDelaySeconds((int) $req->get('startupProbe')['initialDelaySeconds'])
+                ->setPeriodSeconds((int) $req->get('startupProbe')['periodSeconds'])
+                ->setTimeoutSeconds((int) $req->get('startupProbe')['timeoutSeconds'])
+                ->setFailureThreshold((int) $req->get('startupProbe')['failureThreshold'])
+                ->setSuccessThreshold((int) $req->get('startupProbe')['successThreshold']);
+
+            $this->selectedProbe($req, $probe, 'startupProbe');
+
+            $container->setStartupProbe($probe);
+        }
+
+
+        if (($req->get('livenessProbe')['initialDelaySeconds'] !== null
+                && $req->get('livenessProbe')['periodSeconds'] !== null
+                && $req->get('livenessProbe')['timeoutSeconds'] !== null
+                && $req->get('livenessProbe')['failureThreshold'] !== null
+                && $req->get('livenessProbe')['successThreshold'] !== null)
+            && (($req->get('livenessProbe')['http']['path'] !== null
+                    && $req->get('livenessProbe')['http']['port'] !== null)
+                || $req->get('livenessProbe')['command'] !== null
+                || $req->get('livenessProbe')['tcp']['port'] !== null)) {
+            $probe = K8s::probe()
+                ->setInitialDelaySeconds((int) $req->get('livenessProbe')['initialDelaySeconds'])
+                ->setPeriodSeconds((int) $req->get('livenessProbe')['periodSeconds'])
+                ->setTimeoutSeconds((int) $req->get('livenessProbe')['timeoutSeconds'])
+                ->setFailureThreshold((int) $req->get('livenessProbe')['failureThreshold'])
+                ->setSuccessThreshold((int) $req->get('livenessProbe')['successThreshold']);
+
+            $this->selectedProbe($req, $probe, 'livenessProbe');
+
+            $container->setLivenessProbe($probe);
+        }
+
+
+        if (($req->get('readinessProbe')['initialDelaySeconds'] !== null
+                && $req->get('readinessProbe')['periodSeconds'] !== null
+                && $req->get('readinessProbe')['timeoutSeconds'] !== null
+                && $req->get('readinessProbe')['failureThreshold'] !== null
+                && $req->get('readinessProbe')['successThreshold'] !== null)
+            && (($req->get('readinessProbe')['http']['path'] !== null
+                    && $req->get('readinessProbe')['http']['port'] !== null)
+                || $req->get('readinessProbe')['command'] !== null
+                || $req->get('readinessProbe')['tcp']['port'] !== null)) {
+            $probe = K8s::probe()
+                ->setInitialDelaySeconds((int) $req->get('readinessProbe')['initialDelaySeconds'])
+                ->setPeriodSeconds((int) $req->get('readinessProbe')['periodSeconds'])
+                ->setTimeoutSeconds((int) $req->get('readinessProbe')['timeoutSeconds'])
+                ->setFailureThreshold((int) $req->get('readinessProbe')['failureThreshold'])
+                ->setSuccessThreshold((int) $req->get('readinessProbe')['successThreshold']);
+
+            $this->selectedProbe($req, $probe, 'readinessProbe');
+
+            $container->setReadinessProbe($probe);
+        }
+
 
 
         $pod->setContainers([$container]);

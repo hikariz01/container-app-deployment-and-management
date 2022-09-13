@@ -303,61 +303,276 @@
                     <div class="row" id="startupProbeRow">
                         <div class="col-2">
                             <label for="startupProbeInitialDelaySeconds" class="col-form-label">Initial Delay Seconds</label>
-                            <input type="number" name="startupProbe['initialDelaySeconds']" class="form-control" placeholder="Initial Delay Seconds">
+                            <input type="number" name="startupProbe[initialDelaySeconds]" class="form-control"  placeholder="Initial Delay Seconds">
                         </div>
                         <div class="col-2">
                             <label for="startupProbePeriodSeconds" class="col-form-label">Period Seconds</label>
-                            <input type="number" name="startupProbe['periodSeconds']" class="form-control" placeholder="Period Seconds">
+                            <input type="number" name="startupProbe[periodSeconds]" class="form-control" value="10" placeholder="Period Seconds">
                         </div>
                         <div class="col-2">
                             <label for="startupProbeTimeoutSeconds" class="col-form-label">Timeout Seconds</label>
-                            <input type="number" name="startupProbe['timeoutSeconds']" class="form-control" placeholder="Timeout Seconds">
+                            <input type="number" name="startupProbe[timeoutSeconds]" class="form-control" value="1" placeholder="Timeout Seconds">
                         </div>
                         <div class="col-3">
                             <label for="startupProbeFailureThreshold" class="col-form-label">Failure Threshold</label>
-                            <input type="number" name="startupProbe['failureThreshold']" class="form-control" placeholder="Failure Threshold">
+                            <input type="number" name="startupProbe[failureThreshold]" class="form-control" value="3" placeholder="Failure Threshold">
                         </div>
                         <div class="col-3">
-                            <label for="startupProbeSuccessThreshold" class="col-form-label">Success Threshold</label>
-                            <input type="number" name="startupProbe['successThreshold']" class="form-control" placeholder="Success Threshold">
+                            <label for="startupProbeSuccessThreshold" style="text-decoration: underline dotted;" class="col-form-label" data-toggle="tooltip" data-placement="top" title="Must be 1 for liveness and startup" onmouseover="mouseover()">Success Threshold</label>
+                            <input type="number" name="startupProbe[successThreshold]" class="form-control" value="1" placeholder="Success Threshold" readonly>
                         </div>
-
 
                         <div class="col-12">
-                            <label for="command" class="col-form-label">Command</label>
-                            <input type="text" name="startupProbe['command']" class="form-control" placeholder="<cmd>,<cmd>">
-                        </div>
-
-
-                        <div class="col-6">
-                            <label for="startupProbeTCPSocketPort" class="col-form-label">TCP Socket Port</label>
-                            <input type="text" name="startupProbe['tcp']['port']" class="form-control" placeholder="TCP Port">
-                        </div>
-                        <div class="col-6">
-                            <label for="startupProbeTCPSocketHostIP" class="col-form-label">TCP Socket Host IP</label>
-                            <input type="text" name="startupProbe['tcp']['host']" class="form-control" placeholder="Host IP">
-                        </div>
-
-
-                        <div class="col-2">
-                            <label for="startupProbeHTTPScheme" class="col-form-label">HTTP Scheme</label>
-                            <select name="startupProbe['http']['scheme']" id="startupProbeScheme" class="form-control">
-                                <option value="HTTP">HTTP</option>
-                                <option value="HTTPS">HTTPS</option>
+                            <label for="startupProbeHandler" class="col-form-label">Select Handler</label>
+                            <select name="startupProbeHandler" id="startupProbeHandler" class="form-control" onchange="selectHandler(this, 'startupProbe')">
+                                <option value="http">HTTP</option>
+                                <option value="command">Command</option>
+                                <option value="tcp">TCP</option>
                             </select>
                         </div>
+                        <div id="startupProbecommand" class="row" style="display: none">
+                            <div class="col-12">
+                                <label for="command" class="col-form-label">Command</label>
+                                <input type="text" name="startupProbe[command]" class="form-control" placeholder="<cmd>,<cmd>">
+                            </div>
+                        </div>
+                        <div id="startupProbetcp" class="row" style="display: none">
+                            <div class="col-6">
+                                <label for="startupProbeTCPSocketPort" class="col-form-label">TCP Socket Port</label>
+                                <input type="text" name="startupProbe[tcp][port]" class="form-control" placeholder="TCP Port">
+                            </div>
+                            <div class="col-6">
+                                <label for="startupProbeTCPSocketHostIP" class="col-form-label">TCP Socket Host IP</label>
+                                <input type="text" name="startupProbe[tcp][host]" class="form-control" placeholder="Host IP">
+                            </div>
+                        </div>
+
+                        <div id="startupProbehttp" class="row" style="display: flex">
+                            <div class="col-2">
+                                <label for="startupProbeHTTPScheme" class="col-form-label">HTTP Scheme</label>
+                                <select name="startupProbe[http][scheme]" id="startupProbeScheme" class="form-control">
+                                    <option value="HTTP">HTTP</option>
+                                    <option value="HTTPS">HTTPS</option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <label for="startupProbeHTTPPath" class="col-form-label">HTTP Path</label>
+                                <input type="text" name="startupProbe[http][path]" class="form-control" placeholder="/healthz">
+                            </div>
+                            <div class="col-2">
+                                <label for="startupProbeHTTPPort" class="col-form-label">HTTP Port</label>
+                                <input type="number" name="startupProbe[http][port]" class="form-control" placeholder="8080">
+                            </div>
+
+                            <div id="startupProbeHTTPHeader" class="col-6">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="startupProbehttpHeaderName" class="col-form-label">HTTP Header Name</label>
+                                        <input type="text" name="startupProbe[http][header][0][name]" class="form-control" placeholder="Name">
+                                    </div>
+                                    <div class="col-5">
+                                        <label for="startupProbehttpHeaderValue" class="col-form-label">HTTP Header Value</label>
+                                        <input type="text" name="startupProbe[http][header][0][value]" class="form-control" placeholder="Value">
+                                    </div>
+                                    <div class="col-2 mt-auto">
+                                        <button type="button" class="btn btn-success" onclick="addHttpHeader('startupProbeHTTPHeader', 'startupProbe')"><i class="fa fa-plus" aria-hidden="true"></i>Header</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12 mt-3" id="livenessProbe">
+                    <div class="row">
+                        <div class="col-12">
+                            <b><label for="livenessProbe" class="col-form-label">Liveness Probe</label></b>
+                        </div>
+                    </div>
+                    <div class="row" id="livenessProbeRow">
                         <div class="col-2">
-                            <label for="startupProbeHTTPPath" class="col-form-label">HTTP Path</label>
-                            <input type="number" name="startupProbe['http']['path']" class="form-control" placeholder="Path">
+                            <label for="livenessProbeInitialDelaySeconds" class="col-form-label">Initial Delay Seconds</label>
+                            <input type="number" name="livenessProbe[initialDelaySeconds]" class="form-control"  placeholder="Initial Delay Seconds">
                         </div>
                         <div class="col-2">
-                            <label for="startupProbeHTTPPort" class="col-form-label">HTTP Port</label>
-                            <input type="number" name="startupProbe['http']['port']" class="form-control" placeholder="port">
+                            <label for="livenessProbePeriodSeconds" class="col-form-label">Period Seconds</label>
+                            <input type="number" name="livenessProbe[periodSeconds]" class="form-control" value="10" placeholder="Period Seconds">
+                        </div>
+                        <div class="col-2">
+                            <label for="livenessProbeTimeoutSeconds" class="col-form-label">Timeout Seconds</label>
+                            <input type="number" name="livenessProbe[timeoutSeconds]" class="form-control" value="1" placeholder="Timeout Seconds">
+                        </div>
+                        <div class="col-3">
+                            <label for="livenessProbeFailureThreshold" class="col-form-label">Failure Threshold</label>
+                            <input type="number" name="livenessProbe[failureThreshold]" class="form-control" value="3" placeholder="Failure Threshold">
+                        </div>
+                        <div class="col-3">
+                            <label for="livenessProbeSuccessThreshold" style="text-decoration: underline dotted" class="col-form-label" data-toggle="tooltip" data-placement="top" title="Must be 1 for liveness and startup" onmouseover="mouseover()">Success Threshold</label>
+                            <input type="number" name="livenessProbe[successThreshold]" class="form-control" value="1" placeholder="Success Threshold" readonly>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="livenessProbeHandler" class="col-form-label">Select Handler</label>
+                            <select name="livenessProbeHandler" id="livenessProbeHandler" class="form-control" onchange="selectHandler(this, 'livenessProbe')">
+                                <option value="http">HTTP</option>
+                                <option value="command">Command</option>
+                                <option value="tcp">TCP</option>
+                            </select>
+                        </div>
+
+                        <div id="livenessProbecommand" class="row" style="display: none">
+                            <div class="col-12">
+                                <label for="command" class="col-form-label">Command</label>
+                                <input type="text" name="livenessProbe[command]" class="form-control" placeholder="<cmd>,<cmd>">
+                            </div>
+                        </div>
+
+                        <div id="livenessProbetcp" class="row" style="display: none">
+                            <div class="col-6">
+                                <label for="livenessProbeTCPSocketPort" class="col-form-label">TCP Socket Port</label>
+                                <input type="text" name="livenessProbe[tcp][port]" class="form-control" placeholder="TCP Port">
+                            </div>
+                            <div class="col-6">
+                                <label for="livenessProbeTCPSocketHostIP" class="col-form-label">TCP Socket Host IP</label>
+                                <input type="text" name="livenessProbe[tcp][host]" class="form-control" placeholder="Host IP">
+                            </div>
+                        </div>
+
+                        <div id="livenessProbehttp" class="row" style="display: flex">
+                            <div class="col-2">
+                                <label for="livenessProbeHTTPScheme" class="col-form-label">HTTP Scheme</label>
+                                <select name="livenessProbe[http][scheme]" id="livenessProbeScheme" class="form-control">
+                                    <option value="HTTP">HTTP</option>
+                                    <option value="HTTPS">HTTPS</option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <label for="livenessProbeHTTPPath" class="col-form-label">HTTP Path</label>
+                                <input type="text" name="livenessProbe[http][path]" class="form-control" placeholder="/healthz">
+                            </div>
+                            <div class="col-2">
+                                <label for="livenessProbeHTTPPort" class="col-form-label">HTTP Port</label>
+                                <input type="number" name="livenessProbe[http][port]" class="form-control" placeholder="8080">
+                            </div>
+
+                            <div id="livenessProbeHTTPHeader" class="col-6">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="livenessProbehttpHeaderName" class="col-form-label">HTTP Header Name</label>
+                                        <input type="text" name="livenessProbe[http][header][0][name]" class="form-control" placeholder="Name">
+                                    </div>
+                                    <div class="col-5">
+                                        <label for="livenessProbehttpHeaderValue" class="col-form-label">HTTP Header Value</label>
+                                        <input type="text" name="livenessProbe[http][header][0][value]" class="form-control" placeholder="Value">
+                                    </div>
+                                    <div class="col-2 mt-auto">
+                                        <button type="button" class="btn btn-success" onclick="addHttpHeader('livenessProbeHTTPHeader', 'livenessProbe')"><i class="fa fa-plus" aria-hidden="true"></i>Header</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
 
                     </div>
                 </div>
+
+
+
+                <div class="col-12 mt-3" id="readinessProbe">
+                    <div class="row">
+                        <div class="col-12">
+                            <b><label for="readinessProbe" class="col-form-label">Readiness Probe</label></b>
+                        </div>
+                    </div>
+                    <div class="row" id="readinessProbeRow">
+                        <div class="col-2">
+                            <label for="readinessProbeInitialDelaySeconds" class="col-form-label">Initial Delay Seconds</label>
+                            <input type="number" name="readinessProbe[initialDelaySeconds]" class="form-control" placeholder="Initial Delay Seconds">
+                        </div>
+                        <div class="col-2">
+                            <label for="readinessProbePeriodSeconds" class="col-form-label">Period Seconds</label>
+                            <input type="number" name="readinessProbe[periodSeconds]" class="form-control" value="10" placeholder="Period Seconds">
+                        </div>
+                        <div class="col-2">
+                            <label for="readinessProbeTimeoutSeconds" class="col-form-label">Timeout Seconds</label>
+                            <input type="number" name="readinessProbe[timeoutSeconds]" class="form-control" value="1" placeholder="Timeout Seconds">
+                        </div>
+                        <div class="col-3">
+                            <label for="readinessProbeFailureThreshold" class="col-form-label">Failure Threshold</label>
+                            <input type="number" name="readinessProbe[failureThreshold]" class="form-control" value="3" placeholder="Failure Threshold">
+                        </div>
+                        <div class="col-3">
+                            <label for="readinessProbeSuccessThreshold" class="col-form-label">Success Threshold</label>
+                            <input type="number" name="readinessProbe[successThreshold]" class="form-control" value="1" placeholder="Success Threshold">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="readinessProbeHandler" class="col-form-label">Select Handler</label>
+                            <select name="readinessProbeHandler" id="readinessProbeHandler" class="form-control" onchange="selectHandler(this, 'readinessProbe')">
+                                <option value="http">HTTP</option>
+                                <option value="command">Command</option>
+                                <option value="tcp">TCP</option>
+                            </select>
+                        </div>
+
+                        <div id="readinessProbecommand" class="row" style="display: none">
+                            <div class="col-12">
+                                <label for="command" class="col-form-label">Command</label>
+                                <input type="text" name="readinessProbe[command]" class="form-control" placeholder="<cmd>,<cmd>">
+                            </div>
+                        </div>
+
+                        <div id="readinessProbetcp" class="row" style="display: none">
+                            <div class="col-6">
+                                <label for="readinessProbeTCPSocketPort" class="col-form-label">TCP Socket Port</label>
+                                <input type="text" name="readinessProbe[tcp][port]" class="form-control" placeholder="TCP Port">
+                            </div>
+                            <div class="col-6">
+                                <label for="readinessProbeTCPSocketHostIP" class="col-form-label">TCP Socket Host IP</label>
+                                <input type="text" name="readinessProbe[tcp][host]" class="form-control" placeholder="Host IP">
+                            </div>
+                        </div>
+
+                        <div id="readinessProbehttp" class="row" style="display: flex">
+                            <div class="col-2">
+                                <label for="readinessProbeHTTPScheme" class="col-form-label">HTTP Scheme</label>
+                                <select name="readinessProbe[http][scheme]" id="readinessProbeScheme" class="form-control">
+                                    <option value="HTTP">HTTP</option>
+                                    <option value="HTTPS">HTTPS</option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <label for="readinessProbeHTTPPath" class="col-form-label">HTTP Path</label>
+                                <input type="text" name="readinessProbe[http][path]" class="form-control" placeholder="/healthz">
+                            </div>
+                            <div class="col-2">
+                                <label for="readinessProbeHTTPPort" class="col-form-label">HTTP Port</label>
+                                <input type="number" name="readinessProbe[http][port]" class="form-control" placeholder="8080">
+                            </div>
+
+                            <div id="readinessProbeHTTPHeader" class="col-6">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label for="readinessProbehttpHeaderName" class="col-form-label">HTTP Header Name</label>
+                                        <input type="text" name="readinessProbe[http][header][0][name]" class="form-control" placeholder="Name">
+                                    </div>
+                                    <div class="col-5">
+                                        <label for="readinessProbehttpHeaderValue" class="col-form-label">HTTP Header Value</label>
+                                        <input type="text" name="readinessProbe[http][header][0][value]" class="form-control" placeholder="Value">
+                                    </div>
+                                    <div class="col-2 mt-auto">
+                                        <button type="button" class="btn btn-success" onclick="addHttpHeader('readinessProbeHTTPHeader', 'readinessProbe')"><i class="fa fa-plus" aria-hidden="true"></i>Header</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
 
             </div>
 
@@ -374,7 +589,7 @@
         let envVarCount = 0
         let labelSelectorArr = [1]
         let mountCount = 0
-
+        let headerCount = 0
         // function arrayRemove(arr, value) {
         //
         //     return arr.filter(function(ele){
@@ -444,6 +659,26 @@
             changeFunction(document.getElementsByName('name')[0])
         }
 
+
+        function addHttpHeader(id, probeName) {
+            let probe = document.getElementById(id)
+            headerCount++
+            probe.innerHTML += '\
+            <div class="row" id="'+probeName+'HTTPHeaderRow-'+headerCount+'"> \
+                <div class="col-5"> \
+                    <label for="startupProbeHTTPPath" class="col-form-label">HTTP Header Name</label> \
+                    <input type="text" name="'+probeName+'[http][header]['+headerCount+'][name]" class="form-control" placeholder="Name"> \
+                </div> \
+                <div class="col-5"> \
+                    <label for="startupProbeHTTPPath" class="col-form-label">HTTP Header Value</label> \
+                    <input type="text" name="'+probeName+'[http][header]['+headerCount+'][value]" class="form-control" placeholder="Value"> \
+                </div> \
+                <div class="col-2 mt-auto"> \
+                    <button type="button" class="btn btn-danger '+headerCount+'" onclick="remove(\''+probeName+'HTTPHeader\', this)"><i class="fa fa-minus" aria-hidden="true"></i>Header</button> \
+                </div> \
+            </div>'
+        }
+
         // function addMount() {
         //     let mount = document.getElementById('mountVolume');
         //     ++mountCount
@@ -491,6 +726,35 @@
             }
         }
 
+
+        function mouseover() {
+            $('[data-toggle="tooltip"]').tooltip()
+        }
+
+        function selectHandler(e, probe) {
+            let selected = document.getElementById(probe+e.value)
+            if (e.value === 'http') {
+                let tcp = document.getElementById(probe+'tcp')
+                let command = document.getElementById(probe+'command')
+                selected.style.display = 'flex'
+                tcp.style.display = 'none'
+                command.style.display = 'none'
+            }
+            else if (e.value === 'tcp') {
+                let http = document.getElementById(probe+'http')
+                let command = document.getElementById(probe+'command')
+                selected.style.display = 'flex'
+                http.style.display = 'none'
+                command.style.display = 'none'
+            }
+            else if (e.value === 'command') {
+                let http = document.getElementById(probe+'http')
+                let tcp = document.getElementById(probe+'tcp')
+                selected.style.display = 'flex'
+                http.style.display = 'none'
+                tcp.style.display = 'none'
+            }
+        }
 
     </script>
 
