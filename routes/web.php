@@ -97,7 +97,9 @@ Route::group(['prefix' => 'create'], function () {
 Route::get('create', [\App\Http\Controllers\Create\CreateController::class, 'create'])->name('create');
 //Route::view('create', 'create');
 Route::post('create', [\App\Http\Controllers\Create\CreateController::class, 'createResource'])->name('create-resource');
-Route::view('create-resource', 'create.workloads.createDeployment');
+Route::view('create-deployment', 'create.workloads.createDeployment');
+Route::view('create-pod', 'create.workloads.createPod');
+
 
 Route::post('result', [\App\Http\Controllers\Create\CreateController::class, 'result'])->name('result');
 Route::view('result-page', 'result.result');

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Create;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Create\Workload\CreateDeploymentController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Create\Workload\CreatePodController;use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeploymentController;
+use App\Http\Controllers\PodController;
 use Illuminate\Http\Request;
 use RenokiCo\PhpK8s\Exceptions\KubernetesAPIException;
 use RenokiCo\PhpK8s\K8s;
@@ -42,14 +42,14 @@ class CreateController extends DashboardController
         if ($req->has('selectResourceType')) {
             $resourceType = $req->get('selectResourceType');
         }
-
-        switch ($data['selectResourceType']??'') {
+        switch ($req->get('selectResourceType')??'') {
             case 'Deployment':
                 return view('create.workloads.createDeployment', compact('namespaces', 'resourceType'));
+            case 'Pod':
+                return view('create.workloads.createPod', compact('namespaces', 'resourceType'));
             default:
                 return view('create.workloads.createDeployment', compact('namespaces', 'resourceType'));
         }
-
     }
 
     public function result(Request $req) {
@@ -57,11 +57,17 @@ class CreateController extends DashboardController
 
         switch ($req->get('resourceType')) {
             case 'Deployment':
-
                 try {
                     $deployment = (new CreateDeploymentController())->create($req, $this->getCluster());
                     return (new DeploymentController())->deploymentDetails($deployment->getNamespace(), $deployment->getName());
 
+                } catch (KubernetesAPIException $e) {
+                    return view('result.result', compact('namespaces', 'e'));
+                }
+            case 'Pod':
+                try {
+                    $pod = (new CreatePodController())->create($req, $this->getCluster());
+                    return (new PodController())->podDetails($pod->getNamespace(), $pod->getName());
                 } catch (KubernetesAPIException $e) {
                     return view('result.result', compact('namespaces', 'e'));
                 }
