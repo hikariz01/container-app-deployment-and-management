@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{asset('plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css')}}">
     <!-- Custom CSS -->
     <link href="{{asset('css/style.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/prism.css') }}">
+
 
     <style>
         ::-webkit-scrollbar {
@@ -432,6 +434,7 @@
 <!-- ============================================================== -->
 <script src="{{asset('plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap tether Core JavaScript -->
+<script src="{{ asset('plugins/bower_components/popper.js/dist/popper.min.js') }}"></script>
 <script src="{{asset('bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('js/app-style-switcher.js')}}"></script>
 <script src="{{asset('plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
@@ -446,6 +449,7 @@
 <script src="{{asset('plugins/bower_components/chartist/dist/chartist.min.js')}}"></script>
 <script src="{{asset('plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
 <script src="{{asset('js/pages/dashboards/dashboard1.js')}}"></script>
+<script src="{{ asset('js/prism.js') }}"></script>
 
 <script>
     function onSelectNamespace(e) {
@@ -454,6 +458,7 @@
         window.location.href = `?namespace=${selectNamespace}`
 
     }
+
 </script>
 
 </body>

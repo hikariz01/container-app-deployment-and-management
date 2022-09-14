@@ -19,6 +19,7 @@
             <th>Labels</th>
             <th>Pods</th>
             <th>Create Time</th>
+            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
         </tr>
     @foreach($deployments as $deployment)
 {{--        <h1>{{$deployment->getName()}}</h1>--}}
@@ -43,6 +44,17 @@
             </td>
             <td>{{json_decode($deployment->toJson())->status->readyReplicas??"0"}}/{{json_decode($deployment->toJson())->status->replicas}}</td>
             <td>{{\Carbon\Carbon::createFromTimeString($deployment->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
+                    </div>
+                </div>
+            </td>
         </tr>
     @endforeach
         </tbody>
@@ -66,6 +78,7 @@
             <th>Labels</th>
             <th>Pods</th>
             <th>Create Time</th>
+            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
         </tr>
     @foreach($daemonsets as $daemonset)
         <tr>
@@ -89,11 +102,41 @@
             </td>
             <td>{{json_decode($daemonset->toJson())->status->currentNumberScheduled}}/{{json_decode($daemonset->toJson())->status->desiredNumberScheduled}}</td>
             <td>{{\Carbon\Carbon::createFromTimeString($daemonset->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                        <a class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editForm">Edit</a>
+                        <a class="dropdown-item" href="#">Delete</a>
+                    </div>
+                </div>
+            </td>
         </tr>
 
     @endforeach
         </tbody>
     </table>
+
+    <div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="editFormLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFormLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @endif
 
 

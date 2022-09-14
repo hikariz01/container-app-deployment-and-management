@@ -297,7 +297,11 @@ class CreateDeploymentController extends Controller
         $deployment->setSelectors(['matchLabels'=>$selector]);
         $deployment->setTemplate($pod);
 
-        return $deployment->create();
+        $deployment->create();
+
+        while (!$deployment->isSynced()) {
+            return $deployment;
+        }
 
     }
 }

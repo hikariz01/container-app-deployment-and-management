@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Create;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Create\Workload\CreateDeploymentController;
 use App\Http\Controllers\Create\Workload\CreatePodController;use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\PodController;
