@@ -142,7 +142,7 @@
                 <td>{{$pod['status']['phase']}}</td>
                 <td>
                     @foreach($pod['status']['containerStatuses']??["restartCount"=>"-"] as $status)
-                        {{$status['restartCount']}}<br>
+                        {{$status['restartCount']??'-'}}<br>
                     @endforeach
                 </td>
                 <td>{{$pod['spec']['nodeName']??'-'}}</td>

@@ -50,10 +50,11 @@
                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
-                        <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item" href="#">Delete</a>
+                        <a class="dropdown-item editForm {{$deployment->getNamespace()}} {{$deployment->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                        <a class="dropdown-item {{$deployment->getKind()}} {{$deployment->getNamespace()}} {{$deployment->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
                     </div>
                 </div>
+                <div class="deployment" id="{{$deployment->getNamespace().$deployment->getName()}}" style="display: none">{{$deploymentDataArr[$deployment->getNamespace().$deployment->getName()]}}</div>
             </td>
         </tr>
     @endforeach
@@ -108,34 +109,17 @@
                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
-                        <a class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editForm">Edit</a>
-                        <a class="dropdown-item" href="#">Delete</a>
+                        <a class="dropdown-item editForm {{$daemonset->getNamespace()}} {{$daemonset->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                        <a class="dropdown-item {{$daemonset->getKind()}} {{$daemonset->getNamespace()}} {{$daemonset->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
                     </div>
                 </div>
+                <div class="daemonset" id="{{$daemonset->getNamespace().$daemonset->getName()}}" style="display: none">{{$daemonsetDataArr[$daemonset->getNamespace().$daemonset->getName()]}}</div>
             </td>
         </tr>
 
     @endforeach
         </tbody>
     </table>
-
-    <div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="editFormLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editFormLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     @endif
 
@@ -157,6 +141,7 @@
             <th>Labels</th>
             <th>Pods</th>
             <th>Create Time</th>
+            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
         </tr>
         @foreach($jobs as $job)
             <tr>
@@ -180,6 +165,18 @@
                 </td>
                 <td>{{json_decode($job->toJson())->status->ready}}/{{json_decode($job->toJson())->status->succeeded??'1'}}</td>
                 <td>{{\Carbon\Carbon::createFromTimeString($job->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                            <a class="dropdown-item editForm {{$job->getNamespace()}} {{$job->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                            <a class="dropdown-item {{$job->getKind()}} {{$job->getNamespace()}} {{$job->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                        </div>
+                    </div>
+                    <div class="job" id="{{$job->getNamespace().$job->getName()}}" style="display: none">{{$jobDataArr[$job->getNamespace().$job->getName()]}}</div>
+                </td>
             </tr>
         @endforeach
 
@@ -207,6 +204,7 @@
             <th>Active</th>
             <th>Last Schedule</th>
             <th>Create Time</th>
+            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
         </tr>
         @foreach($cronjobs as $cronjob)
             <tr>
@@ -233,6 +231,18 @@
                 <td>{{count($cronjob->getActiveJobs()->toArray())}}</td>
                 <td>{{date('d-m-Y H:i:s',$cronjob->getLastSchedule()->getTimestamp())}}</td>
                 <td>{{\Carbon\Carbon::createFromTimeString($cronjob->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                            <a class="dropdown-item editForm {{$cronjob->getNamespace()}} {{$cronjob->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                            <a class="dropdown-item {{$cronjob->getKind()}} {{$cronjob->getNamespace()}} {{$cronjob->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                        </div>
+                    </div>
+                    <div class="cronjob" id="{{$cronjob->getNamespace().$cronjob->getName()}}" style="display: none">{{$cronjobDataArr[$cronjob->getNamespace().$cronjob->getName()]}}</div>
+                </td>
             </tr>
         @endforeach
 
@@ -260,36 +270,51 @@
             <th>Restarts</th>
             <th>Running on Host</th>
             <th>Create Time</th>
+            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
         </tr>
         @foreach($pods as $pod)
-            <tr>
-                <td><a href="{{ route('pod-details', ['name'=>$pod->getName(), 'namespace'=>$pod->getMetadata()['namespace']??'default']) }}">{{$pod->getName()}}</a></td>
-                @if(!strcmp($_GET['namespace']??"no", 'all'))
-                    <td>{{$pod->toArray()['metadata']['namespace']}}</td>
-                @endif
-                <td>
-                    @foreach(json_decode($pod->toJson())->spec->containers as $container)
-                        {{$container->image}}<br>
-                    @endforeach
-                </td>
-                <td>
-                    @foreach($pod->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
-                        @if($key == "")
-                            -
-                        @else
-                            {{$key}}: {{$label}}<br>
-                        @endif
-                    @endforeach
-                </td>
-                <td>{{json_decode($pod->toJson())->status->phase}}</td>
-                <td>
-                    @foreach(json_decode($pod->toJson())->status->containerStatuses??[json_decode('{"restartCount":"-"}')] as $status)
-                        {{$status->restartCount}}<br>
-                    @endforeach
-                </td>
-                <td>{{ $pod->getSpec('nodeName')??'-'}}</td>
-                <td>{{\Carbon\Carbon::createFromTimeString($pod->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-            </tr>
+            @if($pod->getStatus('phase') !== 'Failed')
+                <tr>
+                    <td><a href="{{ route('pod-details', ['name'=>$pod->getName(), 'namespace'=>$pod->getMetadata()['namespace']??'default']) }}">{{$pod->getName()}}</a></td>
+                    @if(!strcmp($_GET['namespace']??"no", 'all'))
+                        <td>{{$pod->toArray()['metadata']['namespace']}}</td>
+                    @endif
+                    <td>
+                        @foreach(json_decode($pod->toJson())->spec->containers as $container)
+                            {{$container->image}}<br>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach($pod->toArray()['metadata']['labels']??json_decode('{"":""}') as $key => $label)
+                            @if($key == "")
+                                -
+                            @else
+                                {{$key}}: {{$label}}<br>
+                            @endif
+                        @endforeach
+                    </td>
+                    <td>{{json_decode($pod->toJson())->status->phase}}</td>
+                    <td>
+                        @foreach(json_decode($pod->toJson())->status->containerStatuses??[json_decode('{"restartCount":"-"}')] as $status)
+                            {{$status->restartCount}}<br>
+                        @endforeach
+                    </td>
+                    <td>{{ $pod->getSpec('nodeName')??'-'}}</td>
+                    <td>{{\Carbon\Carbon::createFromTimeString($pod->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$pod->getNamespace()}} {{$pod->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$pod->getKind()}} {{$pod->getNamespace()}} {{$pod->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="pod" id="{{$pod->getNamespace().$pod->getName()}}" style="display: none">{{$podDataArr[$pod->getNamespace().$pod->getName()]}}</div>
+                    </td>
+                </tr>
+            @endif
         @endforeach
 
         </tbody>
@@ -315,6 +340,7 @@
                 <th>Labels</th>
                 <th>Pods</th>
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($replicasets as $replicaset)
                 <tr>
@@ -338,6 +364,18 @@
                     </td>
                     <td>{{$replicaset['status']['readyReplicas']??'0'}}/{{$replicaset['status']['replicas']??'-'}}</td>
                     <td>{{\Carbon\Carbon::createFromTimeString($replicaset['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$replicaset['metadata']['namespace']}} {{$replicaset['metadata']['name']}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item ReplicaSet {{$replicaset['metadata']['namespace']}} {{$replicaset['metadata']['name']}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="replicaset" id="{{$replicaset['metadata']['namespace'].$replicaset['metadata']['name']}}" style="display: none">{{$replicasetDataArr[$replicaset['metadata']['namespace'].$replicaset['metadata']['name']]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
@@ -364,6 +402,7 @@
             <th>Labels</th>
             <th>Pods</th>
             <th>Create Time</th>
+            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
         </tr>
         @foreach($statefulsets as $statefulset)
             <tr>
@@ -387,11 +426,72 @@
                 </td>
                 <td>{{$statefulset->getReadyReplicasCount()}}/{{$statefulset->getDesiredReplicasCount()}}</td>
                 <td>{{\Carbon\Carbon::createFromTimeString($statefulset->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                            <a class="dropdown-item editForm {{$statefulset->getNamespace()}} {{$statefulset->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                            <a class="dropdown-item {{$statefulset->getKind()}} {{$statefulset->getNamespace()}} {{$statefulset->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                        </div>
+                    </div>
+                    <div class="statefulset" id="{{$statefulset->getNamespace().$statefulset->getName()}}" style="display: none">{{$statefulsetDataArr[$statefulset->getNamespace().$statefulset->getName()]}}</div>
+                </td>
             </tr>
         @endforeach
 
         </tbody>
     </table>
     @endif
+
+
+
+{{--    MODAL--}}
+    <div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="editFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFormLabel">Edit Resource</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('edit') }}" method="POST" onsubmit="updateData()">
+                    @csrf
+                    <div class="modal-body" id="editorContainer">
+                        <div id="editor">//test</div>
+                    </div>
+
+                    <input type="hidden" name="value" style="display: none" id="editorValue" value="">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="deleteForm" tabindex="-1" aria-labelledby="deleteFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteFormLabel">Are you sure to delete this resources?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('delete') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Your resource will be gone forever!, Are you sure about that?</p>
+                    </div>
+                    <input type="hidden" id="deleteValue" name="resource" value="" style="display: none">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection

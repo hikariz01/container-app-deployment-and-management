@@ -105,4 +105,7 @@ Route::view('result-page', 'result.result');
 
 
 //Edit Section
-//Route::post('workloads', )
+Route::post('workloads', [\App\Http\Controllers\DashboardController::class, 'edit'])->name('edit');
+
+//Delete
+Route::post('dashboard', [\App\Http\Controllers\DashboardController::class, 'delete'])->name('delete');

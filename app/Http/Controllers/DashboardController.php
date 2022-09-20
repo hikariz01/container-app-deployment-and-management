@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use RenokiCo\PhpK8s\KubernetesCluster;
 use RenokiCo\PhpK8s\K8s;
 use Illuminate\Support\Facades\Http;
+use Symfony\Component\Yaml\Yaml;
 
 
 class DashboardController extends Controller
@@ -132,9 +133,38 @@ class DashboardController extends Controller
 //        view('layouts.app2', compact('namespaces'), compact('i'));
 
 //        dd($pods[0]->toArray()['status']['hostIP']);
+        $deploymentDataArr = [];
+        $daemonsetDataArr = [];
+        $jobDataArr = [];
+        $cronjobDataArr = [];
+        $podDataArr = [];
+        $replicasetDataArr = [];
+        $statefulsetDataArr = [];
+        foreach ($deployments as $deployment) {
+            $deploymentDataArr[$deployment->getNamespace().$deployment->getName()] = Yaml::dump($deployment->toArray(), 100, 2);
+        }
+        foreach ($daemonsets as $daemonset) {
+            $daemonsetDataArr[$daemonset->getNamespace().$daemonset->getName()] = Yaml::dump($daemonset->toArray(), 100, 2);
+        }
+        foreach ($jobs as $job) {
+            $jobDataArr[$job->getNamespace().$job->getName()] = Yaml::dump($job->toArray(), 100, 2);
+        }
+        foreach ($cronjobs as $cronjob) {
+            $cronjobDataArr[$cronjob->getNamespace().$cronjob->getName()] = Yaml::dump($cronjob->toArray(), 100, 2);
+        }
+        foreach ($pods as $pod) {
+            $podDataArr[$pod->getNamespace().$pod->getName()] = Yaml::dump($pod->toArray(), 100, 2);
+        }
+        foreach ($statefulsets as $statefulset) {
+            $statefulsetDataArr[$statefulset->getNamespace().$statefulset->getName()] = Yaml::dump($statefulset->toArray(), 100, 2);
+        }
+        foreach ($replicasets as $replicaset) {
+            $replicasetDataArr[$replicaset['metadata']['namespace'].$replicaset['metadata']['name']] = Yaml::dump($replicaset, 100, 2);
+        }
 
 
-        return view('workloads', compact('namespaces','deployments', 'daemonsets', 'jobs', 'cronjobs', 'pods', 'statefulsets', 'replicasets'));
+        return view('workloads', compact('namespaces','deployments', 'daemonsets', 'jobs', 'cronjobs', 'pods', 'statefulsets', 'replicasets',
+            'deploymentDataArr', 'daemonsetDataArr', 'jobDataArr', 'cronjobDataArr', 'podDataArr', 'replicasetDataArr', 'statefulsetDataArr'));
     }
 
     public function service(Request $request) {
@@ -229,6 +259,38 @@ class DashboardController extends Controller
 
         return view('cluster', compact('namespaces', 'nodes', 'persistentvolumes', 'clusterRoles', 'clusterRoleBindings', 'events', 'serviceAccounts', 'roles', 'roleBindings', 'podCount'));
 
+    }
+
+    public function edit(Request $request) {
+        $cluster = $this->getCluster();
+        $resource = $cluster->fromYaml($request->get('value'));
+        $resource->update();
+
+        //TODO make replicaset works (cURL)
+
+        $resourceTypes = ['Workloads'=>['Deployment', 'DaemonSet', 'Job', 'CronJob', 'Pod', 'ReplicaSet', 'StatefulSet'],
+            'Service'=>['Service', 'Ingress', 'IngressClass'],
+            'Config and Storage'=>['ConfigMap', 'Secret', 'PersistentVolumeClaim', 'StorageClass'],
+            'Cluster'=>['Namespace', 'PersistentVolume', 'ClusterRole', 'ClusterRoleBinding', 'ServiceAccount', 'Role', 'RoleBinding']
+        ];
+
+        if (in_array($resource->getKind(), $resourceTypes['Workloads'])) {
+            return redirect('dashboard');
+        }
+        elseif (in_array($resource->getKind(), $resourceTypes['Service'])) {
+            return redirect('service');
+        }
+        elseif (in_array($resource->getKind(), $resourceTypes['Config and Storage'])) {
+            return redirect('config_storage');
+        }
+        elseif (in_array($resource->getKind(), $resourceTypes['Cluster'])) {
+            return redirect('cluster');
+        }
+
+    }
+
+    public function delete(Request $request) {
+        dd($request);
     }
 
 }

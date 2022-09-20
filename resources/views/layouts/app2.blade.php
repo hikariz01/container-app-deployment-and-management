@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{asset('plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css')}}">
     <!-- Custom CSS -->
     <link href="{{asset('css/style.min.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/prism.css') }}">
+{{--    <link rel="stylesheet" href="{{ asset('css/prism.css') }}">--}}
 
 
     <style>
@@ -38,6 +38,19 @@
         ::-webkit-scrollbar-thumb {
             background: #000000AA;
             border-radius: 10px;
+        }
+
+        #editor {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            font-size: 14px;
+        }
+
+        #editorContainer {
+            height: 60vh;
         }
     </style>
 </head>
@@ -449,7 +462,8 @@
 <script src="{{asset('plugins/bower_components/chartist/dist/chartist.min.js')}}"></script>
 <script src="{{asset('plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
 <script src="{{asset('js/pages/dashboards/dashboard1.js')}}"></script>
-<script src="{{ asset('js/prism.js') }}"></script>
+<script src="{{ asset('js/src-noconflict/ace.js') }}"></script>
+{{--<script src="{{ asset('js/prism.js') }}"></script>--}}
 
 <script>
     function onSelectNamespace(e) {
@@ -458,6 +472,30 @@
         window.location.href = `?namespace=${selectNamespace}`
 
     }
+
+
+    let editor = document.querySelector('#editor')
+    let aceEditor = ace.edit("editor");
+
+    aceEditor.setTheme('ace/theme/monokai')
+    aceEditor.session.setMode("ace/mode/yaml");
+
+
+    function edit(e) {
+        let classname = e.className.split(' ')
+        let data = document.getElementById(classname[2]+classname[3]).innerHTML
+        aceEditor.session.setValue(data)
+    }
+
+    function deleteData(e) {
+        let classname = e.className.split(' ')
+        document.getElementById('deleteValue').value = classname[1] + ' ' + classname[2]
+    }
+
+    function updateData() {
+        document.getElementById('editorValue').value = aceEditor.session.getValue()
+    }
+
 
 </script>
 
