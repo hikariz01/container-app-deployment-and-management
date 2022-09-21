@@ -80,6 +80,7 @@ class DashboardController extends Controller
     }
 
 
+
     public function getAge($resource) {
         if (is_array($resource)) {
             $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($resource['metadata']['creationTimestamp'], 'UTC'));
@@ -159,6 +160,7 @@ class DashboardController extends Controller
             $statefulsetDataArr[$statefulset->getNamespace().$statefulset->getName()] = Yaml::dump($statefulset->toArray(), 100, 2);
         }
         foreach ($replicasets as $replicaset) {
+            $replicaset = array_merge(['apiVersion'=>'apps/v1', 'kind'=>'ReplicaSet'], $replicaset);
             $replicasetDataArr[$replicaset['metadata']['namespace'].$replicaset['metadata']['name']] = Yaml::dump($replicaset, 100, 2);
         }
 
@@ -184,7 +186,24 @@ class DashboardController extends Controller
 
         $ingressclasses = $this->curlAPI(env('KUBE_API_SERVER').'/apis/networking.k8s.io/v1/ingressclasses')['items'];
 
-        return view('service', compact('namespaces', 'services', 'ingresses', 'ingressclasses'));
+
+        $serviceDataArr = [];
+        $ingressDataArr = [];
+        $ingressclassDataArr = [];
+        foreach ($services as $service) {
+            $serviceDataArr[$service->getNamespace().$service->getName()] = Yaml::dump($service->toArray(), 100, 2);
+        }
+        foreach ($ingresses as $ingress) {
+            $ingressDataArr[$ingress->getNamespace().$ingress->getName()] = Yaml::dump($ingress->toArray(), 100, 2);
+        }
+        foreach ($ingressclasses as $ingressclass) {
+            $ingressclass = array_merge(['apiVersion'=>'apps/v1', 'kind'=>'ReplicaSet'], $ingressclass);
+            $ingressclassDataArr[$ingressclass['metadata']['namespace'].$ingressclass['metadata']['name']] = Yaml::dump($ingressclass, 100, 2);
+        }
+
+
+        return view('service', compact('namespaces', 'services', 'ingresses', 'ingressclasses',
+            'serviceDataArr', 'ingressclassDataArr', 'ingressDataArr'));
     }
 
     public function config_storage(Request $request) {
@@ -261,36 +280,36 @@ class DashboardController extends Controller
 
     }
 
-    public function edit(Request $request) {
-        $cluster = $this->getCluster();
-        $resource = $cluster->fromYaml($request->get('value'));
-        $resource->update();
-
-        //TODO make replicaset works (cURL)
-
-        $resourceTypes = ['Workloads'=>['Deployment', 'DaemonSet', 'Job', 'CronJob', 'Pod', 'ReplicaSet', 'StatefulSet'],
-            'Service'=>['Service', 'Ingress', 'IngressClass'],
-            'Config and Storage'=>['ConfigMap', 'Secret', 'PersistentVolumeClaim', 'StorageClass'],
-            'Cluster'=>['Namespace', 'PersistentVolume', 'ClusterRole', 'ClusterRoleBinding', 'ServiceAccount', 'Role', 'RoleBinding']
-        ];
-
-        if (in_array($resource->getKind(), $resourceTypes['Workloads'])) {
-            return redirect('dashboard');
-        }
-        elseif (in_array($resource->getKind(), $resourceTypes['Service'])) {
-            return redirect('service');
-        }
-        elseif (in_array($resource->getKind(), $resourceTypes['Config and Storage'])) {
-            return redirect('config_storage');
-        }
-        elseif (in_array($resource->getKind(), $resourceTypes['Cluster'])) {
-            return redirect('cluster');
-        }
-
-    }
-
-    public function delete(Request $request) {
-        dd($request);
-    }
+//    public function edit(Request $request) {
+//        $cluster = $this->getCluster();
+//        $resource = $cluster->fromYaml($request->get('value'));
+//        $resource->update();
+//
+//        //TODO make replicaset works (cURL)
+//
+//        $resourceTypes = ['Workloads'=>['Deployment', 'DaemonSet', 'Job', 'CronJob', 'Pod', 'ReplicaSet', 'StatefulSet'],
+//            'Service'=>['Service', 'Ingress', 'IngressClass'],
+//            'Config and Storage'=>['ConfigMap', 'Secret', 'PersistentVolumeClaim', 'StorageClass'],
+//            'Cluster'=>['Namespace', 'PersistentVolume', 'ClusterRole', 'ClusterRoleBinding', 'ServiceAccount', 'Role', 'RoleBinding']
+//        ];
+//
+//        if (in_array($resource->getKind(), $resourceTypes['Workloads'])) {
+//            return redirect('dashboard');
+//        }
+//        elseif (in_array($resource->getKind(), $resourceTypes['Service'])) {
+//            return redirect('service');
+//        }
+//        elseif (in_array($resource->getKind(), $resourceTypes['Config and Storage'])) {
+//            return redirect('config_storage');
+//        }
+//        elseif (in_array($resource->getKind(), $resourceTypes['Cluster'])) {
+//            return redirect('cluster');
+//        }
+//
+//    }
+//
+//    public function delete(Request $request) {
+//        dd($request);
+//    }
 
 }

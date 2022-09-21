@@ -489,7 +489,7 @@
 
     function deleteData(e) {
         let classname = e.className.split(' ')
-        document.getElementById('deleteValue').value = classname[1] + ' ' + classname[2]
+        document.getElementById('deleteValue').value = classname[1] + ' ' + classname[2] + ' ' + classname[3]
     }
 
     function updateData() {
