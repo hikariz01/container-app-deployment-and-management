@@ -109,3 +109,6 @@ Route::post('workloads', [\App\Http\Controllers\Edit\EditController::class, 'edi
 
 //Delete
 Route::post('dashboard', [\App\Http\Controllers\Edit\EditController::class, 'delete'])->name('delete');
+
+//Scale
+Route::post('scale', [\App\Http\Controllers\Edit\EditController::class, 'scale'])->name('scale');

@@ -15,6 +15,7 @@
                 <th>Labels</th>
                 <th>Phase</th>
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($namespaces as $namespace)
                 <tr>
@@ -30,6 +31,18 @@
                     </td>
                     <td>{{$namespace->toArray()['status']['phase']}}</td>
                     <td>{{\Carbon\Carbon::createFromTimeString($namespace->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$namespace->getNamespace()}} {{$namespace->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$namespace->getKind()}} {{$namespace->getNamespace()}} {{$namespace->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="namespace" id="{{$namespace->getNamespace().$namespace->getName()}}" style="display: none">{{$namespaceDataArr[$namespace->getNamespace().$namespace->getName()]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
@@ -55,6 +68,7 @@
                 <th>Memory Limits(bytes)</th>
                 <th>Pods</th>
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($nodes as $node)
                 <tr>
@@ -81,6 +95,18 @@
                     <td>{{$node->getAllocatableInfo()['memory']}}</td>
                     <td>{{count($podCount[$node->getName()])}}</td>
                     <td>{{\Carbon\Carbon::createFromTimeString($node->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$node->getNamespace()}} {{$node->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$node->getKind()}} {{$node->getNamespace()}} {{$node->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="node" id="{{$node->getNamespace().$node->getName()}}" style="display: none">{{$nodeDataArr[$node->getNamespace().$node->getName()]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
@@ -106,6 +132,7 @@
                 <th>Storage Class</th>
                 <th>Reason</th>
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($persistentvolumes as $persistentvolume)
                 <tr>
@@ -122,6 +149,18 @@
                     <td>{{$persistentvolume->getSpec('storageClassName')}}</td>
                     <td>{{$persistentvolume->getStatus('reason')??'-'}}</td>
                     <td>{{\Carbon\Carbon::createFromTimeString($persistentvolume->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$persistentvolume->getNamespace()}} {{$persistentvolume->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$persistentvolume->getKind()}} {{$persistentvolume->getNamespace()}} {{$persistentvolume->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="persistentvolume" id="{{$persistentvolume->getNamespace().$persistentvolume->getName()}}" style="display: none">{{$persistentvolumeDataArr[$persistentvolume->getNamespace().$persistentvolume->getName()]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
@@ -140,11 +179,24 @@
             <tr>
                 <th>Name</th>
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($clusterRoles as $clusterRole)
                 <tr>
                     <td><a href="{{ route('clusterrole-details', ['name'=>$clusterRole->getName()]) }}">{{$clusterRole->getName()}}</a></td>
                     <td>{{\Carbon\Carbon::createFromTimeString($clusterRole->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$clusterRole->getNamespace()}} {{$clusterRole->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$clusterRole->getKind()}} {{$clusterRole->getNamespace()}} {{$clusterRole->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="clusterRole" id="{{$clusterRole->getNamespace().$clusterRole->getName()}}" style="display: none">{{$clusterRoleDataArr[$clusterRole->getNamespace().$clusterRole->getName()]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
@@ -164,11 +216,24 @@
             <tr>
                 <th>Name</th>
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($clusterRoleBindings as $clusterRoleBinding)
                 <tr>
                     <td><a href="{{ route('clusterrolebinding-details', ['name'=>$clusterRoleBinding->getName()]) }}">{{$clusterRoleBinding->getName()}}</a></td>
                     <td>{{\Carbon\Carbon::createFromTimeString($clusterRoleBinding->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$clusterRoleBinding->getNamespace()}} {{$clusterRoleBinding->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$clusterRoleBinding->getKind()}} {{$clusterRoleBinding->getNamespace()}} {{$clusterRoleBinding->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="clusterRoleBinding" id="{{$clusterRoleBinding->getNamespace().$clusterRoleBinding->getName()}}" style="display: none">{{$clusterRoleBindingDataArr[$clusterRoleBinding->getNamespace().$clusterRoleBinding->getName()]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
@@ -228,6 +293,7 @@
                 @endif
                 <th>Labels</th>
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($serviceAccounts as $serviceAccount)
                 <tr>
@@ -245,6 +311,18 @@
                         @endforeach
                     </td>
                     <td>{{\Carbon\Carbon::createFromTimeString($serviceAccount->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$serviceAccount->getNamespace()}} {{$serviceAccount->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$serviceAccount->getKind()}} {{$serviceAccount->getNamespace()}} {{$serviceAccount->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="serviceAccount" id="{{$serviceAccount->getNamespace().$serviceAccount->getName()}}" style="display: none">{{$serviceAccountDataArr[$serviceAccount->getNamespace().$serviceAccount->getName()]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
@@ -267,6 +345,7 @@
                     <th>Namespace</th>
                 @endif
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($roles as $role)
                 <tr>
@@ -275,6 +354,18 @@
                         <td>{{$role->getMetadata()['namespace']??'-'}}</td>
                     @endif
                     <td>{{\Carbon\Carbon::createFromTimeString($role->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$role->getNamespace()}} {{$role->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$role->getKind()}} {{$role->getNamespace()}} {{$role->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="role" id="{{$role->getNamespace().$role->getName()}}" style="display: none">{{$roleDataArr[$role->getNamespace().$role->getName()]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
@@ -296,6 +387,7 @@
                     <th>Namespace</th>
                 @endif
                 <th>Create Time</th>
+                <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </tr>
             @foreach($roleBindings as $roleBinding)
                 <tr>
@@ -304,11 +396,71 @@
                         <td>{{$roleBinding->getMetadata()['namespace']??'-'}}</td>
                     @endif
                     <td>{{\Carbon\Carbon::createFromTimeString($roleBinding->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                                <a class="dropdown-item editForm {{$roleBinding->getNamespace()}} {{$roleBinding->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
+                                <a class="dropdown-item {{$roleBinding->getKind()}} {{$roleBinding->getNamespace()}} {{$roleBinding->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
+                            </div>
+                        </div>
+                        <div class="roleBinding" id="{{$roleBinding->getNamespace().$roleBinding->getName()}}" style="display: none">{{$roleBindingDataArr[$roleBinding->getNamespace().$roleBinding->getName()]}}</div>
+                    </td>
                 </tr>
             @endforeach
 
             </tbody>
         </table>
     @endif
+
+
+    <div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="editFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFormLabel">Edit Resource</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('edit') }}" method="POST" onsubmit="updateData()">
+                    @csrf
+                    <div class="modal-body" id="editorContainer">
+                        <div id="editor">//test</div>
+                    </div>
+
+                    <input type="hidden" name="value" style="display: none" id="editorValue" value="">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="deleteForm" tabindex="-1" aria-labelledby="deleteFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="deleteFormLabel">Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('delete') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Your resource will be gone forever!, Are you sure about that?</p>
+                    </div>
+                    <input type="hidden" id="deleteValue" name="resource" value="" style="display: none">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 @endsection

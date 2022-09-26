@@ -50,6 +50,7 @@
                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                        <a class="dropdown-item {{$deployment->getKind()}} {{$deployment->getNamespace()}} {{$deployment->getName()}} {{$deployment->getSpec('replicas')}}" role="button" data-bs-toggle="modal" data-bs-target="#scaleForm" href="#" onclick="scaleResource(this)">Scale</a>
                         <a class="dropdown-item editForm {{$deployment->getNamespace()}} {{$deployment->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
                         <a class="dropdown-item {{$deployment->getKind()}} {{$deployment->getNamespace()}} {{$deployment->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
                     </div>
@@ -370,6 +371,7 @@
                                 <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+{{--                                <a class="dropdown-item ReplicaSet {{$replicaset['metadata']['namespace']}} {{$replicaset['metadata']['name']}} {{$replicaset['spec']['replicas']}}" role="button" data-bs-toggle="modal" data-bs-target="#scaleForm" href="#" onclick="scaleResource(this)">Scale</a>--}}
                                 <a class="dropdown-item editForm {{$replicaset['metadata']['namespace']}} {{$replicaset['metadata']['name']}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
                                 <a class="dropdown-item ReplicaSet {{$replicaset['metadata']['namespace']}} {{$replicaset['metadata']['name']}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
                             </div>
@@ -432,6 +434,7 @@
                             <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownEditButton">
+                            <a class="dropdown-item {{$statefulset->getKind()}} {{$statefulset->getNamespace()}} {{$statefulset->getName()}} {{$statefulset->getSpec('replicas')}}" role="button" data-bs-toggle="modal" data-bs-target="#scaleForm" href="#" onclick="scaleResource(this)">Scale</a>
                             <a class="dropdown-item editForm {{$statefulset->getNamespace()}} {{$statefulset->getName()}}" onclick="edit(this)" role="button" data-bs-toggle="modal" data-bs-target="#editForm" href="#">Edit</a>
                             <a class="dropdown-item {{$statefulset->getKind()}} {{$statefulset->getNamespace()}} {{$statefulset->getName()}}" role="button" data-bs-toggle="modal" data-bs-target="#deleteForm" href="#" onclick="deleteData(this)">Delete</a>
                         </div>
@@ -476,7 +479,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteFormLabel">Are you sure to delete this resources?</h5>
+                    <h5 class="modal-title text-center" id="deleteFormLabel">Confirmation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('delete') }}" method="POST">
@@ -488,6 +491,30 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="scaleForm" tabindex="-1" aria-labelledby="scaleFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="scaleFormLabel">Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('scale') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <label for="scaleNumber">How many?</label>
+                        <input type="number" class="form-control" id="scaleNumber" name="scaleNumber" value="">
+                    </div>
+                    <input type="hidden" id="scaleValue" name="resource" value="" style="display: none">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </form>
             </div>

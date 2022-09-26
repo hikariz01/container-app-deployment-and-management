@@ -197,8 +197,8 @@ class DashboardController extends Controller
             $ingressDataArr[$ingress->getNamespace().$ingress->getName()] = Yaml::dump($ingress->toArray(), 100, 2);
         }
         foreach ($ingressclasses as $ingressclass) {
-            $ingressclass = array_merge(['apiVersion'=>'apps/v1', 'kind'=>'ReplicaSet'], $ingressclass);
-            $ingressclassDataArr[$ingressclass['metadata']['namespace'].$ingressclass['metadata']['name']] = Yaml::dump($ingressclass, 100, 2);
+            $ingressclass = array_merge(['apiVersion'=>'networking.k8s.io/v1', 'kind'=>'IngressClass'], $ingressclass);
+            $ingressclassDataArr[$ingressclass['metadata']['name']] = Yaml::dump($ingressclass, 100, 2);
         }
 
 
@@ -222,7 +222,25 @@ class DashboardController extends Controller
 
         $storageclasses = $cluster->getAllStorageClasses($this->getNs());
 
-        return view('config_storage', compact('namespaces', 'configmaps', 'secrets', 'pvcs', 'storageclasses'));
+        $configmapDataArr = [];
+        $secretDataArr = [];
+        $pvcDataArr = [];
+        $storageclassDataArr = [];
+        foreach ($configmaps as $configmap) {
+            $configmapDataArr[$configmap->getNamespace().$configmap->getName()] = Yaml::dump($configmap->toArray(), 100, 2);
+        }
+        foreach ($secrets as $secret) {
+            $secretDataArr[$secret->getNamespace().$secret->getName()] = Yaml::dump($secret->toArray(), 100, 2);
+        }
+        foreach ($pvcs as $pvc) {
+            $pvcDataArr[$pvc->getNamespace().$pvc->getName()] = Yaml::dump($pvc->toArray(), 100, 2);
+        }
+        foreach ($storageclasses as $storageclass) {
+            $storageclassDataArr[$storageclass->getNamespace().$storageclass->getName()] = Yaml::dump($storageclass->toArray(), 100, 2);
+        }
+
+        return view('config_storage', compact('namespaces', 'configmaps', 'secrets', 'pvcs', 'storageclasses',
+        'configmapDataArr', 'secretDataArr', 'pvcDataArr', 'storageclassDataArr'));
     }
 
     public function cluster(Request $request) {
@@ -276,40 +294,45 @@ class DashboardController extends Controller
 
         $roleBindings = $cluster->getAllRoleBindings($this->getNs());
 
-        return view('cluster', compact('namespaces', 'nodes', 'persistentvolumes', 'clusterRoles', 'clusterRoleBindings', 'events', 'serviceAccounts', 'roles', 'roleBindings', 'podCount'));
+        $namespaceDataArr = [];
+        $nodeDataArr = [];
+        $persistentvolumeDataArr = [];
+        $clusterRoleDataArr = [];
+        $clusterRoleBindingDataArr = [];
+        $serviceAccountDataArr = [];
+        $roleDataArr = [];
+        $roleBindingDataArr = [];
+        foreach ($namespaces as $namespace) {
+            $namespaceDataArr[$namespace->getNamespace().$namespace->getName()] = Yaml::dump($namespace->toArray(), 100, 2);
+        }
+        foreach ($nodes as $node) {
+            $nodeDataArr[$node->getNamespace().$node->getName()] = Yaml::dump($node->toArray(), 100, 2);
+        }
+        foreach ($persistentvolumes as $persistentvolume) {
+            $persistentvolumeDataArr[$persistentvolume->getNamespace().$persistentvolume->getName()] = Yaml::dump($persistentvolume->toArray(), 100, 2);
+        }
+        foreach ($clusterRoles as $clusterRole) {
+            $clusterRoleDataArr[$clusterRole->getNamespace().$clusterRole->getName()] = Yaml::dump($clusterRole->toArray(), 100, 2);
+        }
+        foreach ($clusterRoleBindings as $clusterRoleBinding) {
+            $clusterRoleBindingDataArr[$clusterRoleBinding->getNamespace().$clusterRoleBinding->getName()] = Yaml::dump($clusterRoleBinding->toArray(), 100, 2);
+        }
+        foreach ($serviceAccounts as $serviceAccount) {
+            $serviceAccountDataArr[$serviceAccount->getNamespace().$serviceAccount->getName()] = Yaml::dump($serviceAccount->toArray(), 100, 2);
+        }
+        foreach ($roles as $role) {
+            $roleDataArr[$role->getNamespace().$role->getName()] = Yaml::dump($role->toArray(), 100, 2);
+        }
+        foreach ($roleBindings as $roleBinding) {
+            $roleBindingDataArr[$roleBinding->getNamespace().$roleBinding->getName()] = Yaml::dump($roleBinding->toArray(), 100, 2);
+        }
+
+
+
+
+        return view('cluster', compact('namespaces', 'nodes', 'persistentvolumes', 'clusterRoles', 'clusterRoleBindings', 'events', 'serviceAccounts', 'roles', 'roleBindings', 'podCount',
+        'namespaceDataArr', 'nodeDataArr', 'persistentvolumeDataArr', 'clusterRoleDataArr', 'clusterRoleBindingDataArr', 'serviceAccountDataArr', 'roleDataArr', 'roleBindingDataArr'));
 
     }
-
-//    public function edit(Request $request) {
-//        $cluster = $this->getCluster();
-//        $resource = $cluster->fromYaml($request->get('value'));
-//        $resource->update();
-//
-//        //TODO make replicaset works (cURL)
-//
-//        $resourceTypes = ['Workloads'=>['Deployment', 'DaemonSet', 'Job', 'CronJob', 'Pod', 'ReplicaSet', 'StatefulSet'],
-//            'Service'=>['Service', 'Ingress', 'IngressClass'],
-//            'Config and Storage'=>['ConfigMap', 'Secret', 'PersistentVolumeClaim', 'StorageClass'],
-//            'Cluster'=>['Namespace', 'PersistentVolume', 'ClusterRole', 'ClusterRoleBinding', 'ServiceAccount', 'Role', 'RoleBinding']
-//        ];
-//
-//        if (in_array($resource->getKind(), $resourceTypes['Workloads'])) {
-//            return redirect('dashboard');
-//        }
-//        elseif (in_array($resource->getKind(), $resourceTypes['Service'])) {
-//            return redirect('service');
-//        }
-//        elseif (in_array($resource->getKind(), $resourceTypes['Config and Storage'])) {
-//            return redirect('config_storage');
-//        }
-//        elseif (in_array($resource->getKind(), $resourceTypes['Cluster'])) {
-//            return redirect('cluster');
-//        }
-//
-//    }
-//
-//    public function delete(Request $request) {
-//        dd($request);
-//    }
 
 }

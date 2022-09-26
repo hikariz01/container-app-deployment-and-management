@@ -351,12 +351,12 @@
                                     <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Events</span>
                                 </a>
                             </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#networkPolicies_table"
-                                   aria-expanded="false" style="padding-left: 30px">
-                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Network Policies</span>
-                                </a>
-                            </li>
+{{--                            <li class="sidebar-item">--}}
+{{--                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#networkPolicies_table"--}}
+{{--                                   aria-expanded="false" style="padding-left: 30px">--}}
+{{--                                    <span class="hide-menu"><i class="fa fa-angle-right" aria-hidden="true"></i>Network Policies</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('cluster', ['namespace'=>$_GET['namespace']??'default']) }}#serviceAccounts_table"
                                    aria-expanded="false" style="padding-left: 30px">
@@ -490,6 +490,12 @@
     function deleteData(e) {
         let classname = e.className.split(' ')
         document.getElementById('deleteValue').value = classname[1] + ' ' + classname[2] + ' ' + classname[3]
+    }
+
+    function scaleResource(e) {
+        let classname = e.className.split(' ')
+        document.getElementById('scaleValue').value = classname[1] + ' ' + classname[2] + ' ' + classname[3]
+        document.getElementById('scaleNumber').value = classname[4]
     }
 
     function updateData() {
