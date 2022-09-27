@@ -124,7 +124,7 @@ class CreateController extends DashboardController
                 try {
                     $data = $yaml->get();
                 } catch (FileNotFoundException $e) {
-                    return redirect('dashboard')->with('error', 'There is an error! Please review your yaml files again.');
+                    return redirect('dashboard')->with('error', $e->getMessage());
                 }
                 $resource = Yaml::parse($data);
                 try {
@@ -142,7 +142,7 @@ class CreateController extends DashboardController
                     }
                 }
                 catch (KubernetesAPIException $e) {
-                    return redirect('dashboard')->with('error', 'There is an error! Please review your yaml files again.');
+                    return redirect('dashboard')->with('error', $e->getMessage());
                 }
             }
             return redirect('dashboard')->with('success', 'Resources created successfully.');

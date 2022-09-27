@@ -84,7 +84,7 @@ class EditController extends DashboardController
         try {
             $response = $this->deleteResource($kind, $namespace, $name);
 
-            if ($response['status']??'-' === 'Success' || $response === true) {
+            if (isset($response['kind']) || $response === true) {
                 if (is_array($response)) {
                     if ($response['details']['kind'] === 'ReplicaSet') {
                         return redirect('dashboard')->with('success', 'ReplicaSet['. $response['details']['name'] .'] deleted successfully');
