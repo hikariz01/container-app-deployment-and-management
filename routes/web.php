@@ -97,6 +97,8 @@ Route::group(['prefix' => 'create'], function () {
 Route::get('create', [\App\Http\Controllers\Create\CreateController::class, 'create'])->name('create');
 //Route::view('create', 'create');
 Route::post('create', [\App\Http\Controllers\Create\CreateController::class, 'createResource'])->name('create-resource');
+Route::post('create-yaml', [\App\Http\Controllers\Create\CreateController::class, 'createFromYaml'])->name('create-yaml');
+Route::post('create-yaml-files', [\App\Http\Controllers\Create\CreateController::class, 'createFromYamlFile'])->name('create-yaml-files');
 
 
 

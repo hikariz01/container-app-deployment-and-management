@@ -2,6 +2,8 @@
 
 @section('content')
 
+    @include('result.alert')
+
     @if(!is_null($configmaps) && count($configmaps) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >
             <thead>
@@ -266,6 +268,49 @@
             </div>
         </div>
     </div>
+
+
+@endsection
+
+
+
+@section('js')
+
+    <script>
+        let editor = document.querySelector('#editor')
+        let aceEditor = ace.edit("editor");
+
+        aceEditor.setTheme('ace/theme/monokai')
+        aceEditor.session.setMode("ace/mode/yaml");
+
+
+        function edit(e) {
+            let classname = e.className.split(' ')
+            let data = document.getElementById(classname[2]+classname[3]).innerHTML
+            aceEditor.session.setValue(data)
+        }
+
+        function deleteData(e) {
+            let classname = e.className.split(' ')
+            document.getElementById('deleteValue').value = classname[1] + ' ' + classname[2] + ' ' + classname[3]
+        }
+
+        function scaleResource(e) {
+            let classname = e.className.split(' ')
+            if (classname[1] === 'ReplicaSet' || classname[1] === 'IngressClass') {
+                let data = document.getElementById(classname[2]+classname[3]).innerHTML
+                document.getElementById('scaleValue').value = data;
+            }
+            else {
+                document.getElementById('scaleValue').value = classname[1] + ' ' + classname[2] + ' ' + classname[3]
+            }
+            document.getElementById('scaleNumber').value = classname[4]
+        }
+
+        function updateData() {
+            document.getElementById('editorValue').value = aceEditor.session.getValue()
+        }
+    </script>
 
 
 @endsection

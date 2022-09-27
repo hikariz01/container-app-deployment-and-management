@@ -160,7 +160,12 @@ class DashboardController extends Controller
             $statefulsetDataArr[$statefulset->getNamespace().$statefulset->getName()] = Yaml::dump($statefulset->toArray(), 100, 2);
         }
         foreach ($replicasets as $replicaset) {
-            $replicaset = array_merge(['apiVersion'=>'apps/v1', 'kind'=>'ReplicaSet'], $replicaset);
+            if (!isset($replicaset['kind'])) {
+                $replicaset = array_merge(['kind'=>'ReplicaSet'], $replicaset);
+            }
+            if (!isset($replicaset['apiVersion'])) {
+                $replicaset = array_merge(['apiVersion'=>'apps/v1'], $replicaset);
+            }
             $replicasetDataArr[$replicaset['metadata']['namespace'].$replicaset['metadata']['name']] = Yaml::dump($replicaset, 100, 2);
         }
 
@@ -197,7 +202,12 @@ class DashboardController extends Controller
             $ingressDataArr[$ingress->getNamespace().$ingress->getName()] = Yaml::dump($ingress->toArray(), 100, 2);
         }
         foreach ($ingressclasses as $ingressclass) {
-            $ingressclass = array_merge(['apiVersion'=>'networking.k8s.io/v1', 'kind'=>'IngressClass'], $ingressclass);
+            if (!isset($ingressclass['kind'])) {
+                $ingressclass = array_merge(['kind'=>'IngressClass'], $ingressclass);
+            }
+            if (!isset($ingressclass['apiVersion'])) {
+                $ingressclass = array_merge(['apiVersion'=>'networking.k8s.io/v1'], $ingressclass);
+            }
             $ingressclassDataArr[$ingressclass['metadata']['name']] = Yaml::dump($ingressclass, 100, 2);
         }
 

@@ -465,45 +465,17 @@
 <script src="{{ asset('js/src-noconflict/ace.js') }}"></script>
 {{--<script src="{{ asset('js/prism.js') }}"></script>--}}
 
+
 <script>
     function onSelectNamespace(e) {
         let selectNamespace = e.value;
 
         window.location.href = `?namespace=${selectNamespace}`
-
     }
-
-
-    let editor = document.querySelector('#editor')
-    let aceEditor = ace.edit("editor");
-
-    aceEditor.setTheme('ace/theme/monokai')
-    aceEditor.session.setMode("ace/mode/yaml");
-
-
-    function edit(e) {
-        let classname = e.className.split(' ')
-        let data = document.getElementById(classname[2]+classname[3]).innerHTML
-        aceEditor.session.setValue(data)
-    }
-
-    function deleteData(e) {
-        let classname = e.className.split(' ')
-        document.getElementById('deleteValue').value = classname[1] + ' ' + classname[2] + ' ' + classname[3]
-    }
-
-    function scaleResource(e) {
-        let classname = e.className.split(' ')
-        document.getElementById('scaleValue').value = classname[1] + ' ' + classname[2] + ' ' + classname[3]
-        document.getElementById('scaleNumber').value = classname[4]
-    }
-
-    function updateData() {
-        document.getElementById('editorValue').value = aceEditor.session.getValue()
-    }
-
-
 </script>
+
+
+@yield('js')
 
 </body>
 

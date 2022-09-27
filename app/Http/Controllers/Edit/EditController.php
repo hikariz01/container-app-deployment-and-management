@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Edit;
 
+use App\Custom\IngressClass;
+use App\Custom\ReplicaSet;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
@@ -12,25 +14,12 @@ use Symfony\Component\Yaml\Yaml;
 class EditController extends DashboardController
 {
 
-    public function putAPI($endpoint, $data) {
-        return Http::withHeaders(
-            ['Authorization'=>'Bearer '.env('KUBE_API_TOKEN'),
-                'Content-Type'=>'application/yaml'],
-        )->withoutVerifying()->put($endpoint, $data)->json();
-    }
-
     public function deleteUsingAPI($endpoint) {
         return Http::withHeaders(
             ['Authorization'=>'Bearer '.env('KUBE_API_TOKEN')],
         )->withoutVerifying()->delete($endpoint)->json();
     }
 
-    public function scaleUsingAPI($endpoint, $value) {
-        return Http::withHeaders(
-            ['Authorization'=>'Bearer '.env('KUBE_API_TOKEN'),
-            "Content-Type" => "application/strategic-merge-patch+json"],
-        )->withoutVerifying()->patch($endpoint, $value)->json();
-    }
 
     public function edit(Request $request) {
         $cluster = $this->getCluster();
@@ -40,19 +29,15 @@ class EditController extends DashboardController
             $resource->update();
         }
         elseif (Yaml::parse($request->get('value'))['kind'] === 'ReplicaSet') {
-            $data = Yaml::parse($request->get('value'));
-            $namespace = $data['metadata']['namespace'];
-            $name = $data['metadata']['name'];
-            $resource = $this->putAPI(env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$namespace.'/replicasets/'.$name, $data);
-//            dd($resource, $data);
-//            TODO แก้ bug found unknown escape character
+            $yaml = $request->get('value');
+            $data = Yaml::parse($yaml);
+            $resource = new ReplicaSet($this->getCluster(), $data);
+            $resource->update();
         }
         elseif (Yaml::parse($request->get('value'))['kind'] === 'IngressClass') {
             $data = Yaml::parse($request->get('value'));
-            $name = $data['metadata']['name'];
-            $resource = $this->putAPI(env('KUBE_API_SERVER').'/apis/networking.k8s.io/v1/ingressclasses/'.$name, $data);
-//            dd($resource, $data);
-//            TODO แก้ bug found unknown escape character
+            $resource = new IngressClass($this->getCluster(), $data);
+            $resource->update();
         }
 
 
@@ -64,26 +49,20 @@ class EditController extends DashboardController
             'Cluster'=>['Namespace', 'PersistentVolume', 'ClusterRole', 'ClusterRoleBinding', 'ServiceAccount', 'Role', 'RoleBinding']
         ];
 
-        if (is_array($resource)) {
-            if ($resource['kind'] === 'ReplicaSet') {
-                return redirect('dashboard');
-            }
-            elseif ($resource['kind'] === 'IngressClass') {
-                return redirect('service');
-            }
-            return redirect('dashboard');
-        }
-        elseif (in_array($resource->getKind(), $resourceTypes['Workloads'])) {
-            return redirect('dashboard');
+        if (in_array($resource->getKind(), $resourceTypes['Workloads'])) {
+            return redirect('dashboard')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');;
         }
         elseif (in_array($resource->getKind(), $resourceTypes['Service'])) {
-            return redirect('service');
+            return redirect('service')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');;
         }
         elseif (in_array($resource->getKind(), $resourceTypes['Config and Storage'])) {
-            return redirect('config_storage');
+            return redirect('config_storage')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');;
         }
         elseif (in_array($resource->getKind(), $resourceTypes['Cluster'])) {
-            return redirect('cluster');
+            return redirect('cluster')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');;
+        }
+        else {
+            return redirect('dashboard')->with('error', 'There is an error.');
         }
 
     }
@@ -104,31 +83,47 @@ class EditController extends DashboardController
 
         try {
             $response = $this->deleteResource($kind, $namespace, $name);
+
             if ($response['status']??'-' === 'Success' || $response === true) {
                 if (is_array($response)) {
                     if ($response['details']['kind'] === 'ReplicaSet') {
-                        return redirect('dashboard');
+                        return redirect('dashboard')->with('success', 'ReplicaSet['. $response['details']['name'] .'] deleted successfully');
                     }
                     elseif ($response['details']['kind'] === 'IngressClass') {
-                        return redirect('service');
+                        return redirect('service')->with('success', 'IngressClass['. $response['details']['name'] .'] deleted successfully');
                     }
                 }
                 elseif (in_array($kind, $resourceTypes['Workloads'])) {
-                    return redirect('dashboard');
+                    return redirect('dashboard')->with('success', $kind.'['. $name .'] deleted successfully.');
                 }
                 elseif (in_array($kind, $resourceTypes['Service'])) {
-                    return redirect('service');
+                    return redirect('service')->with('success', $kind.'['. $name .'] deleted successfully.');
                 }
                 elseif (in_array($kind, $resourceTypes['Config and Storage'])) {
-                    return redirect('config_storage');
+                    return redirect('config_storage')->with('success', $kind.'['. $name .'] deleted successfully.');
                 }
                 elseif (in_array($kind, $resourceTypes['Cluster'])) {
-                    return redirect('cluster');
+                    return redirect('cluster')->with('success', $kind.'['. $name .'] deleted successfully.');
+                }
+            }
+            else {
+                if (in_array($kind, $resourceTypes['Workloads'])) {
+                    return redirect('dashboard')->with('error', 'There is an error.');
+                }
+                elseif (in_array($kind, $resourceTypes['Service'])) {
+                    return redirect('service')->with('error', 'There is an error.');
+                }
+                elseif (in_array($kind, $resourceTypes['Config and Storage'])) {
+                    return redirect('config_storage')->with('error', 'There is an error.');
+                }
+                elseif (in_array($kind, $resourceTypes['Cluster'])) {
+                    return redirect('cluster')->with('error', 'There is an error.');
                 }
             }
         } catch (KubernetesAPIException $e) {
             dd($e);
         }
+        return redirect('dashboard')->with('error', 'There is an error.');
     }
 
     /**
@@ -188,37 +183,27 @@ class EditController extends DashboardController
         $namespace = $tmp_arr[1];
         $name = $tmp_arr[2];
         $value = $request->get('scaleNumber');
-
-        $resourceTypes = ['Workloads'=>['Deployment', 'DaemonSet', 'Job', 'CronJob', 'Pod', 'ReplicaSet', 'StatefulSet'],
-            'Service'=>['Service', 'Ingress', 'IngressClass'],
-            'Config and Storage'=>['ConfigMap', 'Secret', 'PersistentVolumeClaim', 'StorageClass'],
-            'Cluster'=>['Namespace', 'Node', 'PersistentVolume', 'ClusterRole', 'ClusterRoleBinding', 'ServiceAccount', 'Role', 'RoleBinding']
-        ];
+        $data = $request->get('resource');
 
 
         try {
-            $response = $this->scaleResource($kind, $namespace, $name, $value);
-            if (is_array($response)) {
-//                dd($response);
-                if ($response['details']['kind'] === 'ReplicaSet') {
-                    return redirect('dashboard');
+            $response = $this->scaleResource($kind, $namespace, $name, $value, $data);
+            $dataArr = Yaml::parse($data);
+            $dataKind = $dataArr['kind']??'-';
+            $dataName = $dataArr['metadata']['name']??'-';
+
+            if (is_object($response)) {
+                if ($dataKind === 'ReplicaSet') {
+                    return redirect('dashboard')->with('success', $dataKind . '[' . $dataName .'] scaled successfully.');
                 }
-                elseif ($response['details']['kind'] === 'IngressClass') {
-                    return redirect('service');
+                else {
+                    return redirect('dashboard')->with('success', $kind. '[' . $name .'] scaled successfully.');
                 }
             }
-            elseif (in_array($kind, $resourceTypes['Workloads'])) {
-                return redirect('dashboard');
+            else {
+                return redirect('dashboard')->with('error', 'There is an error');
             }
-            elseif (in_array($kind, $resourceTypes['Service'])) {
-                return redirect('service');
-            }
-            elseif (in_array($kind, $resourceTypes['Config and Storage'])) {
-                return redirect('config_storage');
-            }
-            elseif (in_array($kind, $resourceTypes['Cluster'])) {
-                return redirect('cluster');
-            }
+
 
         } catch (KubernetesAPIException $e) {
             dd($e);
@@ -227,8 +212,9 @@ class EditController extends DashboardController
 
     }
 
-    public function scaleResource($kind, $namespace, $name, $value) {
+    public function scaleResource($kind, $namespace, $name, $value, $data='') {
         $cluster = $this->getCluster();
+        $attr = Yaml::parse($data);
         if ($kind === 'Deployment') {
             return $cluster->getDeploymentByName($name, $namespace)->scale($value);
         }
@@ -244,13 +230,12 @@ class EditController extends DashboardController
         elseif ($kind === 'Pod') {
             return $cluster->getPodByName($name, $namespace)->scale($value);
         }
-//        elseif ($kind === 'ReplicaSet') {
-//            $data['spec'] = ['replicas'=> strval($value)];
-//            return $this->scaleUsingAPI(env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$namespace.'/replicasets/'.$name, $data);
-//        }
-//        TODO fix replicaset invalidtype int32
         elseif ($kind === 'StatefulSet') {
             return $cluster->getStatefulSetByName($name, $namespace)->scale($value);
+        }
+        elseif ($attr['kind'] === 'ReplicaSet') {
+            $replicaset = new ReplicaSet($this->getCluster(), $attr);
+            return $replicaset->scale($value);
         }
     }
 

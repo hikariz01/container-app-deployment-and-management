@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Create;
 
+use App\Custom\IngressClass;
+use App\Custom\ReplicaSet;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Create\Workload\CreateDeploymentController;
 use App\Http\Controllers\Create\Workload\CreatePodController;use App\Http\Controllers\DashboardController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\PodController;
 use Illuminate\Http\Request;
 use RenokiCo\PhpK8s\Exceptions\KubernetesAPIException;
 use RenokiCo\PhpK8s\K8s;
+use Symfony\Component\Yaml\Yaml;
 
 class CreateController extends DashboardController
 {
@@ -78,5 +81,49 @@ class CreateController extends DashboardController
 
 
 
+    }
+
+    public function createFromYaml(Request $request) {
+        $yaml = $request->get('value');
+        $dataArr = yaml_parse($yaml, -1);
+        $cluster = $this->getCluster();
+
+        try {
+            foreach ($dataArr as $data) {
+                if (isset($data['kind'])) {
+                    if ($data['kind'] === 'ReplicaSet') {
+                        $replicaset = new ReplicaSet($cluster, $data);
+                        $response[$data['kind'].'-'.$data['metadata']['name']] = $replicaset->createOrUpdate();
+                    }
+                    elseif ($data['kind'] === 'IngressClass') {
+                        $ingressclass = new IngressClass($cluster, $data);
+                        $response[$data['kind'].'-'.$data['metadata']['name']] = $ingressclass->createOrUpdate();
+                    }
+                    else {
+                        $resource = $cluster->fromYaml(yaml_emit($data));
+                        $response[$data['kind'].'-'.$data['metadata']['name']??'-'] = $resource->createOrUpdate();
+                    }
+                }
+            }
+            return redirect('dashboard')->with('success', 'Resources created successfully.');
+        }
+        catch (KubernetesAPIException $e) {
+            return redirect('dashboard')->with('error', 'There is an error! Please review your yaml again.');
+        }
+    }
+
+    public function createFromYamlFile(Request $request) {
+//        $request->validate([
+//           'file' => 'required|mimes:yml,yaml'
+//        ]);
+        if ($request->hasFile('file')) {
+            $files = $request->file('file');
+            foreach ($files as $yaml) {
+                dd(file_get_contents($yaml->getRealPath()));
+            }
+        }
+        else {
+            return redirect('dashboard')->with('error', 'There is an error! Please review your yaml files again.');
+        }
     }
 }
