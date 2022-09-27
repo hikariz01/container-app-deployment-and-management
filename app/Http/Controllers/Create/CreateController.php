@@ -9,6 +9,7 @@ use App\Http\Controllers\Create\Workload\CreateDeploymentController;
 use App\Http\Controllers\Create\Workload\CreatePodController;use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\PodController;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use RenokiCo\PhpK8s\Exceptions\KubernetesAPIException;
 use RenokiCo\PhpK8s\K8s;
@@ -116,13 +117,35 @@ class CreateController extends DashboardController
 //        $request->validate([
 //           'file' => 'required|mimes:yml,yaml'
 //        ]);
+        $cluster = $this->getCluster();
         if ($request->hasFile('file')) {
             $files = $request->file('file');
             foreach ($files as $yaml) {
-                $path = $yaml->storePubliclyAs('yaml', 'temp_yaml.yml');
-                $path = str_replace('public', 'storage', $path);
-                dd(file_get_contents(asset($path)));
+                try {
+                    $data = $yaml->get();
+                } catch (FileNotFoundException $e) {
+                    return redirect('dashboard')->with('error', 'There is an error! Please review your yaml files again.');
+                }
+                $resource = Yaml::parse($data);
+                try {
+                    if ($resource['kind']??'-' === 'ReplicaSet') {
+                        $replicaset = new ReplicaSet($cluster, $resource);
+                        $response[] = $replicaset->createOrUpdate();
+                    }
+                    elseif ($resource['kind']??'-' === 'IngressClass') {
+                        $ingressclass = new IngressClass($cluster, $resource);
+                        $response[] = $ingressclass->createOrUpdate();
+                    }
+                    else {
+                        $resourceToCreate = $cluster->fromYaml($data);
+                        $response[] = $resourceToCreate->createOrUpdate();
+                    }
+                }
+                catch (KubernetesAPIException $e) {
+                    return redirect('dashboard')->with('error', 'There is an error! Please review your yaml files again.');
+                }
             }
+            return redirect('dashboard')->with('success', 'Resources created successfully.');
         }
         else {
             return redirect('dashboard')->with('error', 'There is an error! Please review your yaml files again.');
