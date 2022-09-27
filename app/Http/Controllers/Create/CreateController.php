@@ -119,7 +119,9 @@ class CreateController extends DashboardController
         if ($request->hasFile('file')) {
             $files = $request->file('file');
             foreach ($files as $yaml) {
-                dd(file_get_contents($yaml->getRealPath()));
+                $path = $yaml->storePubliclyAs('yaml', 'temp_yaml.yml');
+                $path = str_replace('public', 'storage', $path);
+                dd(file_get_contents(asset($path)));
             }
         }
         else {
