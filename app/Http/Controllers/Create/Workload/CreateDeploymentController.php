@@ -43,6 +43,15 @@ class CreateDeploymentController extends Controller
      */
     public function create(Request $req, KubernetesCluster $cluster)
     {
+
+        $validated = $req->validate([
+            'name' => 'required|string|max:255',
+            'replicas' => 'required|numeric|min:1',
+            'containerImage' => 'required|string|max:255',
+            'containerImageVersion' => 'required|string|max:255',
+            'annotation' => 'string|max:255|nullable'
+        ]);
+
         $deploymentLabels = [];
         $selector = [];
         $podLabel = [];
@@ -296,6 +305,7 @@ class CreateDeploymentController extends Controller
         }
         $deployment->setSelectors(['matchLabels'=>$selector]);
         $deployment->setTemplate($pod);
+
 
         $deployment->create();
 

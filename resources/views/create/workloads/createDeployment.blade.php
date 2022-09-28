@@ -718,11 +718,15 @@
         function podNameCheck() {
             let podName = document.getElementsByName('podName')[0]
             let containerName = document.getElementsByName('containerName')[0];
+            let containerImageTag = document.getElementsByName('containerImageVersion')[0]
             if (podName.value === '') {
                 podName.value = document.getElementsByName('name')[0].value
             }
             if (containerName.value === '') {
                 containerName.value = document.getElementsByName('name')[0].value
+            }
+            if (containerImageTag.value === '') {
+                containerImageTag.value = 'latest'
             }
         }
 

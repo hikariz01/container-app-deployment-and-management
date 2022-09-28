@@ -9,6 +9,20 @@
             <button class="nav-link" id="nav-yaml-file-tab" data-bs-toggle="tab" data-bs-target="#nav-yaml-file" type="button" role="tab" aria-controls="nav-yaml-file" aria-selected="false">From Yaml File</button>
         </div>
     </nav>
+
+    @include('result.alert')
+
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-form" role="tabpanel" aria-labelledby="nav-form-tab" tabindex="0">
             <div style="width: 80vw; height: calc(100vh - 90px); margin-left:auto; margin-right: auto; margin-top: 10px">

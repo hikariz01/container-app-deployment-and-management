@@ -43,6 +43,14 @@ class CreatePodController extends DashboardController
      */
     public function create(Request $req, KubernetesCluster $cluster)
     {
+
+        $validated = $req->validate([
+            'podName' => 'required|string|max:255',
+            'containerImage' => 'required|string|max:255',
+            'containerImageVersion' => 'required|string|max:255',
+            'annotation' => 'string|max:255|nullable'
+        ]);
+
         $podLabel = [];
         $containerLabel = [];
         $containerPort = [];
@@ -128,6 +136,10 @@ class CreatePodController extends DashboardController
                 continue;
             }
 
+            if ($key === 'annotation' && $value !== null) {
+                $annotation['description'] = $value;
+                continue;
+            }
 
         }
 
@@ -230,13 +242,15 @@ class CreatePodController extends DashboardController
             $container->setReadinessProbe($probe);
         }
 
+
+        $pod->setNamespace($req->get('namespace'));
+
         if (count($annotation) !== 0) {
             $pod->setAnnotations($annotation);
         }
 
 
         $pod->setContainers([$container]);
-
 
 //        DEPLOYMENT
         return $pod->create();

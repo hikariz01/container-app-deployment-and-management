@@ -67,14 +67,14 @@ class CreateController extends DashboardController
                     return (new DeploymentController())->deploymentDetails($deployment->getNamespace(), $deployment->getName());
 
                 } catch (KubernetesAPIException $e) {
-                    return view('result.result', compact('namespaces', 'e'));
+                    return redirect('create')->with('error', $e->getMessage());
                 }
             case 'Pod':
                 try {
                     $pod = (new CreatePodController())->create($req, $this->getCluster());
                     return (new PodController())->podDetails($pod->getNamespace(), $pod->getName());
                 } catch (KubernetesAPIException $e) {
-                    return view('result.result', compact('namespaces', 'e'));
+                    return redirect('create')->with('error', $e->getMessage());
                 }
             default:
                 return view('result.result', compact('namespaces'));

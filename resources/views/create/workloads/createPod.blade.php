@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-6">
                     <label for="podName" class="col-form-label">Pod Name<sup>*</sup></label>
-                    <input type="text" name="podName" class="form-control" placeholder="Pod Name">
+                    <input type="text" name="podName" class="form-control" placeholder="Pod Name" onchange="changeFunction(this)">
                 </div>
                 <div class="col-6">
                     <label for="namespace" class="col-form-label">Namespace<sup>*</sup></label>
@@ -50,7 +50,7 @@
                             <input type="text" name="podLabel[0][key]" class="form-control" value="pod-name" readonly>
                         </div>
                         <div class="col-5">
-                            <input type="text" name="podLabel[0][value]" class="form-control" placeholder="Deployment Name" value="" readonly>
+                            <input type="text" name="podLabel[0][value]" class="form-control" placeholder="Pod Name" value="" readonly>
                         </div>
                         <div class="col-2">
                             <button type="button" class="btn btn-danger" onclick="remove('podLabel', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
@@ -75,8 +75,8 @@
                         <input type="text" name="containerImage" class="form-control" placeholder="Container Image">
                     </div>
                     <div class="col-6">
-                        <label for="containerImageVersion">Container Image Version<sup>*</sup></label>
-                        <input type="text" name="containerImageVersion" class="form-control" placeholder="Container Image Version">
+                        <label for="containerImageVersion" class="col-form-label">Container Image Version<sup>*</sup></label>
+                        <input type="text" id="containerImageTag" name="containerImageVersion" class="form-control" placeholder="Container Image Version">
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
 
 
                     {{--                Container Label--}}
-                    <div class="col-6 my-1" id="containerLabel">
+                    <div class="col-6" id="containerLabel">
                         <div class="row">
                             <div class="col-10">
                                 <label for="selector" class="col-form-label">Container Labels</label>
@@ -104,7 +104,7 @@
                                 <input type="text" name="containerLabel[0][key]" class="form-control" value="pod-name" readonly>
                             </div>
                             <div class="col-5">
-                                <input type="text" name="containerLabel[0][value]" class="form-control" placeholder="Deployment Name" value="" readonly>
+                                <input type="text" name="containerLabel[0][value]" class="form-control" placeholder="Pod Name" value="" readonly>
                             </div>
                             <div class="col-2">
                                 <button type="button" class="btn btn-danger" onclick="remove('containerLabel', this)"><i class="fa fa-minus" aria-hidden="true"></i></button>
@@ -569,17 +569,19 @@
             let podLabel = document.getElementsByName('podLabel[0][value]')[0];
             let containerName = document.getElementsByName('containerName')[0];
             let containerLabel = document.getElementsByName('containerLabel[0][value]')[0];
-            appLabel.value = appName.value = podLabel.value = podName.placeholder = containerName.placeholder = containerLabel.value = e.value;
+            podLabel.value = podName.placeholder = containerName.placeholder = containerLabel.value = e.value;
         }
 
         function podNameCheck() {
             let podName = document.getElementsByName('podName')[0]
             let containerName = document.getElementsByName('containerName')[0];
-            if (podName.value === '') {
-                podName.value = document.getElementsByName('name')[0].value
-            }
+            let containerImageTag = document.getElementById('containerImageTag')
+
             if (containerName.value === '') {
-                containerName.value = document.getElementsByName('name')[0].value
+                containerName.value = podName.value
+            }
+            if (containerImageTag.value === '') {
+                containerImageTag.value = 'latest'
             }
         }
 
