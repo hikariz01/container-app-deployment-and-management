@@ -12,7 +12,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -61,7 +65,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Resource information</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Resource information</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -76,7 +84,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Subjects</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Subjects</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>

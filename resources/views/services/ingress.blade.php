@@ -11,7 +11,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -62,7 +66,12 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Resource Information</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Resource Information</h3>
+
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -74,17 +83,29 @@
         <tr>
             <th>Endpoints</th>
         </tr>
-        <tr>
 {{--            TODO CURL ENDPOINTS AND USE IT--}}
-            <td></td>
-        </tr>
+        @foreach($ep as $endpoint)
+            <tr>
+                @foreach($endpoint['endpoints'] as $address)
+                    @foreach($address['addresses'] as $addr)
+                        @foreach($endpoint['ports'] as $port)
+                            <td>{{$addr}}:{{$port['port']}}</td>
+                        @endforeach
+                    @endforeach
+                @endforeach
+            </tr>
+        @endforeach
         </tbody>
     </table>
 
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Rules</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Rules</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -118,7 +139,11 @@
 
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="events_table">Events</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px" id="events_table">Events</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
 

@@ -10,7 +10,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -61,7 +65,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Resource Information</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Resource Information</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -80,7 +88,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Pod Status</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Pod Status</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -98,7 +110,11 @@
 
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="pods_table">Pods</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px" id="pods_table">Pods</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -146,7 +162,11 @@
 
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="events_table">Events</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px" id="events_table">Events</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
 

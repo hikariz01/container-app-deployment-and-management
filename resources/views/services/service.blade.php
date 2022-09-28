@@ -99,7 +99,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Endpoints</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Endpoints</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         @if(count($endpoints) != 0)
@@ -140,7 +144,11 @@
 
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="pods_table">Pods</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px" id="pods_table">Pods</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -174,7 +182,7 @@
                 <td>{{$pod->toArray()['status']['phase']}}</td>
                 <td>
                     @foreach($pod->toArray()['status']['containerStatuses']??["restartCount"=>"-"] as $status)
-                        {{$status['restartCount']}}<br>
+                        {{$status['restartCount']??'-'}}<br>
                     @endforeach
                 </td>
                 <td>{{$pod->getSpec('nodeName')??'-'}}</td>
@@ -188,7 +196,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Ingresses</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Ingresses</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         @if(count($ingresses) != 0)
@@ -248,7 +260,11 @@
 
     <table class="table table-secondary" style="padding-left: 30px" >
         <thead>
-        <h3 style="padding-left: 30px" id="events_table">Events</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px" id="events_table">Events</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
 

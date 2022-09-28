@@ -34,7 +34,7 @@
                 <form action="{{ route('create-yaml') }}" method="POST" onsubmit="updateData()">
                     @csrf
                     <div style="height: calc(100vh - 170px); width: 100%">
-                        <div id="editor" style="position: relative; height: 100%; width: 100%"></div>
+                        <div id="editor" style="position: relative; height: 100%; width: 100%"># Write your Yaml here.</div>
                     </div>
                     <input type="hidden" name="value" style="display: none" id="editorValue" value="">
                     <button class="btn btn-outline-success mt-3" type="submit" style="width: 10vw; margin-left: 10px"><i class="fa fa-arrow-right" aria-hidden="true"></i> Create</button>

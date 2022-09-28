@@ -12,7 +12,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -63,7 +67,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Secrets</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Secrets</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         @if(count($sa->toArray()['secrets']??[]) != 0)
@@ -90,7 +98,11 @@
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
-        <h3 style="padding-left: 30px"id="deployment_table">Image Pull Secrets</h3>
+        <tr>
+            <td colspan="10">
+                <h3 style="padding-left: 30px"id="deployment_table">Image Pull Secrets</h3>
+            </td>
+        </tr>
         </thead>
         <tbody>
         @if(count($sa->toArray()['imagePullSecrets']??[]) != 0)
