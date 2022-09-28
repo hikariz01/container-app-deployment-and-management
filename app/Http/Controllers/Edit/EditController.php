@@ -84,12 +84,12 @@ class EditController extends DashboardController
         try {
             $response = $this->deleteResource($kind, $namespace, $name);
 
-            if (isset($response['kind']) || $response === true) {
+            if ($response['status']??'-' === 'Success' || $response === true) {
                 if (is_array($response)) {
-                    if ($response['details']['kind'] === 'ReplicaSet') {
+                    if ($response['details']['kind'] === 'replicasets') {
                         return redirect('dashboard')->with('success', 'ReplicaSet['. $response['details']['name'] .'] deleted successfully');
                     }
-                    elseif ($response['details']['kind'] === 'IngressClass') {
+                    elseif ($response['details']['kind'] === 'ingressclasses') {
                         return redirect('service')->with('success', 'IngressClass['. $response['details']['name'] .'] deleted successfully');
                     }
                 }
@@ -121,7 +121,7 @@ class EditController extends DashboardController
                 }
             }
         } catch (KubernetesAPIException $e) {
-            dd($e);
+            return redirect('dashboard')->with('error', $e->getMessage());
         }
         return redirect('dashboard')->with('error', 'There is an error.');
     }
@@ -206,7 +206,7 @@ class EditController extends DashboardController
 
 
         } catch (KubernetesAPIException $e) {
-            dd($e);
+            return redirect('dashboard')->with('error', $e->getMessage());
         }
 
 

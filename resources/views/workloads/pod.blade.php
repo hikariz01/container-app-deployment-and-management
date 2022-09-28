@@ -88,7 +88,7 @@
             <th>Service Account</th>
         </tr>
         <tr>
-            <td><a href="{{ route('node-details', ['name'=>$pod->getSpec('nodeName')]) }}">{{$pod->toArray()['spec']['nodeName']}}</a></td>
+            <td><a href="{{ route('node-details', ['name'=>$pod->getSpec('nodeName')])??'#' }}">{{$pod->toArray()['spec']['nodeName']}}</a></td>
             <td>{{$pod->getStatus('phase')}}</td>
             <td>
                 @foreach($pod->getPodIps() as $podIP)

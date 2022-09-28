@@ -118,6 +118,9 @@ class CreateController extends DashboardController
 //           'file' => 'required|mimes:yml,yaml'
 //        ]);
         $cluster = $this->getCluster();
+
+        $result = '';
+
         if ($request->hasFile('file')) {
             $files = $request->file('file');
             foreach ($files as $yaml) {
@@ -128,11 +131,11 @@ class CreateController extends DashboardController
                 }
                 $resource = Yaml::parse($data);
                 try {
-                    if ($resource['kind']??'-' === 'ReplicaSet') {
+                    if ($resource['kind'] === 'ReplicaSet') {
                         $replicaset = new ReplicaSet($cluster, $resource);
                         $response[] = $replicaset->createOrUpdate();
                     }
-                    elseif ($resource['kind']??'-' === 'IngressClass') {
+                    elseif ($resource['kind'] === 'IngressClass') {
                         $ingressclass = new IngressClass($cluster, $resource);
                         $response[] = $ingressclass->createOrUpdate();
                     }
@@ -144,8 +147,12 @@ class CreateController extends DashboardController
                 catch (KubernetesAPIException $e) {
                     return redirect('dashboard')->with('error', $e->getMessage());
                 }
+                foreach ($response as $res) {
+                    $result .= $res->getKind().'[' . $res->getName() . '] ';
+                }
             }
-            return redirect('dashboard')->with('success', 'Resources created successfully.');
+
+            return redirect('dashboard')->with('success', $result .'created successfully.');
         }
         else {
             return redirect('dashboard')->with('error', 'There is an error! Please review your yaml files again.');
