@@ -16,10 +16,12 @@
             display: inline-block;
         }
 
-        code {
+        .codecontainer {
             margin-left: -12.5%;
             width: 90%;
         }
+
+
     </style>
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
@@ -395,13 +397,17 @@
                     </tr>
                     <tr>
                         <td colspan="6">
-                            <pre>
-                                <code class="codebox">
-                                    @foreach($containers[$i]['command'] as $cmd)
-                                        {{$cmd}}<br>
-                                    @endforeach
-                                </code>
-                            </pre>
+{{--                            <pre>--}}
+{{--                                <code class="codebox">--}}
+{{--                                    @foreach($containers[$i]['command'] as $cmd)--}}
+{{--                                        {{$cmd}}<br>--}}
+{{--                                    @endforeach--}}
+{{--                                </code>--}}
+{{--                            </pre>--}}
+{{--                            TODO FINISHED THIS--}}
+                            <div class="codecontainer">
+                                <div id="editor" style="position: relative; height: 100%; width: 100%">@foreach($containers[$i]['command'] as $cmd) {{$cmd.'\r\n'}} @endforeach</div>
+                            </div>
                         </td>
                     </tr>
                 @endif
@@ -572,6 +578,27 @@
             </tbody>
         @endfor
     </table>
+
+
+@endsection
+
+
+@section('js')
+
+    <script>
+
+        let editor = document.querySelector('#editor')
+        let aceEditor = ace.edit("editor");
+
+        aceEditor.setOptions({
+            mode: 'ace/mode/yaml',
+            theme: 'ace/theme/monokai',
+        })
+
+        aceEditor.setReadOnly(true)
+
+
+    </script>
 
 
 @endsection
