@@ -53,6 +53,9 @@
                 @foreach($clusterrole->toArray()['metadata']['annotations']??json_decode('{"":""}') as $key => $value)
                     @if($key == "")
                         -
+                    @elseif(is_array(json_decode($value, true)))
+                        {{$key}}: <button class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#annoJSON" type="button" onclick="updateJSON(this)" value="{{$key}}">JSON</button><br>
+                        <div class="{{$key}}" style="display: none">{{$value}}</div>
                     @else
                         {{$key}}: {{$value}}<br>
                     @endif
@@ -61,6 +64,9 @@
         </tr>
         </tbody>
     </table>
+
+
+    @include('layouts.jsonViewModal')
 
 
     <table class="table table-secondary" style="padding-left: 30px">
@@ -155,5 +161,12 @@
         </tbody>
     </table>
 
+
+@endsection
+
+
+@section('js')
+
+    @include('layouts.jsonEditor')
 
 @endsection

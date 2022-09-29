@@ -54,6 +54,9 @@
                 @foreach($ingress->toArray()['metadata']['annotations']??json_decode('{"":""}') as $key => $value)
                     @if($key == "")
                         -
+                    @elseif(is_array(json_decode($value, true)))
+                        {{$key}}: <button class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#annoJSON" type="button" onclick="updateJSON(this)" value="{{$key}}">JSON</button><br>
+                        <div class="{{$key}}" style="display: none">{{$value}}</div>
                     @else
                         {{$key}}: {{$value}}<br>
                     @endif
@@ -62,6 +65,8 @@
         </tr>
         </tbody>
     </table>
+
+    @include('layouts.jsonViewModal')
 
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
@@ -179,6 +184,31 @@
         @endif
         </tbody>
     </table>
+
+
+@endsection
+
+
+@section('js')
+
+    <script>
+
+        let jsonEditor = document.querySelector('#jsonEditor')
+        let aceJSONEditor = ace.edit("jsonEditor");
+
+        aceJSONEditor.setTheme('ace/theme/monokai')
+        aceJSONEditor.session.setMode("ace/mode/json");
+
+        aceJSONEditor.setReadOnly(true)
+
+        function updateJSON(e) {
+            let data = document.getElementsByClassName(e.value)[0].innerHTML
+            let jsonData = JSON.stringify(JSON.parse(data), null, '\t')
+            aceJSONEditor.session.setValue(jsonData)
+        }
+
+
+    </script>
 
 
 @endsection

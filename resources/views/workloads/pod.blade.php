@@ -16,12 +16,6 @@
             display: inline-block;
         }
 
-        .codecontainer {
-            margin-left: -12.5%;
-            width: 90%;
-        }
-
-
     </style>
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
@@ -68,7 +62,12 @@
                     @if($key == "")
                         -
                     @else
-                        {{$key}}: {{$value}}<br>
+                        @if(is_array(json_decode($value, true)))
+                            {{$key}}: <button class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#annoJSON" type="button" onclick="updateJSON(this)" value="{{$key}}">JSON</button><br>
+                            <div class="{{$key}}" style="display: none">{{$value}}</div>
+                        @else
+                            {{$key}}: {{$value}}<br>
+                        @endif
                     @endif
                 @endforeach
             </td>
@@ -76,6 +75,8 @@
         </tbody>
     </table>
 
+
+    @include('layouts.jsonViewModal')
 
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
@@ -107,7 +108,7 @@
                     {{$containerStatus['restartCount']}}<br>
                 @endforeach
             </td>
-            <td><a href="{{ route('serviceaccount-details', ['name'=>$pod->getSpec('serviceAccountName'), 'namespace'=>$pod->getNamespace()]) }}">{{$pod->toArray()['spec']['serviceAccountName']??''}}</a></td>
+            <td><a href="{{ route('serviceaccount-details', ['name'=>$pod->getSpec('serviceAccountName')??'#', 'namespace'=>$pod->getNamespace()??'#'])??'#' }}">{{$pod->toArray()['spec']['serviceAccountName']??'-'}}</a></td>
         </tr>
         </tbody>
     </table>
@@ -397,16 +398,12 @@
                     </tr>
                     <tr>
                         <td colspan="6">
-{{--                            <pre>--}}
-{{--                                <code class="codebox">--}}
-{{--                                    @foreach($containers[$i]['command'] as $cmd)--}}
-{{--                                        {{$cmd}}<br>--}}
-{{--                                    @endforeach--}}
-{{--                                </code>--}}
-{{--                            </pre>--}}
-{{--                            TODO FINISHED THIS--}}
-                            <div class="codecontainer">
-                                <div id="editor" style="position: relative; height: 100%; width: 100%">@foreach($containers[$i]['command'] as $cmd) {{$cmd.'\r\n'}} @endforeach</div>
+
+{{--                            EDITOR--}}
+
+                            <div class="codecontainer" style="width: 80vw; height: calc(30vh); margin-left: auto; margin-right: auto">
+                                <div id="editor" style="position: relative; height: 100%; width: 100%">@foreach($containers[$i]['command'] as $cmd){{$cmd}}
+@endforeach<br></div>
                             </div>
                         </td>
                     </tr>
@@ -466,7 +463,7 @@
                             @foreach($containers[$i]['securityContext'] as $key => $value)
                                 @if(!strcmp($key, 'capabilities'))
                                     <td>
-                                    @foreach($containers[$i]['securityContext']['capabilities']['add']??'-' as $addValue)
+                                    @foreach($containers[$i]['securityContext']['capabilities']['add']??[] as $addValue)
                                         {{$addValue}}<br>
                                     @endforeach
                                     </td>
@@ -591,11 +588,25 @@
         let aceEditor = ace.edit("editor");
 
         aceEditor.setOptions({
-            mode: 'ace/mode/yaml',
+            mode: 'ace/mode/scrypt',
             theme: 'ace/theme/monokai',
         })
 
         aceEditor.setReadOnly(true)
+
+        let jsonEditor = document.querySelector('#jsonEditor')
+        let aceJSONEditor = ace.edit("jsonEditor");
+
+        aceJSONEditor.setTheme('ace/theme/monokai')
+        aceJSONEditor.session.setMode("ace/mode/json");
+
+        aceJSONEditor.setReadOnly(true)
+
+        function updateJSON(e) {
+            let data = document.getElementsByClassName(e.value)[0].innerHTML
+            let jsonData = JSON.stringify(JSON.parse(data), null, '\t')
+            aceJSONEditor.session.setValue(jsonData)
+        }
 
 
     </script>

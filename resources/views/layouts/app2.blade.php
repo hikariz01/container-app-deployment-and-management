@@ -40,7 +40,7 @@
             border-radius: 10px;
         }
 
-        #editor {
+        #editor, #jsonEditor {
             position: absolute;
             top: 0;
             right: 0;
