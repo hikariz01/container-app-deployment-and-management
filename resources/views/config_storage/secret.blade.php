@@ -99,15 +99,15 @@
             </tr>
             <tr>
                 <td>
-                    <pre>
-                        <code class="codebox">
-                            @if(base64_encode(base64_decode($data, true)) === $data)
-                                {{base64_decode($data)}}
-                            @else
-                                {{$data}}
-                            @endif
-                        </code>
-                    </pre>
+                    <div class="codecontainer" style="width: 80vw; height: 30vh; margin-left: auto; margin-right: auto">
+                        @if(base64_encode(base64_decode($data, true)) === $data)
+                            <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{base64_decode($data)}}<br>
+</div>
+                        @else
+                            <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{$data}}<br>
+</div>
+                        @endif
+                    </div>
                 </td>
             </tr>
             @endforeach
@@ -125,5 +125,25 @@
 @section('js')
 
     @include('layouts.jsonEditor')
+
+    <script>
+
+        let aceEditors = document.getElementsByClassName('aceEditor')
+        let aceEditor = []
+
+        for (let i=0; i < aceEditors.length; i++) {
+            aceEditor[i] = ace.edit(aceEditors[i])
+
+            aceEditor[i].setTheme('ace/theme/monokai')
+            aceEditor[i].session.setMode("ace/mode/text");
+
+            aceEditor[i].setOption('wrap', 80)
+            aceEditor[i].setOption('indentedSoftWrap', false)
+            aceEditor[i].setReadOnly(true)
+
+        }
+
+    </script>
+
 
 @endsection

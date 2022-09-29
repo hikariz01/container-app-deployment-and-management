@@ -97,15 +97,27 @@
                 </tr>
                 <tr>
                     <td>
-                    <pre>
-                        <code class="codebox">
-                            @if(base64_encode(base64_decode($data, true)) === $data)
-                                {{base64_decode($data)}}
+{{--                    <pre>--}}
+{{--                        <code class="codebox">--}}
+{{--                            @if(base64_encode(base64_decode($data, true)) === $data)--}}
+{{--                                {{base64_decode($data)}}--}}
+{{--                            @else--}}
+{{--                                {{$data}}--}}
+{{--                            @endif--}}
+{{--                        </code>--}}
+{{--                    </pre>--}}
+                        <div class="codecontainer" style="width: 80vw; height: 30vh; margin-left: auto; margin-right: auto">
+                            @if($data === 'true' || $data === 'false')
+                                <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{$data === 'true' ? 'true' : 'false'}}<br>
+</div>
+                            @elseif(base64_encode(base64_decode($data, true)) === $data)
+                                <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{base64_decode($data)}}<br>
+</div>
                             @else
-                                {{$data}}
+                                <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{$data}}<br>
+</div>
                             @endif
-                        </code>
-                    </pre>
+                        </div>
                     </td>
                 </tr>
             @endforeach
@@ -124,4 +136,20 @@
 
     @include('layouts.jsonEditor')
 
+    <script>
+
+        let aceEditors = document.getElementsByClassName('aceEditor')
+        let aceEditor = []
+
+        for (let i=0; i < aceEditors.length; i++) {
+            aceEditor[i] = ace.edit(aceEditors[i])
+
+            aceEditor[i].setTheme('ace/theme/monokai')
+            aceEditor[i].session.setMode("ace/mode/text");
+
+            aceEditor[i].setReadOnly(true)
+
+        }
+
+    </script>
 @endsection
