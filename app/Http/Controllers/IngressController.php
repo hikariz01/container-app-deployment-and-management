@@ -18,7 +18,7 @@ class IngressController extends DashboardController
 
         $events = $ingress->getEvents();
 
-        $endpoints = $this->curlAPI(env('KUBE_API_SERVER').'/apis/discovery.k8s.io/v1beta1/namespaces/'.$ingress->getNamespace().'/endpointslices')['items'];
+        $endpoints = $this->curlAPI(DashboardController::$api_url.'/apis/discovery.k8s.io/v1beta1/namespaces/'.$ingress->getNamespace().'/endpointslices')['items'];
 
         $ep = [];
         foreach ($ingress->getRules() as $rule) {

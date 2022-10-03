@@ -32,7 +32,7 @@ class DeploymentController extends DashboardController
                 $labelSelector .= $keyLabel[$i] . '%3D' .$selector[$keyLabel[$i]] . ',';
         }
 
-        $replicasets = $this->curlAPI(env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$namespace.'/replicasets?labelSelector='.$labelSelector)['items'];
+        $replicasets = $this->curlAPI(DashboardController::$api_url.'/apis/apps/v1/namespaces/'.$namespace.'/replicasets?labelSelector='.$labelSelector)['items'];
 
         $replicasetAge = [];
 
@@ -42,7 +42,7 @@ class DeploymentController extends DashboardController
 
         $events = $deployment->getEvents();
 
-        $hrztPodAutoScalers = $this->curlAPI(env('KUBE_API_SERVER') . '/apis/autoscaling/v1/namespaces/'.$namespace.'/horizontalpodautoscalers')['items'];
+        $hrztPodAutoScalers = $this->curlAPI(DashboardController::$api_url . '/apis/autoscaling/v1/namespaces/'.$namespace.'/horizontalpodautoscalers')['items'];
 
         $hrztPodAutoScaler = [];
 

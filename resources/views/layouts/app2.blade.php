@@ -103,11 +103,8 @@
                    href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
             </div>
 
-            <div style="margin-left: 20px; width: 23vw; display: inline-flex">
-                <span class="text-white m-auto" style="padding-right: 8px">cluster:</span>
-                <select id="clusterSelected" name="clusterSelected" class="form-select ml-3" aria-label="Cluster Select">
-                    <option value="#">{{$selected_cluster_name}}</option>
-                </select>
+            <div style="margin-left: 20px; display: inline-flex">
+                <span class="text-white badge bg-primary" style="font-size: 1rem">cluster: {{$selected_cluster_name}}</span>
             </div>
 
 

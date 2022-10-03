@@ -18,7 +18,7 @@ class ServiceController extends DashboardController
         $age = $this->getAge($service);
 
 //        TODO CURL ENDPOINTS
-        $endpoints = $this->curlAPI(env('KUBE_API_SERVER').'/api/v1/namespaces/'.$service->getNamespace().'/endpoints/'.$service->getName());
+        $endpoints = $this->curlAPI(DashboardController::$api_url.'/api/v1/namespaces/'.$service->getNamespace().'/endpoints/'.$service->getName());
 
 //        dd($endpoints);
 

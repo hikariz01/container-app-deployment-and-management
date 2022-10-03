@@ -24,7 +24,7 @@ class PodController extends DashboardController
             }
             elseif (!strcmp($ownerRef['kind'],'ReplicaSet')) {
 //                TODO CHECK IF AVAILABLE
-                $owners[] = $this->curlAPI(env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$namespace.'/replicasets/'.$ownerRef['name']);
+                $owners[] = $this->curlAPI(DashboardController::$api_url.'/apis/apps/v1/namespaces/'.$namespace.'/replicasets/'.$ownerRef['name']);
             }
         }
 

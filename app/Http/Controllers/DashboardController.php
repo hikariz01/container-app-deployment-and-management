@@ -17,13 +17,6 @@ class DashboardController extends Controller
 
     public static $api_url = null;
 
-    public function __construct()
-    {
-        $clusterModel = Cluster::query()->where('id', session('cluster_id'))->firstOrFail();
-        DashboardController::$api_url = $clusterModel->url;
-    }
-
-
     public function getCluster() {
 
         $clusterModel = Cluster::query()->where('id', session('cluster_id'))->firstOrFail();
@@ -148,7 +141,7 @@ class DashboardController extends Controller
 
         // TODO: curl REPLICASET
 
-        $replicasets = $this->curlAPI(($this->getNs() != '') ? env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : 'https://192.168.10.220:6443/apis/apps/v1/replicasets')['items'];
+        $replicasets = $this->curlAPI(($this->getNs() != '') ? DashboardController::$api_url.'/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : 'https://192.168.10.220:6443/apis/apps/v1/replicasets')['items'];
 
         $statefulsets = $cluster->getAllStatefulSets($this->getNs());
 
@@ -211,7 +204,7 @@ class DashboardController extends Controller
 
         // TODO: $ingressclasses = CURL เอง
 
-        $ingressclasses = $this->curlAPI(env('KUBE_API_SERVER').'/apis/networking.k8s.io/v1/ingressclasses')['items'];
+        $ingressclasses = $this->curlAPI(DashboardController::$api_url.'/apis/networking.k8s.io/v1/ingressclasses')['items'];
 
 
         $serviceDataArr = [];

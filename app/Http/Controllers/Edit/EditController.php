@@ -147,7 +147,7 @@ class EditController extends DashboardController
             return $cluster->getPodByName($name, $namespace)->delete();
         }
         elseif ($kind === 'ReplicaSet') {
-            return $this->deleteUsingAPI(env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$namespace.'/replicasets/'.$name);
+            return $this->deleteUsingAPI(DashboardController::$api_url.'/apis/apps/v1/namespaces/'.$namespace.'/replicasets/'.$name);
         }
         elseif ($kind === 'StatefulSet') {
             return $cluster->getStatefulSetByName($name, $namespace)->delete();
@@ -159,7 +159,7 @@ class EditController extends DashboardController
             return $cluster->getIngressByName($name, $namespace)->delete();
         }
         elseif ($kind === 'IngressClass') {
-            return $this->deleteUsingAPI(env('KUBE_API_SERVER').'/apis/networking.k8s.io/v1/ingressclasses/'.$name);
+            return $this->deleteUsingAPI(DashboardController::$api_url.'/apis/networking.k8s.io/v1/ingressclasses/'.$name);
         }
         elseif ($kind === 'ConfigMap') {
             return $cluster->getConfigmapByName($name, $namespace)->delete();
