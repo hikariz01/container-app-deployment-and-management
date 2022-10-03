@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome2');
+    return view('welcome2', ['namespaces'=>[]]);
 });
 
 Auth::routes();
@@ -114,3 +114,8 @@ Route::post('dashboard', [\App\Http\Controllers\Edit\EditController::class, 'del
 
 //Scale
 Route::post('scale', [\App\Http\Controllers\Edit\EditController::class, 'scale'])->name('scale');
+
+
+//Select Cluster
+Route::get('select-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'selectCluster'])->name('select-cluster');
+Route::post('submit-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'submitCluster'])->name('submit-cluster');

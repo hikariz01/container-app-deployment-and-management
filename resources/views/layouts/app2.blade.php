@@ -102,6 +102,15 @@
                 <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
                    href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
             </div>
+
+            <div style="margin-left: 20px; width: 23vw; display: inline-flex">
+                <span class="text-white m-auto" style="padding-right: 8px">cluster:</span>
+                <select id="clusterSelected" name="clusterSelected" class="form-select ml-3" aria-label="Cluster Select">
+                    <option value="#">{{$selected_cluster_name}}</option>
+                </select>
+            </div>
+
+
             <div style="margin-left: 20px; width: 23vw; display: inline-flex">
                 <span class="text-white m-auto" style="padding-right: 8px">namespace:</span>
                 <select id="selectedNamespace" name="selectedNamespace" class="form-select ml-3" aria-label="Namespace Select" onchange="onSelectNamespace(this)">
@@ -160,6 +169,10 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a href="{{route('select-cluster')}}" class="dropdown-item">
+                                    Select Cluster
+                                </a>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

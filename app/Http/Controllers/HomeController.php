@@ -23,6 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+//        $namespaces = (new DashboardController())->getCluster()->getAllNamespaces();
+
         return view('home');
     }
 }

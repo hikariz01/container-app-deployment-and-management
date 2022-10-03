@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cluster;
 use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
@@ -13,10 +14,31 @@ use Symfony\Component\Yaml\Yaml;
 
 class DashboardController extends Controller
 {
-    public function getCluster($url="https://192.168.10.220:6443") {
-        $cluster = KubernetesCluster::fromUrl($url);
-        $cluster->loadTokenFromFile(storage_path('app/k8s_auth/token.txt'));
-        $cluster->withCaCertificate(storage_path('app/k8s_auth/test.ca.crt'));
+
+    public static $api_url = null;
+
+    public function __construct()
+    {
+        $clusterModel = Cluster::query()->where('id', session('cluster_id'))->firstOrFail();
+        DashboardController::$api_url = $clusterModel->url;
+    }
+
+
+    public function getCluster() {
+
+        $clusterModel = Cluster::query()->where('id', session('cluster_id'))->firstOrFail();
+
+
+        $cluster = KubernetesCluster::fromUrl($clusterModel->url);
+        $cluster->withToken($clusterModel->token);
+
+        $temp = tempnam(sys_get_temp_dir(), 'cacert');
+        $temp_file = fopen($temp, 'w');
+        fwrite($temp_file, $clusterModel->cacert);
+
+        $cluster->withCaCertificate($temp);
+
+        fclose($temp_file);
 
         //https://192.168.10.220:6443
 
@@ -126,7 +148,7 @@ class DashboardController extends Controller
 
         // TODO: curl REPLICASET
 
-        $replicasets = $this->curlAPI(($this->getNs() != '') ? 'https://192.168.10.220:6443/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : 'https://192.168.10.220:6443/apis/apps/v1/replicasets')['items'];
+        $replicasets = $this->curlAPI(($this->getNs() != '') ? env('KUBE_API_SERVER').'/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : 'https://192.168.10.220:6443/apis/apps/v1/replicasets')['items'];
 
         $statefulsets = $cluster->getAllStatefulSets($this->getNs());
 
