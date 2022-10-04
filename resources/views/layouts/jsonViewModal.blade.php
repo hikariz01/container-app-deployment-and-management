@@ -12,7 +12,6 @@
                 <div id="jsonEditor">//test</div>
             </div>
 
-            <input type="hidden" name="value" style="display: none" id="editorValue" value="">
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
