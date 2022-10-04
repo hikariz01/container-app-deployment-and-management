@@ -24,6 +24,8 @@ class EditController extends DashboardController
     public function edit(Request $request) {
         $cluster = $this->getCluster();
 
+        dd($request);
+
         if (Yaml::parse($request->get('value'))['kind'] !== 'ReplicaSet' && Yaml::parse($request->get('value'))['kind'] !== 'IngressClass') {
             $resource = $cluster->fromYaml($request->get('value'));
             $resource->update();
@@ -50,16 +52,16 @@ class EditController extends DashboardController
         ];
 
         if (in_array($resource->getKind(), $resourceTypes['Workloads'])) {
-            return redirect('dashboard')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');;
+            return redirect()->back()->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');
         }
         elseif (in_array($resource->getKind(), $resourceTypes['Service'])) {
-            return redirect('service')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');;
+            return redirect('service')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');
         }
         elseif (in_array($resource->getKind(), $resourceTypes['Config and Storage'])) {
-            return redirect('config_storage')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');;
+            return redirect('config_storage')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');
         }
         elseif (in_array($resource->getKind(), $resourceTypes['Cluster'])) {
-            return redirect('cluster')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');;
+            return redirect('cluster')->with('success', $resource->getKind().'['. $resource->getName() .'] updated successfully.');
         }
         else {
             return redirect('dashboard')->with('error', 'There is an error.');

@@ -3,12 +3,13 @@
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Edit\UserClusterController;
 use App\Models\Cluster;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
-class loadCluster
+class LoadCluster
 {
     /**
      * Handle an incoming request.
@@ -20,15 +21,16 @@ class loadCluster
     public function handle(Request $request, Closure $next)
     {
 
-        $cluster = Cluster::query()->where('id', session('cluster_id', '1'))->first();
+        $cluster = Cluster::query()->where('id', session('cluster_id'))->first();
 
-        if ($cluster === null) {
-            return redirect(route('select-cluster'));
-        }
 
         View::share('selected_cluster_name', $cluster->name??'not selected');
 
-        DashboardController::$api_url = $cluster->url;
+        DashboardController::$api_url = $cluster->url??'not selected';
+
+//        if ($cluster === null) {
+//            return redirect()->route('select-cluster');
+//        }
 
         return $next($request);
     }

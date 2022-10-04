@@ -8,6 +8,11 @@
         }
     </style>
 
+    <nav class="navbar navbar-light bg-info">
+        <div class="container-fluid">
+            <button class="btn btn-primary" style="margin-left: auto" role="button" data-bs-toggle="modal" data-bs-target="#editForm"><i class="fa fa-cog" aria-hidden="true"></i> Edit</button>
+        </div>
+    </nav>
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
@@ -331,10 +336,57 @@
         </tbody>
     </table>
 
+    <div id="data" style="display: none">{{\Symfony\Component\Yaml\Yaml::dump($deployment->toArray(), 512, 2)}}</div>
+
+    <div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="editFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFormLabel">Edit Resource</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('edit') }}" method="POST" onsubmit="updateData()">
+                    @csrf
+                    <div class="modal-body" id="editorContainer">
+                        <div id="editor">//test</div>
+                    </div>
+
+                    <input type="hidden" name="value" style="display: none" id="editorValue" value="">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 
 @section('js')
+
+    <script>
+
+        let aceData = document.querySelector('#data').innerHTML
+
+        let editor = document.querySelector('#editor')
+        let aceEditor = ace.edit("editor");
+
+        aceEditor.setTheme('ace/theme/monokai')
+        aceEditor.session.setMode("ace/mode/yaml");
+
+        aceEditor.session.setValue(aceData)
+
+
+        console.log(document.getElementById('editorValue'))
+
+        function updateData() {
+            document.querySelector('input[name="value"]').value = aceEditor.session.getValue()
+        }
+
+    </script>
 
     @include('layouts.jsonEditor')
 

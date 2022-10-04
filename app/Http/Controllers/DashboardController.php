@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Edit\UserClusterController;
 use App\Models\Cluster;
 use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
@@ -16,6 +17,7 @@ class DashboardController extends Controller
 {
 
     public static $api_url = null;
+
 
     public function getCluster() {
 
@@ -115,6 +117,12 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
+        if (session('cluster_id') === null) {
+            return redirect('select-cluster');
+        }
+//        if (session('cluster_id') === null) {
+//            return redirect('select-cluster');
+//        }
 
         //https://127.0.0.1:59099 https://192.168.10.220:6443
         $cluster = $this->getCluster();
@@ -191,6 +199,10 @@ class DashboardController extends Controller
 
     public function service(Request $request) {
 
+        if (session('cluster_id') === null) {
+            return redirect('select-cluster');
+        }
+
         $cluster = $this->getCluster();
 
         $namespaces = $cluster->getAllNamespaces();
@@ -233,6 +245,10 @@ class DashboardController extends Controller
 
     public function config_storage(Request $request) {
 
+        if (session('cluster_id') === null) {
+            return redirect('select-cluster');
+        }
+
         $cluster = $this->getCluster();
 
         $namespaces = $cluster->getAllNamespaces();
@@ -269,6 +285,10 @@ class DashboardController extends Controller
     }
 
     public function cluster(Request $request) {
+
+        if (session('cluster_id') === null) {
+            return redirect('select-cluster');
+        }
 
         $cluster = $this->getCluster();
 

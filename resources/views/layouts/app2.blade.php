@@ -104,7 +104,7 @@
             </div>
 
             <div style="margin-left: 20px; display: inline-flex">
-                <span class="text-white badge bg-primary" style="font-size: 1rem">cluster: {{$selected_cluster_name}}</span>
+                <span class="text-white badge bg-primary" style="font-size: 1rem">cluster: {{$selected_cluster_name??'Not Selected'}}</span>
             </div>
 
 
@@ -114,7 +114,11 @@
 {{--                    <option selected value="default">default</option>--}}
 {{--                    <option value="1">One</option>--}}
                     @foreach($namespaces as $ns)
-                        <option value="{{$ns->getName()}}" {{!strcmp($_GET['namespace']??"default", $ns->getName()) ? 'selected' : ''}}>{{$ns->getName()}}</option>
+                        @if(!is_string($ns))
+                            <option value="{{$ns->getName()}}" {{!strcmp($_GET['namespace']??"default", $ns->getName()) ? 'selected' : ''}}>{{$ns->getName()}}</option>
+                        @else
+                            <option value="#">not selected</option>
+                        @endif
                     @endforeach
                         <option value="all" {{!strcmp($_GET['namespace']??"no", "all") ? 'selected' : ''}}>ALL</option>
 

@@ -5,13 +5,19 @@ namespace App\Http\Controllers\Edit;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Models\Cluster;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class UserClusterController extends Controller
 {
     public function selectCluster(Request $request)
     {
-        $namespaces = (new DashboardController())->getCluster()->getAllNamespaces();
+        try {
+            $namespaces = (new DashboardController())->getCluster()->getAllNamespaces();
+        }
+        catch (ModelNotFoundException $e) {
+            $namespaces = ['not selected'];
+        }
 
         $user = $request->user();
 

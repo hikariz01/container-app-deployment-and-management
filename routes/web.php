@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -107,10 +108,10 @@ Route::view('result-page', 'result.result');
 
 
 //Edit Section
-Route::post('workloads', [\App\Http\Controllers\Edit\EditController::class, 'edit'])->name('edit');
+Route::post('edit-resources', [\App\Http\Controllers\Edit\EditController::class, 'edit'])->name('edit');
 
 //Delete
-Route::post('dashboard', [\App\Http\Controllers\Edit\EditController::class, 'delete'])->name('delete');
+Route::post('delete', [\App\Http\Controllers\Edit\EditController::class, 'delete'])->name('delete');
 
 //Scale
 Route::post('scale', [\App\Http\Controllers\Edit\EditController::class, 'scale'])->name('scale');
