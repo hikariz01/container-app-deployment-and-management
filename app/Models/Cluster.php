@@ -9,7 +9,12 @@ class Cluster extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['url', 'token', 'cacert'];
+    protected $fillable = [
+        'url',
+        'token',
+        'cacert',
+        'name'
+    ];
 
     public function user() {
 

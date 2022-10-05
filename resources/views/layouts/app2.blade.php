@@ -170,6 +170,9 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a href="{{route('edit-cluster')}}" class="dropdown-item">
+                                    Edit Cluster
+                                </a>
                                 <a href="{{route('select-cluster')}}" class="dropdown-item">
                                     Select Cluster
                                 </a>

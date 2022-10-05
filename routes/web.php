@@ -120,3 +120,9 @@ Route::post('scale', [\App\Http\Controllers\Edit\EditController::class, 'scale']
 //Select Cluster
 Route::get('select-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'selectCluster'])->name('select-cluster');
 Route::post('submit-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'submitCluster'])->name('submit-cluster');
+
+//Edit Cluster
+Route::get('edit-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'editCluster'])->name('edit-cluster');
+Route::post('add-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'addCluster'])->name('add-cluster');
+Route::post('delete-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'deleteCluster'])->name('delete-cluster');
+Route::post('submit-edit-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'submitEdit'])->name('submit-edit-cluster');
