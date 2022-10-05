@@ -4,7 +4,7 @@
 @section('content')
 
     @if(!is_null($deployments) && count($deployments) != 0)
-    <table class="table table-secondary" style="padding-left: 30px">
+    <table class="table table-secondary" style="padding-left: 30px" id="deployment-table">
         <thead>
             <tr>
                 <td colspan="10"><h3 style="padding-left: 30px"id="deployment_table">Deployments</h3></td>

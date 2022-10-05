@@ -491,6 +491,10 @@
 
         window.location.href = `?namespace=${selectNamespace}`
     }
+
+    $(document).ready(function () {
+        $('.table').DataTable();
+    });
 </script>
 
 
