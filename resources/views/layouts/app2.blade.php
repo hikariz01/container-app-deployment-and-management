@@ -104,7 +104,7 @@
             </div>
 
             <div style="margin-left: 20px; display: inline-flex">
-                <span class="text-white badge bg-primary" style="font-size: 1rem">cluster: {{$selected_cluster_name??'Not Selected'}}</span>
+                <span class="text-white badge bg-primary" style="font-size: 1rem">Cluster: {{$selected_cluster_name??'Not Selected'}}</span>
             </div>
 
 
@@ -434,6 +434,8 @@
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
+        @include('result.alert')
+
         @yield('content')
         <!-- ============================================================== -->
         <!-- End Container fluid  -->

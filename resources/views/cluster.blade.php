@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('result.alert')
+
 
 
     @if(!is_null($namespaces) && count($namespaces) != 0)

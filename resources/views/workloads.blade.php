@@ -3,9 +3,6 @@
 
 @section('content')
 
-    @include('result.alert')
-
-
     @if(!is_null($deployments) && count($deployments) != 0)
     <table class="table table-secondary" style="padding-left: 30px">
         <thead>

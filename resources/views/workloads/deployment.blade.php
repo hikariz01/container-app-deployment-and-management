@@ -8,17 +8,13 @@
         }
     </style>
 
-    <nav class="navbar navbar-light bg-info">
-        <div class="container-fluid">
-            <button class="btn btn-primary" style="margin-left: auto" role="button" data-bs-toggle="modal" data-bs-target="#editForm"><i class="fa fa-cog" aria-hidden="true"></i> Edit</button>
-        </div>
-    </nav>
+    @include('layouts.resourceNav')
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
         <tr>
             <td colspan="10">
-                <h3 style="padding-left: 30px"id="deployment_table">Metadata</h3>
+                <h3 style="padding-left: 30px" id="deployment_table">Metadata</h3>
             </td>
         </tr>
         </thead>
@@ -60,7 +56,11 @@
                     @if($key == "")
                         -
                     @elseif(is_array(json_decode($value, true)))
-                        {{$key}}: <button class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#annoJSON" type="button" onclick="updateJSON(this)" value="{{$key}}">JSON</button><br>
+                        {{$key}}:
+                        <button class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal"
+                                data-bs-target="#annoJSON" type="button" onclick="updateJSON(this)" value="{{$key}}">
+                            JSON
+                        </button><br>
                         <div class="{{$key}}" style="display: none">{{$value}}</div>
                     @else
                         {{$key}}: {{$value}}<br>
@@ -79,7 +79,7 @@
         <thead>
         <tr>
             <td colspan="10">
-                <h3 style="padding-left: 30px"id="deployment_table">Resource Information</h3>
+                <h3 style="padding-left: 30px" id="deployment_table">Resource Information</h3>
             </td>
         </tr>
         </thead>
@@ -116,7 +116,7 @@
         <thead>
         <tr>
             <td colspan="10">
-                <h3 style="padding-left: 30px"id="deployment_table">Rolling Update Strategy</h3>
+                <h3 style="padding-left: 30px" id="deployment_table">Rolling Update Strategy</h3>
             </td>
         </tr>
         </thead>
@@ -136,7 +136,7 @@
         <thead>
         <tr>
             <td colspan="10">
-                <h3 style="padding-left: 30px"id="deployment_table">Pod Status</h3>
+                <h3 style="padding-left: 30px" id="deployment_table">Pod Status</h3>
             </td>
         </tr>
         </thead>
@@ -159,7 +159,7 @@
         <thead>
         <tr>
             <td colspan="10">
-                <h3 style="padding-left: 30px"id="deployment_table">Conditions</h3>
+                <h3 style="padding-left: 30px" id="deployment_table">Conditions</h3>
             </td>
         </tr>
         </thead>
@@ -172,16 +172,16 @@
             <th>Reason</th>
             <th>Message</th>
         </tr>
-            @foreach($conditions as $condition)
-                <tr>
-                    <td>{{$condition['type']}}</td>
-                    <td>{{$condition['status']}}</td>
-                    <td>{{!\Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'9999', 'UTC')->isValid() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'9999', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                    <td>{{!\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'9999', 'UTC')->isValid() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'9999', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                    <td>{{$condition['reason']}}</td>
-                    <td>{{$condition['message']}}</td>
-                </tr>
-            @endforeach
+        @foreach($conditions as $condition)
+            <tr>
+                <td>{{$condition['type']}}</td>
+                <td>{{$condition['status']}}</td>
+                <td>{{!\Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'9999', 'UTC')->isValid() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastUpdateTime']??'9999', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>{{!\Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'9999', 'UTC')->isValid() ? '-' : \Carbon\Carbon::createFromTimeString($condition['lastTransitionTime']??'9999', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                <td>{{$condition['reason']}}</td>
+                <td>{{$condition['message']}}</td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 
@@ -189,7 +189,7 @@
         <thead>
         <tr>
             <td colspan="10">
-                <h3 style="padding-left: 30px"id="deployment_table">Replica Set</h3>
+                <h3 style="padding-left: 30px" id="deployment_table">Replica Set</h3>
             </td>
         </tr>
         </thead>
@@ -202,7 +202,9 @@
         </tr>
         @foreach($replicasets as $key => $replicaset)
             <tr>
-                <td><a href="{{ route('replicaset-details', ['name'=>$replicaset['metadata']['name'], 'namespace'=>$replicaset['metadata']['namespace']??'default']) }}">{{$replicaset['metadata']['name']}}</a></td>
+                <td>
+                    <a href="{{ route('replicaset-details', ['name'=>$replicaset['metadata']['name'], 'namespace'=>$replicaset['metadata']['namespace']??'default']) }}">{{$replicaset['metadata']['name']}}</a>
+                </td>
                 <td>{{$replicaset['metadata']['namespace']}}</td>
                 <td>{{$replicasetAge[$key]}}</td>
                 <td>{{$replicaset['status']['readyReplicas']??'0'}}/{{$replicaset['status']['replicas']??'-'}}</td>
@@ -235,29 +237,29 @@
         </tbody>
     </table>
 
-{{--    <table class="table table-secondary table-borderless" style="padding-left: 30px">--}}
-{{--        <thead>--}}
-{{--        <h3 style="padding-left: 30px"id="deployment_table">Old Replica Set</h3>--}}
-{{--        </thead>--}}
-{{--        <tbody>--}}
-{{--        <tr>--}}
-{{--            <th>Updated</th>--}}
-{{--            <th>Total</th>--}}
-{{--            <th>Available</th>--}}
-{{--        </tr>--}}
-{{--        <tr>--}}
-{{--            <td>To be Updated</td>--}}
-{{--            <td>To be Updated</td>--}}
-{{--            <td>To be Updated</td>--}}
-{{--        </tr>--}}
-{{--        </tbody>--}}
-{{--    </table>--}}
+    {{--    <table class="table table-secondary table-borderless" style="padding-left: 30px">--}}
+    {{--        <thead>--}}
+    {{--        <h3 style="padding-left: 30px"id="deployment_table">Old Replica Set</h3>--}}
+    {{--        </thead>--}}
+    {{--        <tbody>--}}
+    {{--        <tr>--}}
+    {{--            <th>Updated</th>--}}
+    {{--            <th>Total</th>--}}
+    {{--            <th>Available</th>--}}
+    {{--        </tr>--}}
+    {{--        <tr>--}}
+    {{--            <td>To be Updated</td>--}}
+    {{--            <td>To be Updated</td>--}}
+    {{--            <td>To be Updated</td>--}}
+    {{--        </tr>--}}
+    {{--        </tbody>--}}
+    {{--    </table>--}}
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
         <tr>
             <td colspan="10">
-                <h3 style="padding-left: 30px"id="deployment_table">Horizontal Pod Autoscalers</h3>
+                <h3 style="padding-left: 30px" id="deployment_table">Horizontal Pod Autoscalers</h3>
             </td>
         </tr>
         </thead>
@@ -287,14 +289,14 @@
             @endforeach
         @else
             <tr class="text-center">
-    {{--            TODO CHECK HORIZONTAL POD AUTOSCALER--}}
+                {{--            TODO CHECK HORIZONTAL POD AUTOSCALER--}}
                 <th colspan="10">Resource Not Found...</th>
             </tr>
         @endif
         </tbody>
     </table>
 
-    <table class="table table-secondary" style="padding-left: 30px" >
+    <table class="table table-secondary" style="padding-left: 30px">
         <thead>
         <tr>
             <td colspan="10">
@@ -320,8 +322,10 @@
                     <td>{{$event->getName()}}</td>
                     <td>{{$event->toArray()['reason']}}</td>
                     <td>{{$event->toArray()['message']}}</td>
-                    <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
-                    <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
+                    <td>{{$event->toArray()['source']['component']??"-"}}
+                        /{{$event->toArray()['source']['host']??"-"}}</td>
+                    <td>{{$event->toArray()['involvedObject']['kind']}}
+                        /{{$event->toArray()['involvedObject']['name']??""}}</td>
                     <td>{{$event->toArray()['count']??"0"}}</td>
                     <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                     <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
@@ -338,29 +342,9 @@
 
     <div id="data" style="display: none">{{\Symfony\Component\Yaml\Yaml::dump($deployment->toArray(), 512, 2)}}</div>
 
-    <div class="modal fade" id="editForm" tabindex="-1" aria-labelledby="editFormLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editFormLabel">Edit Resource</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('edit') }}" method="POST" onsubmit="updateData()">
-                    @csrf
-                    <div class="modal-body" id="editorContainer">
-                        <div id="editor">//test</div>
-                    </div>
+    @include('layouts.editFormModal')
 
-                    <input type="hidden" name="value" style="display: none" id="editorValue" value="">
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+    @include('layouts.deleteFormModal')
 
 @endsection
 
@@ -379,16 +363,18 @@
 
         aceEditor.session.setValue(aceData)
 
-
-        console.log(document.getElementById('editorValue'))
-
         function updateData() {
             document.querySelector('input[name="value"]').value = aceEditor.session.getValue()
         }
 
+        let kind = '{{$deployment->getKind()}}';
+        let namespace = '{{$deployment->getNamespace()}}';
+        let name = '{{$deployment->getName()}}';
+
+        document.getElementById('deleteValue').value = kind + ' ' + namespace + ' ' + name
+
     </script>
 
     @include('layouts.jsonEditor')
-
 
 @endsection

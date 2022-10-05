@@ -7,8 +7,6 @@ use App\Custom\ReplicaSet;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Create\Workload\CreateDeploymentController;
 use App\Http\Controllers\Create\Workload\CreatePodController;use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DeploymentController;
-use App\Http\Controllers\PodController;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use RenokiCo\PhpK8s\Exceptions\KubernetesAPIException;
@@ -64,17 +62,17 @@ class CreateController extends DashboardController
             case 'Deployment':
                 try {
                     $deployment = (new CreateDeploymentController())->create($req, $this->getCluster());
-                    return (new DeploymentController())->deploymentDetails($deployment->getNamespace(), $deployment->getName());
+                    return redirect()->route('deployment-details', ['namespace'=>$deployment->getNamespace(), 'name'=>$deployment->getName()]);
 
                 } catch (KubernetesAPIException $e) {
-                    return redirect('create')->with('error', $e->getMessage());
+                    return redirect()->back()->with('error', $e->getMessage());
                 }
             case 'Pod':
                 try {
                     $pod = (new CreatePodController())->create($req, $this->getCluster());
-                    return (new PodController())->podDetails($pod->getNamespace(), $pod->getName());
+                    return redirect()->route('pod-details', ['namespace'=>$pod->getNamespace(), 'name'=>$pod->getName()]);
                 } catch (KubernetesAPIException $e) {
-                    return redirect('create')->with('error', $e->getMessage());
+                    return redirect()->back()->with('error', $e->getMessage());
                 }
             default:
                 return view('result.result', compact('namespaces'));

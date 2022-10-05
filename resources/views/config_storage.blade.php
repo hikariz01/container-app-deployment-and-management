@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('result.alert')
+
 
     @if(!is_null($configmaps) && count($configmaps) != 0)
         <table class="table table-secondary" style="padding-left: 30px" >

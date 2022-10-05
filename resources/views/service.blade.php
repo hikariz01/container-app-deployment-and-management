@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('result.alert')
+
 
 
     @if(!is_null($services) && count($services) != 0)

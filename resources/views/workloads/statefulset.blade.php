@@ -7,6 +7,7 @@
         }
     </style>
 
+    @include('layouts.resourceNav')
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
@@ -209,11 +210,41 @@
         </tbody>
     </table>
 
+    <div id="data" style="display: none">{{\Symfony\Component\Yaml\Yaml::dump($statefulset->toArray(), 512, 2)}}</div>
+
+    @include('layouts.editFormModal')
+
+    @include('layouts.deleteFormModal')
+
 
 @endsection
 
 
 @section('js')
+
+    <script>
+
+        let aceData = document.querySelector('#data').innerHTML
+
+        let editor = document.querySelector('#editor')
+        let aceEditor = ace.edit("editor");
+
+        aceEditor.setTheme('ace/theme/monokai')
+        aceEditor.session.setMode("ace/mode/yaml");
+
+        aceEditor.session.setValue(aceData)
+
+        function updateData() {
+            document.querySelector('input[name="value"]').value = aceEditor.session.getValue()
+        }
+
+        let kind = '{{$statefulset->getKind()}}';
+        let namespace = '{{$statefulset->getNamespace()}}';
+        let name = '{{$statefulset->getName()}}';
+
+        document.getElementById('deleteValue').value = kind + ' ' + namespace + ' ' + name
+
+    </script>
 
     @include('layouts.jsonEditor')
 

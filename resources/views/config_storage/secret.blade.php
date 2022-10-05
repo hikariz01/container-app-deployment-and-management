@@ -22,6 +22,7 @@
         }
     </style>
 
+    @include('layouts.resourceNav')
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
@@ -100,13 +101,13 @@
             <tr>
                 <td>
                     <div class="codecontainer" style="width: 80vw; height: 30vh; margin-left: auto; margin-right: auto">
-                        @if(base64_encode(base64_decode($data, true)) === $data)
-                            <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{base64_decode($data)}}<br>
-</div>
-                        @else
+{{--                        @if(base64_encode(base64_decode($data, true)) === $data)--}}
+{{--                            <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{base64_decode($data)}}<br>--}}
+{{--</div>--}}
+{{--                        @else--}}
                             <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{$data}}<br>
 </div>
-                        @endif
+{{--                        @endif--}}
                     </div>
                 </td>
             </tr>
@@ -118,6 +119,12 @@
         @endif
         </tbody>
     </table>
+
+    <div id="data" style="display: none">{{\Symfony\Component\Yaml\Yaml::dump($secret->toArray(), 512, 2)}}</div>
+
+    @include('layouts.editFormModal')
+
+    @include('layouts.deleteFormModal')
 
 
 @endsection
@@ -142,6 +149,27 @@
             aceEditor[i].setReadOnly(true)
 
         }
+
+        let aceData = document.querySelector('#data').innerHTML
+
+        let editor = document.querySelector('#editor')
+        let aceEditor1 = ace.edit("editor");
+
+        aceEditor1.setTheme('ace/theme/monokai')
+        aceEditor1.session.setMode("ace/mode/yaml");
+
+        aceEditor1.session.setValue(aceData)
+
+        function updateData() {
+            document.querySelector('input[name="value"]').value = aceEditor1.session.getValue()
+        }
+
+        let kind = '{{$secret->getKind()}}';
+        let namespace = '{{$secret->getNamespace()}}';
+        let name = '{{$secret->getName()}}';
+
+        document.getElementById('deleteValue').value = kind + ' ' + namespace + ' ' + name
+
 
     </script>
 

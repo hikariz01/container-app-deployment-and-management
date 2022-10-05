@@ -21,6 +21,7 @@
         }
     </style>
 
+    @include('layouts.resourceNav')
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
@@ -107,16 +108,16 @@
 {{--                        </code>--}}
 {{--                    </pre>--}}
                         <div class="codecontainer" style="width: 80vw; height: 30vh; margin-left: auto; margin-right: auto">
-                            @if($data === 'true' || $data === 'false')
-                                <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{$data === 'true' ? 'true' : 'false'}}<br>
-</div>
-                            @elseif(base64_encode(base64_decode($data, true)) === $data)
-                                <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{base64_decode($data)}}<br>
-</div>
-                            @else
+{{--                            @if($data === 'true' || $data === 'false')--}}
+{{--                                <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{$data === 'true' ? 'true' : 'false'}}<br>--}}
+{{--</div>--}}
+{{--                            @elseif(base64_encode(base64_decode($data, true)) === $data)--}}
+{{--                                <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{base64_decode($data)}}<br>--}}
+{{--</div>--}}
+{{--                            @else--}}
                                 <div class="aceEditor" style="position: relative; height: 100%; width: 100%">{{$data}}<br>
 </div>
-                            @endif
+{{--                            @endif--}}
                         </div>
                     </td>
                 </tr>
@@ -129,6 +130,11 @@
         </tbody>
     </table>
 
+    <div id="data" style="display: none">{{\Symfony\Component\Yaml\Yaml::dump($configmap->toArray(), 512, 2)}}</div>
+
+    @include('layouts.editFormModal')
+
+    @include('layouts.deleteFormModal')
 
 @endsection
 
@@ -150,6 +156,27 @@
             aceEditor[i].setReadOnly(true)
 
         }
+
+        let aceData = document.querySelector('#data').innerHTML
+
+        let editor = document.querySelector('#editor')
+        let aceEditor1 = ace.edit("editor");
+
+        aceEditor1.setTheme('ace/theme/monokai')
+        aceEditor1.session.setMode("ace/mode/yaml");
+
+        aceEditor1.session.setValue(aceData)
+
+        function updateData() {
+            document.querySelector('input[name="value"]').value = aceEditor1.session.getValue()
+        }
+
+        let kind = '{{$configmap->getKind()}}';
+        let namespace = '{{$configmap->getNamespace()}}';
+        let name = '{{$configmap->getName()}}';
+
+        document.getElementById('deleteValue').value = kind + ' ' + namespace + ' ' + name
+
 
     </script>
 @endsection

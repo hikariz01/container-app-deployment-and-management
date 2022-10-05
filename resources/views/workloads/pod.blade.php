@@ -18,6 +18,8 @@
 
     </style>
 
+    @include('layouts.resourceNav')
+
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>
         <tr>
@@ -402,7 +404,7 @@
 {{--                            EDITOR--}}
 
                             <div class="codecontainer" style="width: 80vw; height: calc(30vh); margin-left: auto; margin-right: auto">
-                                <div id="editor" style="position: relative; height: 100%; width: 100%">@foreach($containers[$i]['command'] as $cmd){{$cmd}}
+                                <div id="viewer" style="position: relative; height: 100%; width: 100%">@foreach($containers[$i]['command'] as $cmd){{$cmd}}
 @endforeach<br></div>
                             </div>
                         </td>
@@ -576,6 +578,11 @@
         @endfor
     </table>
 
+    <div id="data" style="display: none">{{\Symfony\Component\Yaml\Yaml::dump($pod->toArray(), 512, 2)}}</div>
+
+    @include('layouts.editFormModal')
+
+    @include('layouts.deleteFormModal')
 
 @endsection
 
@@ -584,15 +591,15 @@
 
     <script>
 
-        let editor = document.querySelector('#editor')
-        let aceEditor = ace.edit("editor");
+        let viewer = document.querySelector('#viewer')
+        let viewerEditor = ace.edit("viewer");
 
-        aceEditor.setOptions({
+        viewerEditor.setOptions({
             mode: 'ace/mode/scrypt',
             theme: 'ace/theme/monokai',
         })
 
-        aceEditor.setReadOnly(true)
+        viewerEditor.setReadOnly(true)
 
         let jsonEditor = document.querySelector('#jsonEditor')
         let aceJSONEditor = ace.edit("jsonEditor");
@@ -607,6 +614,27 @@
             let jsonData = JSON.stringify(JSON.parse(data), null, '\t')
             aceJSONEditor.session.setValue(jsonData)
         }
+
+
+        let aceData = document.querySelector('#data').innerHTML
+
+        let editor = document.querySelector('#editor')
+        let aceEditor = ace.edit("editor");
+
+        aceEditor.setTheme('ace/theme/monokai')
+        aceEditor.session.setMode("ace/mode/yaml");
+
+        aceEditor.session.setValue(aceData)
+
+        function updateData() {
+            document.querySelector('input[name="value"]').value = aceEditor.session.getValue()
+        }
+
+        let kind = '{{$pod->getKind()}}';
+        let namespace = '{{$pod->getNamespace()}}';
+        let name = '{{$pod->getName()}}';
+
+        document.getElementById('deleteValue').value = kind + ' ' + namespace + ' ' + name
 
 
     </script>

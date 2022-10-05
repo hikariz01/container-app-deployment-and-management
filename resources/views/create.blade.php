@@ -10,7 +10,7 @@
         </div>
     </nav>
 
-    @include('result.alert')
+
 
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible" role="alert">
