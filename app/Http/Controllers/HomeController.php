@@ -19,13 +19,13 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+//     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
 //        $namespaces = (new DashboardController())->getCluster()->getAllNamespaces();
 
-        return view('home');
+        return redirect()->route('dashboard')->with('success', 'Logged in successfully.');
     }
 }
 

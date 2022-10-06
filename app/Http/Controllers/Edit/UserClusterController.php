@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Edit;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Models\Cluster;
+use GuzzleHttp\Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class UserClusterController extends Controller
         try {
             $namespaces = (new DashboardController())->getCluster()->getAllNamespaces();
         }
-        catch (ModelNotFoundException $e) {
+        catch (\Exception $e) {
             $namespaces = ['not selected'];
         }
 
@@ -24,7 +25,7 @@ class UserClusterController extends Controller
         $clusters = $user->clusters;
 
         if ($clusters === null) {
-            return redirect()->route('edit-cluster');
+            return redirect()->route('edit-cluster')->with('error', 'No Cluster founded, Please register your cluster.');
         }
 
         return view('select_cluster.selectCluster', compact('namespaces', 'clusters'));
@@ -35,11 +36,18 @@ class UserClusterController extends Controller
         $cluster = Cluster::query()->where('id', $request->get('selectedCluster'))->firstOrFail();
 
         if ($request->user()->id === $cluster->user_id) {
-            $request->session()->put('cluster_id', $request->get('selectedCluster'));
-
-            $value = session('cluster_id');
-
-
+            $tmp_selected = session('cluster_id');
+            try {
+                $request->session()->put('cluster_id', $request->get('selectedCluster'));
+                $tmp_cluster = (new DashboardController())->getCluster()->getAllNamespaces();
+            }
+            catch (\Exception $e) {
+                if ($tmp_selected !== null) {
+                    $request->session()->put('cluster_id', $tmp_selected);
+                }
+                $request->session()->remove('cluster_id');
+                return redirect()->back()->with('error', $e->getMessage());
+            }
 
             return redirect()->back()->with('success', 'Cluster [' . $cluster->name . '] selected successfully.');
         }

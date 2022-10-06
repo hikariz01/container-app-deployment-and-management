@@ -323,7 +323,18 @@
         @for($i=0;$i < count($containers);$i++)
             <tbody>
                 <tr>
-                    <th colspan="6"><h4><b>{{$containers[$i]['name']}}</b></h4></th>
+                    <th colspan="6">
+                        <h4>
+                            @if(array_key_first($containerStatuses[$i]['state']) === 'running')
+                                <span class="badge rounded-pill bg-success" style="font-size: 1rem">Running</span>
+                            @elseif(array_key_first($containerStatuses[$i]['state']) === 'waiting')
+                                <span class="badge rounded-pill bg-warning" style="font-size: 1rem">Waiting</span>
+                            @else
+                                <span class="badge rounded-pill bg-danger" style="font-size: 1rem">{{ucwords(array_key_first($containerStatuses[$i]['state']))}}</span>
+                            @endif
+                                <b>{{$containers[$i]['name']}}</b>
+                        </h4>
+                    </th>
                 </tr>
                 <tr>
                     <th colspan="6">Image</th>
@@ -332,7 +343,7 @@
                     <td colspan="6">{{$containers[$i]['image']}}</td>
                 </tr>
                 <tr>
-                    <th colspan="6">Status</th>
+                    <th colspan="6"><span class="badge badge-pill bg-primary" style="font-size: 1rem">Status</span></th>
                 </tr>
                 <tr>
                     <th>Ready</th>
@@ -421,8 +432,8 @@
                                 <th>Read Only</th>
                                 <th>Mount Path</th>
                                 <th>Sub Path</th>
-                                <th>Source Type</th>
-                                <th>Source Name</th>
+{{--                                <th>Source Type</th>--}}
+{{--                                <th>Source Name</th>--}}
                             </tr>
                             @foreach($containers[$i]['volumeMounts'] as $volumeMount)
                                 <tr>
@@ -431,8 +442,8 @@
                                     <td>{{$volumeMount['mountPath']??'-'}}</td>
                                     <td>{{$volumeMount['subPath']??'-'}}</td>
 {{--                                    TODO FIND SOURCE TYPE--}}
-                                    <td>I Dunno</td>
-                                    <td>I Dunno Either...</td>
+{{--                                    <td>I Dunno</td>--}}
+{{--                                    <td>I Dunno Either...</td>--}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -591,15 +602,18 @@
 
     <script>
 
-        let viewer = document.querySelector('#viewer')
-        let viewerEditor = ace.edit("viewer");
+        try {
+            let viewer = document.querySelector('#viewer')
+            let viewerEditor = ace.edit("viewer");
+            viewerEditor.setOptions({
+                mode: 'ace/mode/scrypt',
+                theme: 'ace/theme/monokai',
+            })
 
-        viewerEditor.setOptions({
-            mode: 'ace/mode/scrypt',
-            theme: 'ace/theme/monokai',
-        })
+            viewerEditor.setReadOnly(true)
+        }catch (e) {
 
-        viewerEditor.setReadOnly(true)
+        }
 
         let jsonEditor = document.querySelector('#jsonEditor')
         let aceJSONEditor = ace.edit("jsonEditor");
