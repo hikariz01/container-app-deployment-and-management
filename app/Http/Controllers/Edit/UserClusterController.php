@@ -41,7 +41,7 @@ class UserClusterController extends Controller
 
 
 
-            return redirect('select-cluster');
+            return redirect()->back()->with('success', 'Cluster [' . $cluster->name . '] selected successfully.');
         }
         else {
             return abort(403, 'You are not owner of this cluster.');
