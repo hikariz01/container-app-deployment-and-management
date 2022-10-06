@@ -5,7 +5,7 @@
 
     <div style="width: 80vw; margin-left:auto; margin-right: auto; margin-top: 10px">
         <h4>Cluster List</h4>
-        <table class="table table-secondary table-borderless">
+        <table class="table table-secondary table-borderless dashboard">
             <thead>
                 <th>Cluster Name</th>
                 <th>Cluster URL</th>

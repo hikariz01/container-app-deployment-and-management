@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{asset('plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css')}}">
     <!-- Custom CSS -->
     <link href="{{asset('css/style.min.css')}}" rel="stylesheet">
-{{--    <link rel="stylesheet" href="{{ asset('css/prism.css') }}">--}}
+    <link rel="stylesheet" href="{{asset('DataTables/datatables.css')}}">
 
 
     <style>
@@ -52,6 +52,7 @@
         #editorContainer {
             height: 60vh;
         }
+
     </style>
 </head>
 
@@ -140,14 +141,14 @@
                     <!-- ============================================================== -->
                     <!-- Search -->
                     <!-- ============================================================== -->
-                    <li class=" in">
-                        <form role="search" class="app-search d-none d-md-block me-3">
-                            <input type="text" placeholder="Search..." class="form-control mt-0">
-                            <a href="" class="active">
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </form>
-                    </li>
+{{--                    <li class=" in">--}}
+{{--                        <form role="search" class="app-search d-none d-md-block me-3">--}}
+{{--                            <input type="text" placeholder="Search..." class="form-control mt-0">--}}
+{{--                            <a href="" class="active">--}}
+{{--                                <i class="fa fa-search"></i>--}}
+{{--                            </a>--}}
+{{--                        </form>--}}
+{{--                    </li>--}}
                     <!-- ============================================================== -->
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
@@ -415,11 +416,11 @@
 {{--                            <span class="hide-menu">Error 404</span>--}}
 {{--                        </a>--}}
 {{--                    </li>--}}
-                    <li class="text-center p-20 upgrade-btn">
-                        <a href="https://www.wrappixel.com/templates/ampleadmin/"
-                           class="btn d-grid btn-danger text-white" target="_blank">
-                            Upgrade to Pro</a>
-                    </li>
+{{--                    <li class="text-center p-20 upgrade-btn">--}}
+{{--                        <a href="https://www.wrappixel.com/templates/ampleadmin/"--}}
+{{--                           class="btn d-grid btn-danger text-white" target="_blank">--}}
+{{--                            Upgrade to Pro</a>--}}
+{{--                    </li>--}}
                 </ul>
 
             </nav>
@@ -482,10 +483,12 @@
 <script src="{{asset('plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
 <script src="{{asset('js/pages/dashboards/dashboard1.js')}}"></script>
 <script src="{{ asset('js/src-noconflict/ace.js') }}"></script>
+<script src="{{asset('DataTables/datatables.js')}}"></script>
 {{--<script src="{{ asset('js/prism.js') }}"></script>--}}
 
-
 <script>
+
+
     function onSelectNamespace(e) {
         let selectNamespace = e.value;
 
@@ -493,7 +496,9 @@
     }
 
     $(document).ready(function () {
-        $('.table').DataTable();
+        $('.dashboard').DataTable({
+            ordering: false,
+        });
     });
 </script>
 

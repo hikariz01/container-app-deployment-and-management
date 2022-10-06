@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "autoprefixer": "10.4.5",
+        "datatables.net-bs5": "^1.12.1",
         "laravel-mix": "^6.0.49"
     }
 }
