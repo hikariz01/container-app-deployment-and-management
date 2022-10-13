@@ -219,18 +219,6 @@ class EditController extends DashboardController
         if ($kind === 'Deployment') {
             return $cluster->getDeploymentByName($name, $namespace)->scale($value);
         }
-        elseif ($kind === 'DaemonSet') {
-            return $cluster->getDaemonSetByName($name, $namespace)->scale($value);
-        }
-        elseif ($kind === 'Job') {
-            return $cluster->getJobByName($name, $namespace)->scale($value);
-        }
-        elseif ($kind === 'CronJob') {
-            return $cluster->getCronjobByName($name, $namespace)->scale($value);
-        }
-        elseif ($kind === 'Pod') {
-            return $cluster->getPodByName($name, $namespace)->scale($value);
-        }
         elseif ($kind === 'StatefulSet') {
             return $cluster->getStatefulSetByName($name, $namespace)->scale($value);
         }

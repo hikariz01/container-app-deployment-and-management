@@ -35,25 +35,8 @@ class DashboardController extends Controller
 
         fclose($temp_file);
 
-        //https://192.168.10.220:6443
-
-        //C:/Users/hikar/.minikube/ca.crt (storage_path('app/k8s_auth/test.ca.crt'))
         return $cluster;
     }
-
-//    public function getNodeNameByIP($ip) {
-//        $cluster = $this->getCluster();
-//
-//        $nodes = $cluster->getAllNodes('');
-//
-//        $name = '';
-//        foreach ($nodes as $node) {
-//            if (!strcmp($node->toArray()['status']['addresses'][0]['address'], $ip)) {
-//                $name = $node->getName();
-//            }
-//        }
-//        return $name;
-//    }
 
 
     private string $ns = "default";
@@ -120,11 +103,7 @@ class DashboardController extends Controller
         if (session('cluster_id') === null) {
             return redirect('select-cluster');
         }
-//        if (session('cluster_id') === null) {
-//            return redirect('select-cluster');
-//        }
 
-        //https://127.0.0.1:59099 https://192.168.10.220:6443
         $cluster = $this->getCluster();
 
         $namespaces = $cluster->getAllNamespaces();
@@ -141,22 +120,13 @@ class DashboardController extends Controller
 
         $pods = $cluster->getAllPods($this->getNs());
 
-//        dd($cluster->getCronjobByName('hello', 'default')->getMetadata());
 
-        /**
-        $replicasets = curl
-         */
 
-        // TODO: curl REPLICASET
-
-        $replicasets = $this->curlAPI(($this->getNs() != '') ? DashboardController::$api_url.'/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : 'https://192.168.10.220:6443/apis/apps/v1/replicasets')['items'];
+        $replicasets = $this->curlAPI(($this->getNs() != '') ? DashboardController::$api_url.'/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : DashboardController::$api_url.'/apis/apps/v1/replicasets')['items'];
 
         $statefulsets = $cluster->getAllStatefulSets($this->getNs());
 
-//        $i = 0;
-//        view('layouts.app2', compact('namespaces'), compact('i'));
 
-//        dd($pods[0]->toArray()['status']['hostIP']);
         $deploymentDataArr = [];
         $daemonsetDataArr = [];
         $jobDataArr = [];
