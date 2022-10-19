@@ -3,6 +3,18 @@
 
 @section('content')
 
+    <style>
+
+        .codebox {
+            background-color: #6c757d;
+            width: 100%;
+            padding: 15px;
+            color: white;
+        }
+
+    </style>
+
+
     <div style="width: 80vw; margin-left:auto; margin-right: auto; margin-top: 10px">
         <h4>Cluster List</h4>
         <table class="table table-secondary table-borderless dashboard">
@@ -77,6 +89,7 @@
                     </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#getToken"><i class="fa fa-info-circle" aria-hidden="true"></i> How to get Token&CACert</button>
             <button type="submit" class="btn btn-outline-success" style="width: 10vw"><i class="fa fa-arrow-right" aria-hidden="true"></i> Continue</button>
         </form>
     </div>
@@ -150,6 +163,138 @@
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="getToken" tabindex="-1" aria-labelledby="getTokenLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="getTokenLabel">How to get API Token and CA Cert</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body overflow-auto" style="height: 75vh">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>Get Kubernetes API Endpoint</h3>
+                            <div class="codebox mt-2">
+                                <pre style="margin: auto">kubectl config view -o jsonpath='{.clusters[0].cluster.server}'</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h3>1. Create a new Service Account</h3>
+                            <p>Create Service Account with Cluster-admin permission<br></p>
+                        </div>
+                        <div class="col-12">
+                            <p>Create with kubectl command</p>
+                            <div class="codebox">
+                                <pre style="margin: auto">kubectl create sa &lt;your-service-account-name&gt;</pre>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <p>or Create with Yaml file</p>
+                            <div class="codebox">
+                                <pre style="margin: auto">
+#Yaml File
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: &lt;your-secret-account-name&gt;</pre>
+                            </div>
+                            <div class="codebox mt-2">
+                                <pre style="margin: auto">kubectl apply -f &lt;your-yaml-file-path&gt;</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <h3>2. Create a new Cluster Role Binding</h3>
+                        </div>
+                        <div class="col-12">
+                            <p>Create with kubectl command</p>
+                            <div class="codebox">
+                                <pre style="margin: auto">kubectl create clusterrolebinding &lt;cluster-role-binding-name&gt; --clusterrole cluster-admin --serviceaccount default:&lt;your-service-account-name&gt;</pre>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <p>or Create with Yaml file</p>
+                            <div class="codebox">
+                                <pre style="margin: auto">
+#Yaml File
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: &lt;cluster-role-binding-name&gt;
+subjects:
+- kind: ServiceAccount
+  name: &lt;your-service-account-name&gt;
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io</pre>
+                            </div>
+                            <div class="codebox mt-2">
+                                <pre style="margin: auto">kubectl apply -f &lt;your-yaml-file-path&gt;</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <h3>3. Create a Service Account Secret</h3>
+                        </div>
+                        <div class="col-12">
+                            <p>Create with Yaml File</p>
+                            <div class="codebox">
+                                <pre style="margin: auto">
+#Yaml File
+apiVersion: v1
+kind: Secret
+metadata:
+  name: &lt;your-secret-name&gt;
+  annotations:
+    kubernetes.io/service-account.name: &lt;your-service-account-name&gt;
+type: kubernetes.io/service-account-token</pre>
+                            </div>
+                            <div class="codebox mt-2">
+                                <pre style="margin: auto">kubectl apply -f &lt;your-yaml-file-path&gt;</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <h3>4. Get Service Account API credentials</h3>
+                        </div>
+                        <div class="col-12">
+                            <p>Get API Token</p>
+                            <div class="codebox mt-2">
+                                <pre style="margin: auto">kubectl get secret &lt;your-secret-name&gt; -o jsonpath='{.data.token}'|base64 --decode > token.txt</pre>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <p>Get API CA Cert</p>
+                            <div class="codebox mt-2">
+                                <pre style="margin: auto">kubectl get secret &lt;your-secret-name&gt; -o jsonpath='{.data.ca\.crt}'|base64 --decode > ca.crt</pre>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <p>You can view the Token and CA Cert by these commands</p>
+                            <div class="codebox">
+                                <pre style="margin: auto">cat token.txt</pre>
+                            </div>
+                            <div class="codebox mt-2">
+                                <pre style="margin: auto">cat ca.crt</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>

@@ -174,6 +174,30 @@ class EditController extends DashboardController
         elseif ($kind === 'StorageClass') {
             return $cluster->getStorageClassByName($name, $namespace)->delete();
         }
+        elseif ($kind === 'Namespace') {
+            return $cluster->getNamespaceByName($name)->delete();
+        }
+        elseif ($kind === 'Node') {
+            return $cluster->getNodeByName($name)->delete();
+        }
+        elseif ($kind === 'PersistentVolume') {
+            return $cluster->getPersistentVolumeByName($name)->delete();
+        }
+        elseif ($kind === 'ClusterRole') {
+            return $cluster->getClusterRoleByName($name)->delete();
+        }
+        elseif ($kind === 'ClusterRoleBinding') {
+            return $cluster->getClusterRoleBindingByName($name)->delete();
+        }
+        elseif ($kind === 'ServiceAccount') {
+            return $cluster->getServiceAccountByName($name)->delete();
+        }
+        elseif ($kind === 'Role') {
+            return $cluster->getRoleByName($name)->delete();
+        }
+        elseif ($kind === 'RoleBinding') {
+            return $cluster->getRoleBindingByName($name)->delete();
+        }
 
         return false;
     }
