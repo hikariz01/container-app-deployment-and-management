@@ -18,7 +18,13 @@
 
     </style>
 
-    @include('layouts.resourceNav')
+    <nav class="navbar navbar-light bg-info">
+        <div class="container-fluid">
+            <a class="btn btn-primary" type="button" style="margin-left: auto; margin-right: 8px" href="{{ route('pod-logs', ['namespace'=>$pod->getNamespace(), 'name'=>$pod->getName()]) }}"><i class="fa fa-file" aria-hidden="true"></i> View Logs</a>
+            <button class="btn btn-primary" style="margin-right: 8px" data-bs-toggle="modal" data-bs-target="#editForm"><i class="fa fa-cog" aria-hidden="true"></i> Edit</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteForm"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+        </div>
+    </nav>
 
     <table class="table table-secondary table-borderless" style="padding-left: 30px">
         <thead>

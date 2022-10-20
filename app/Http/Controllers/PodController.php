@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use RenokiCo\PhpK8s\Exceptions\KubernetesAPIException;
+use RenokiCo\PhpK8s\Exceptions\KubernetesLogsException;
+
 class PodController extends DashboardController
 {
 
@@ -56,5 +59,23 @@ class PodController extends DashboardController
         $probe = '';
 
         return view('workloads.pod', compact('namespaces', 'pod', 'age', 'pvcs', 'events', 'containers', 'containerStatuses', 'probe', 'pvcs', 'owners', 'ownersAge'));
+    }
+
+    public function viewLogs($namespace, $name) {
+
+        $cluster = $this->getCluster();
+
+        $namespaces = $cluster->getAllNamespaces();
+
+        $resource = $cluster->getPodByName($name, $namespace);
+
+        try {
+            $message = $resource->logs();
+        } catch (KubernetesAPIException|KubernetesLogsException $e) {
+            $message = $e->getMessage();
+        }
+
+
+        return view('viewLogs', compact('namespaces', 'message', 'resource'));
     }
 }

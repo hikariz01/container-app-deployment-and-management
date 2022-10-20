@@ -26,11 +26,12 @@ class CreateController extends DashboardController
 
         $namespaces = $this->getNamespaces();
 
-        $resourceTypes = ['Workloads'=>['Deployment', 'Daemon set', 'Job', 'Cron Job', 'Pod', 'Replica Set', 'Stateful Set'],
-            'Service'=>['Service', 'Ingress', 'Ingress Class'],
-            'Config and Storage'=>['Config Map', 'Secret', 'Persistent Volume Claim', 'Storage Class'],
-            'Cluster'=>['Namespace', 'Persistent Volume', 'Cluster Role', 'Cluster Role Binding', 'Service Account', 'Role', 'Role Binding']
-        ];
+//        $resourceTypes = ['Workloads'=>['Deployment', 'Daemon set', 'Job', 'Cron Job', 'Pod', 'Replica Set', 'Stateful Set'],
+//            'Service'=>['Service', 'Ingress', 'Ingress Class'],
+//            'Config and Storage'=>['Config Map', 'Secret', 'Persistent Volume Claim', 'Storage Class'],
+//            'Cluster'=>['Namespace', 'Persistent Volume', 'Cluster Role', 'Cluster Role Binding', 'Service Account', 'Role', 'Role Binding']
+//        ];
+        $resourceTypes = ['Workloads'=>['Deployment', 'Pod']];
 
 
         return view('create', compact('namespaces', 'resourceTypes'));

@@ -88,10 +88,10 @@ Route::group(['prefix' => 'cluster'], function () {
 
 });
 
-Route::group(['prefix' => 'create'], function () {
-
-
-});
+//Route::group(['prefix' => 'create'], function () {
+//
+//
+//});
 
 //Create Section
 
@@ -126,3 +126,7 @@ Route::get('edit-cluster', [\App\Http\Controllers\Edit\UserClusterController::cl
 Route::post('add-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'addCluster'])->name('add-cluster');
 Route::post('delete-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'deleteCluster'])->name('delete-cluster');
 Route::post('submit-edit-cluster', [\App\Http\Controllers\Edit\UserClusterController::class, 'submitEdit'])->name('submit-edit-cluster');
+
+Route::group(['prefix' => 'logs'], function () {
+    Route::get('pod/{namespace}/{name}', [\App\Http\Controllers\PodController::class, 'viewLogs'])->name('pod-logs');
+});
