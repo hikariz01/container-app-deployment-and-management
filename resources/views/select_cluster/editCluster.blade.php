@@ -21,6 +21,7 @@
             <thead>
                 <th>Cluster Name</th>
                 <th>Cluster URL</th>
+                <th>Select Cluster</th>
                 <th><i class="fa fa-cog" aria-hidden="true"></i></th>
             </thead>
             <tbody>
@@ -29,6 +30,17 @@
                         <tr>
                             <td>{{$cluster->name}}{{($selected_cluster_name === $cluster->name) ? ' (Current)' : ''}}</td>
                             <td>{{$cluster->url}}</td>
+                            <td>
+                                @if (session('cluster_id') == $cluster->id)
+                                    <button class="btn btn-secondary" disabled>Use this Cluster</button>
+                                @else
+                                    <form action="{{ route('submit-cluster') }}" method="POST">
+                                        @csrf
+                                        <input name="selectedCluster" type="hidden" style="display: none" value="{{$cluster->id}}">
+                                        <button class="btn btn-success" type="submit">Use this Cluster</button>
+                                    </form>
+                                @endif
+                            </td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,7 +60,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="2">Still no cluster yet.</td>
+                        <td colspan="4">Still no cluster yet.</td>
                     </tr>
                 @endif
             </tbody>
@@ -178,7 +190,32 @@
                 <div class="modal-body overflow-auto" style="height: 75vh">
                     <div class="row">
                         <div class="col-12">
-                            <h3>Get Kubernetes API Endpoint</h3>
+                            <h2>TL;DR</h2>
+                            <div class="codebox">
+<pre style="margin: auto">KUBE_API_ENDPOINT=`kubectl config view -o jsonpath='{.clusters[0].cluster.server}'`
+kubectl create sa web-app-sa
+kubectl create clusterrolebinding web-app-cluster-role-binding --clusterrole cluster-admin --serviceaccount default:web-app-sa
+cat <&lt;EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: web-app-secret
+  annotations:
+    kubernetes.io/service-account.name: web-app-sa
+type: kubernetes.io/service-account-token
+EOF
+kubectl get secret web-app-secret -o jsonpath='{.data.token}'|base64 --decode > token.txt
+kubectl get secret web-app-secret -o jsonpath='{.data.ca\.crt}'|base64 --decode > ca.crt
+echo $KUBE_API_ENDPOINT
+cat token.txt
+cat ca.crt
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h3>1. Get Kubernetes API Endpoint</h3>
                             <div class="codebox mt-2">
                                 <pre style="margin: auto">kubectl config view -o jsonpath='{.clusters[0].cluster.server}'</pre>
                             </div>
@@ -186,13 +223,13 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12">
-                            <h3>1. Create a new Service Account</h3>
+                            <h3>2. Create a new Service Account</h3>
                             <p>Create Service Account with Cluster-admin permission<br></p>
                         </div>
                         <div class="col-12">
                             <p>Create with kubectl command</p>
                             <div class="codebox">
-                                <pre style="margin: auto">kubectl create sa &lt;your-service-account-name&gt;</pre>
+                                <pre style="margin: auto">kubectl create sa web-app-sa</pre>
                             </div>
                         </div>
                         <div class="col-12 mt-3">
@@ -203,7 +240,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: &lt;your-secret-account-name&gt;</pre>
+  name: web-app-sa</pre>
                             </div>
                             <div class="codebox mt-2">
                                 <pre style="margin: auto">kubectl apply -f &lt;your-yaml-file-path&gt;</pre>
@@ -212,12 +249,12 @@ metadata:
                     </div>
                     <div class="row mt-2">
                         <div class="col-12">
-                            <h3>2. Create a new Cluster Role Binding</h3>
+                            <h3>3. Create a new Cluster Role Binding</h3>
                         </div>
                         <div class="col-12">
                             <p>Create with kubectl command</p>
                             <div class="codebox">
-                                <pre style="margin: auto">kubectl create clusterrolebinding &lt;cluster-role-binding-name&gt; --clusterrole cluster-admin --serviceaccount default:&lt;your-service-account-name&gt;</pre>
+                                <pre style="margin: auto">kubectl create clusterrolebinding web-app-cluster-role-binding --clusterrole cluster-admin --serviceaccount default:web-app-sa</pre>
                             </div>
                         </div>
                         <div class="col-12 mt-3">
@@ -228,10 +265,10 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: &lt;cluster-role-binding-name&gt;
+  name: web-app-cluster-role-binding
 subjects:
 - kind: ServiceAccount
-  name: &lt;your-service-account-name&gt;
+  name: web-app-sa
   namespace: default
 roleRef:
   kind: ClusterRole
@@ -245,7 +282,7 @@ roleRef:
                     </div>
                     <div class="row mt-2">
                         <div class="col-12">
-                            <h3>3. Create a Service Account Secret</h3>
+                            <h3>4. Create a Service Account Secret</h3>
                         </div>
                         <div class="col-12">
                             <p>Create with Yaml File</p>
@@ -255,9 +292,9 @@ roleRef:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: &lt;your-secret-name&gt;
+  name: web-app-secret
   annotations:
-    kubernetes.io/service-account.name: &lt;your-service-account-name&gt;
+    kubernetes.io/service-account.name: web-app-sa
 type: kubernetes.io/service-account-token</pre>
                             </div>
                             <div class="codebox mt-2">
@@ -267,18 +304,18 @@ type: kubernetes.io/service-account-token</pre>
                     </div>
                     <div class="row mt-2">
                         <div class="col-12">
-                            <h3>4. Get Service Account API credentials</h3>
+                            <h3>5. Get Service Account API credentials</h3>
                         </div>
                         <div class="col-12">
                             <p>Get API Token</p>
                             <div class="codebox mt-2">
-                                <pre style="margin: auto">kubectl get secret &lt;your-secret-name&gt; -o jsonpath='{.data.token}'|base64 --decode > token.txt</pre>
+                                <pre style="margin: auto">kubectl get secret web-app-secret -o jsonpath='{.data.token}'|base64 --decode > token.txt</pre>
                             </div>
                         </div>
                         <div class="col-12 mt-2">
                             <p>Get API CA Cert</p>
                             <div class="codebox mt-2">
-                                <pre style="margin: auto">kubectl get secret &lt;your-secret-name&gt; -o jsonpath='{.data.ca\.crt}'|base64 --decode > ca.crt</pre>
+                                <pre style="margin: auto">kubectl get secret web-app-secret -o jsonpath='{.data.ca\.crt}'|base64 --decode > ca.crt</pre>
                             </div>
                         </div>
                         <div class="col-12 mt-2">

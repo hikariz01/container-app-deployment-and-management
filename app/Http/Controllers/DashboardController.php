@@ -101,7 +101,7 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         if (session('cluster_id') === null) {
-            return redirect('select-cluster');
+            return redirect('edit-cluster');
         }
 
         $cluster = $this->getCluster();
@@ -170,7 +170,7 @@ class DashboardController extends Controller
     public function service(Request $request) {
 
         if (session('cluster_id') === null) {
-            return redirect('select-cluster');
+            return redirect('edit-cluster');
         }
 
         $cluster = $this->getCluster();
@@ -216,7 +216,7 @@ class DashboardController extends Controller
     public function config_storage(Request $request) {
 
         if (session('cluster_id') === null) {
-            return redirect('select-cluster');
+            return redirect('edit-cluster');
         }
 
         $cluster = $this->getCluster();
@@ -257,7 +257,7 @@ class DashboardController extends Controller
     public function cluster(Request $request) {
 
         if (session('cluster_id') === null) {
-            return redirect('select-cluster');
+            return redirect('edit-cluster');
         }
 
         $cluster = $this->getCluster();
