@@ -83,10 +83,10 @@ class DashboardController extends Controller
 
     public function getAge($resource) {
         if (is_array($resource)) {
-            $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($resource['metadata']['creationTimestamp'], 'UTC'));
+            $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($resource['metadata']['creationTimestamp']??0, 'UTC'));
         }
         else {
-            $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($resource->toArray()['metadata']['creationTimestamp'], 'UTC'));
+            $age = Carbon::now()->diffInDays(Carbon::createFromTimeString($resource->toArray()['metadata']['creationTimestamp']??0, 'UTC'));
         }
         if ($age > 1) {
             $age .= ' days';
@@ -122,7 +122,7 @@ class DashboardController extends Controller
 
 
 
-        $replicasets = $this->curlAPI(($this->getNs() != '') ? DashboardController::$api_url.'/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : DashboardController::$api_url.'/apis/apps/v1/replicasets')['items'];
+        $replicasets = $this->curlAPI(($this->getNs() != '') ? DashboardController::$api_url.'/apis/apps/v1/namespaces/'.$this->getNs().'/replicasets' : DashboardController::$api_url.'/apis/apps/v1/replicasets')['items']??[];
 
         $statefulsets = $cluster->getAllStatefulSets($this->getNs());
 
@@ -186,7 +186,7 @@ class DashboardController extends Controller
 
         // TODO: $ingressclasses = CURL เอง
 
-        $ingressclasses = $this->curlAPI(DashboardController::$api_url.'/apis/networking.k8s.io/v1/ingressclasses')['items'];
+        $ingressclasses = $this->curlAPI(DashboardController::$api_url.'/apis/networking.k8s.io/v1/ingressclasses')['items']??[];
 
 
         $serviceDataArr = [];

@@ -204,7 +204,7 @@
                             <td><a href="{{ route('storageclass-details', ['name'=>$storageclass->getName()]) }}">{{$storageclass->getName()}}</a></td>
                             <td>{{$storageclass->toArray()['provisioner']}}</td>
                             <td>
-                                @foreach($storageclass->toArray()['parameters'] as $key => $value)
+                                @foreach($storageclass->toArray()['parameters']??[] as $key => $value)
                                     {{$key}}: {{$value}}<br>
                                 @endforeach
                             </td>
