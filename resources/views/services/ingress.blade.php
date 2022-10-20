@@ -42,7 +42,9 @@
                     @if($key == "")
                         -
                     @else
-                        {{$key}}: {{$label}}<br>
+                        <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                     @endif
                 @endforeach
             </td>

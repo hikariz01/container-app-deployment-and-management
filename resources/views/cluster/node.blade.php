@@ -41,7 +41,9 @@
                     @if($key == "")
                         -
                     @else
-                        {{$key}}: {{$label}}<br>
+                        <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                     @endif
                 @endforeach
             </td>
@@ -198,7 +200,9 @@
                 <td>{{$pod->getNamespace()}}</td>
                 <td>
                     @foreach($pod->toArray()['spec']['containers'] as $container)
-                        {{$container['image']}}<br>
+                        <div class="badge badge-pill bg-primary">
+                            {{$container['image']}}
+                        </div><br>
                     @endforeach
                 </td>
                 <td>
@@ -206,7 +210,9 @@
                         @if($key == "")
                             -
                         @else
-                            {{$key}}: {{$label}}<br>
+                            <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                         @endif
                     @endforeach
                 </td>

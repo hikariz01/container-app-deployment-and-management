@@ -32,7 +32,9 @@
                                 @endif
                                 <td>
                                     @foreach(json_decode($deployment->toJson())->spec->template->spec->containers as $container)
-                                        {{$container->image}}<br>
+                                        <div class="badge badge-pill bg-primary">
+                                            {{$container->image}}
+                                        </div><br>
                                     @endforeach
                                 </td>
                                 <td>
@@ -40,7 +42,9 @@
                                         @if($key == "")
                                             -
                                         @else
-                                            {{$key}}: {{$label}}<br>
+                                            <div class="badge badge-pill bg-primary">
+                                                {{$key}}: {{$label}}
+                                            </div><br>
                                         @endif
                                     @endforeach
                                 </td>
@@ -94,7 +98,9 @@
                             @endif
                             <td>
                                 @foreach(json_decode($daemonset->toJson())->spec->template->spec->containers as $container)
-                                    {{$container->image}}<br>
+                                    <div class="badge badge-pill bg-primary">
+                                            {{$container->image}}
+                                        </div><br>
                                 @endforeach
                             </td>
                             <td>
@@ -102,7 +108,9 @@
                                     @if($key == "")
                                         -
                                     @else
-                                        {{$key}}: {{$label}}<br>
+                                        <div class="badge badge-pill bg-primary">
+                                            {{$key}}: {{$label}}
+                                        </div><br>
                                     @endif
                                 @endforeach
                             </td>
@@ -158,7 +166,9 @@
                             @endif
                             <td>
                                 @foreach(json_decode($job->toJson())->spec->template->spec->containers as $container)
-                                    {{$container->image}}<br>
+                                    <div class="badge badge-pill bg-primary">
+                                            {{$container->image}}
+                                        </div><br>
                                 @endforeach
                             </td>
                             <td>
@@ -166,7 +176,9 @@
                                     @if($key == "")
                                         -
                                     @else
-                                        {{$key}}: {{$label}}<br>
+                                        <div class="badge badge-pill bg-primary">
+                                            {{$key}}: {{$label}}
+                                        </div><br>
                                     @endif
                                 @endforeach
                             </td>
@@ -225,13 +237,17 @@
                             @endif
                             <td>
                                 @foreach($cronjob->getJobTemplate()->getTemplate()->getSpec('containers') as $container)
-                                    {{$container['image']}}<br>
+                                    <div class="badge badge-pill bg-primary">
+                                        {{$container['image']}}
+                                    </div><br>
                                 @endforeach
                             </td>
                             <td>
                                 @foreach($cronjob->getMetadata()['labels']??[''=>''] as $key => $label)
                                     @if(strcmp($key, ''))
-                                        {{$key}}: {{$label}}<br>
+                                        <div class="badge badge-pill bg-primary">
+                                                {{$key}}: {{$label}}
+                                        </div><br>
                                     @else
                                         -
                                     @endif
@@ -294,7 +310,9 @@
                                 @endif
                                 <td>
                                     @foreach(json_decode($pod->toJson())->spec->containers as $container)
-                                        {{$container->image}}<br>
+                                        <div class="badge badge-pill bg-primary">
+                                            {{$container->image}}
+                                        </div><br>
                                     @endforeach
                                 </td>
                                 <td>
@@ -302,7 +320,9 @@
                                         @if($key == "")
                                             -
                                         @else
-                                            {{$key}}: {{$label}}<br>
+                                            <div class="badge badge-pill bg-primary">
+                                                {{$key}}: {{$label}}
+                                            </div><br>
                                         @endif
                                     @endforeach
                                 </td>
@@ -365,7 +385,9 @@
                             @endif
                             <td>
                                 @foreach($replicaset['spec']['template']['spec']['containers'] as $container)
-                                    {{$container['image']}}<br>
+                                    <div class="badge badge-pill bg-primary">
+                                        {{$container['image']}}
+                                    </div><br>
                                 @endforeach
                             </td>
                             <td>
@@ -373,7 +395,9 @@
                                     @if($key == "")
                                         -
                                     @else
-                                        {{$key}}: {{$label}}<br>
+                                        <div class="badge badge-pill bg-primary">
+                                                {{$key}}: {{$label}}
+                                        </div><br>
                                     @endif
                                 @endforeach
                             </td>
@@ -430,7 +454,9 @@
                             @endif
                             <td>
                                 @foreach($statefulset->toArray()['spec']['template']['spec']['containers'] as $container)
-                                    {{$container['image']}}<br>
+                                    <div class="badge badge-pill bg-primary">
+                                        {{$container['image']}}
+                                    </div><br>
                                 @endforeach
                             </td>
                             <td>
@@ -438,7 +464,9 @@
                                     @if($key == "")
                                         -
                                     @else
-                                        {{$key}}: {{$label}}<br>
+                                        <div class="badge badge-pill bg-primary">
+                                            {{$key}}: {{$label}}
+                                        </div><br>
                                     @endif
                                 @endforeach
                             </td>

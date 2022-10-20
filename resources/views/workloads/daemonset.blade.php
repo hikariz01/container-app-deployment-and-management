@@ -43,7 +43,9 @@
                     @if($key == "")
                         -
                     @else
-                        {{$key}}: {{$label}}<br>
+                        <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                     @endif
                 @endforeach
             </td>
@@ -94,7 +96,9 @@
             </td>
             <td>
                 @foreach($daemonset->toArray()['spec']['template']['spec']['containers'] as $container)
-                    {{$container['image']}}<br>
+                    <div class="badge badge-pill bg-primary">
+                            {{$container['image']}}
+                        </div><br>
                 @endforeach
             </td>
         </tr>
@@ -144,7 +148,9 @@
                 <td>{{$pod->getNamespace()}}</td>
                 <td>
                     @foreach($pod->toArray()['spec']['containers'] as $container)
-                        {{$container['image']}}<br>
+                        <div class="badge badge-pill bg-primary">
+                            {{$container['image']}}
+                        </div><br>
                     @endforeach
                 </td>
                 <td>
@@ -152,7 +158,9 @@
                         @if($key == "")
                             -
                         @else
-                            {{$key}}: {{$label}}<br>
+                            <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                         @endif
                     @endforeach
                 </td>
@@ -199,7 +207,9 @@
                         @if($key == "")
                             -
                         @else
-                            {{$key}}: {{$label}}<br>
+                            <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                         @endif
                     @endforeach
                 </td>
@@ -253,16 +263,18 @@
                 <td>Last Seen</td>
             </tr>
             @foreach($events as $event)
-                <tr>
-                    <td>{{$event->getName()}}</td>
-                    <td>{{$event->toArray()['reason']}}</td>
-                    <td>{{$event->toArray()['message']}}</td>
-                    <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
-                    <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
-                    <td>{{$event->toArray()['count']??"0"}}</td>
-                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                    <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                </tr>
+                @if(str_contains($event->toArray()['involvedObject']['name']??"", $daemonset->getName()))
+                    <tr>
+                        <td>{{$event->getName()}}</td>
+                        <td>{{$event->toArray()['reason']}}</td>
+                        <td>{{$event->toArray()['message']}}</td>
+                        <td>{{$event->toArray()['source']['component']??"-"}}/{{$event->toArray()['source']['host']??"-"}}</td>
+                        <td>{{$event->toArray()['involvedObject']['kind']}}/{{$event->toArray()['involvedObject']['name']??""}}</td>
+                        <td>{{$event->toArray()['count']??"0"}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['firstTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                        <td>{{\Carbon\Carbon::createFromTimeString($event->toArray()['lastTimestamp']??'0', 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
+                    </tr>
+                @endif
             @endforeach
         @else
             <tr class="text-center">

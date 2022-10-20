@@ -56,7 +56,9 @@
                     @if($key == "")
                         -
                     @else
-                        {{$key}}: {{$label}}<br>
+                        <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                     @endif
                 @endforeach
             </td>
@@ -195,7 +197,9 @@
                         @if($key == "")
                             -
                         @else
-                            {{$key}}: {{$label}}<br>
+                            <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                         @endif
                     @endforeach
                 </td>
@@ -206,7 +210,9 @@
             <tr>
                 <td colspan="5">
                     @foreach($owner['spec']['template']['spec']['containers'] as $container)
-                        {{$container['image']}}<br>
+                        <div class="badge badge-pill bg-primary">
+                            {{$container['image']}}
+                        </div><br>
                     @endforeach
                 </td>
             </tr>
@@ -245,7 +251,9 @@
                     <td><a href="{{ route('pvc-details', ['name'=>$pvc->getName(), 'namespace'=>$pvc->getNamespace()??'default']) }}">{{$pvc->getName()}}</a></td>
                     <td>
                         @foreach($pvc->getLabels() as $key => $label)
-                            {{$key}}: {{$label}}<br>
+                            <div class="badge badge-pill bg-primary">
+                            {{$key}}: {{$label}}
+                        </div><br>
                         @endforeach
                     </td>
                     <td>{{$pvc->getStatus('phase')??'?'}}</td>
@@ -346,7 +354,11 @@
                     <th colspan="6">Image</th>
                 </tr>
                 <tr>
-                    <td colspan="6">{{$containers[$i]['image']}}</td>
+                    <td colspan="6">
+                        <div class="badge badge-pill bg-primary">
+                            {{$containers[$i]['image']}}
+                        </div><br>
+                    </td>
                 </tr>
                 <tr>
                     <th colspan="6"><span class="badge badge-pill bg-primary" style="font-size: 1rem">Status</span></th>

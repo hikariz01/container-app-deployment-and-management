@@ -43,7 +43,9 @@
                     @if($key == "")
                         -
                     @else
-                        {{$key}}: {{$label}}<br>
+                        <div class="badge badge-pill bg-primary">
+    {{$key}}: {{$label}}
+</div><br>
                     @endif
                 @endforeach
             </td>
@@ -126,7 +128,9 @@
                     @endif
                     <td>
                         @foreach($activeJob->getSpec('template')['spec']['containers']??[] as $container)
-                            {{$container['image']}}<br>
+                            <div class="badge badge-pill bg-primary">
+                            {{$container['image']}}
+                        </div><br>
                         @endforeach
                     </td>
                     <td>
@@ -176,7 +180,9 @@
                     @endif
                     <td>
                         @foreach($inactiveJob->getSpec('template')['spec']['containers']??[] as $container)
-                            {{$container['image']}}<br>
+                            <div class="badge badge-pill bg-primary">
+                            {{$container['image']}}
+                        </div><br>
                         @endforeach
                     </td>
                     <td>
