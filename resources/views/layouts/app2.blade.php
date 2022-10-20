@@ -26,6 +26,7 @@
     <style>
         ::-webkit-scrollbar {
             width: 5px;
+            height: 5px;
         }
 
         /* Track */
@@ -51,6 +52,11 @@
 
         #editorContainer {
             height: 60vh;
+        }
+
+        td {
+            max-width: 10vw;
+            overflow: auto;
         }
 
     </style>
