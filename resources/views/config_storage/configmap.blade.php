@@ -57,7 +57,7 @@
                     @else
                         <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                     @endif
                 @endforeach
             </td>

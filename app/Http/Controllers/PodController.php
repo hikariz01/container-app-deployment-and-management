@@ -58,7 +58,7 @@ class PodController extends DashboardController
 
         $probe = '';
 
-        $horizontalPodASs = $cluster->getAllHorizontalPodAutoscalers($pod->getNamespace());
+//        $horizontalPodASs = $cluster->getAllHorizontalPodAutoscalers($pod->getNamespace());
 
         return view('workloads.pod', compact('namespaces', 'pod', 'age', 'pvcs', 'events', 'containers', 'containerStatuses', 'probe', 'pvcs', 'owners', 'ownersAge'));
     }

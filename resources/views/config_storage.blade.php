@@ -167,7 +167,7 @@
                                     {{$accessmode}}<br>
                                 @endforeach
                             </td>
-                            <td>{{$pvc->toArray()['spec']['storageClassName']}}</td>
+                            <td><a href="{{ route('storageclass-details', ['name'=>$pvc->getSpec('storageClassName')]) }}">{{$pvc->getSpec('storageClassName')}}</a></td>
                             <td>{{\Carbon\Carbon::createFromTimeString($pvc->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                             <td style="overflow: visible">
                                 <div class="dropdown">

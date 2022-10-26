@@ -503,7 +503,7 @@
 
     $(document).ready(function () {
         $('.dashboard').DataTable({
-            ordering: false,
+            // ordering: false,
         });
     });
 </script>

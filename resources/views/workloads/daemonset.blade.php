@@ -45,7 +45,7 @@
                     @else
                         <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                     @endif
                 @endforeach
             </td>
@@ -160,7 +160,7 @@
                         @else
                             <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                         @endif
                     @endforeach
                 </td>
@@ -209,7 +209,7 @@
                         @else
                             <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                         @endif
                     @endforeach
                 </td>
@@ -221,7 +221,11 @@
                 </td>
                 <td>
                     @foreach($service->toArray()['spec']['ports'] as $port)
-                        Name: {{$port['name']??"-"}}; Protocol: {{$port['protocol']}}<br>Port: {{$port['port']}}; Target Port: {{$port['targetPort']}}; Node Port: {{$port['nodePort']??"-"}}<hr>
+                        <span class="badge badge-pill" style="background-color: #ffaa0a">Name: {{$port['name']??"-"}}</span>
+                        <span class="badge badge-pill" style="background-color: #ffaa0a">Protocol: {{$port['protocol']??'-'}}</span>
+                        <span class="badge badge-pill" style="background-color: #ffaa0a">Port: {{$port['port']??'-'}}</span>
+                        <span class="badge badge-pill" style="background-color: #ffaa0a">Target Port: {{$port['targetPort']??'-'}}</span>
+                        <span class="badge badge-pill" style="background-color: #ffaa0a">Node Port: {{$port['nodePort']??"-"}}</span><hr>
                     @endforeach
                 </td>
                 <td>

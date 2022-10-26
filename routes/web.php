@@ -130,3 +130,6 @@ Route::post('submit-edit-cluster', [\App\Http\Controllers\Edit\UserClusterContro
 Route::group(['prefix' => 'logs'], function () {
     Route::get('pod/{namespace}/{name}', [\App\Http\Controllers\PodController::class, 'viewLogs'])->name('pod-logs');
 });
+
+//Download
+Route::post('download-file', [\App\Http\Controllers\Edit\EditController::class, 'getFile'])->name('download-file');

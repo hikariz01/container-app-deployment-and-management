@@ -302,7 +302,7 @@
                     </thead>
                     <tbody>
                     @foreach($pods as $pod)
-                        @if($pod->getStatus('phase') !== 'Failed')
+{{--                        @if($pod->getStatus('phase') !== 'Failed')--}}
                             <tr>
                                 <td><a href="{{ route('pod-details', ['name'=>$pod->getName(), 'namespace'=>$pod->getMetadata()['namespace']??'default']) }}">{{$pod->getName()}}</a></td>
                                 @if(!strcmp($_GET['namespace']??"no", 'all'))
@@ -326,7 +326,15 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>{{json_decode($pod->toJson())->status->phase}}</td>
+                                <td>
+                                    @if ($pod->getPhase() === 'Running' || $pod->getPhase() === 'Succeeded')
+                                        <span class="badge badge-pill bg-success">{{$pod->getPhase()}}</span>
+                                    @elseif($pod->getPhase() === 'Pending')
+                                        <span class="badge badge-pill bg-warning">{{$pod->getPhase()}}</span>
+                                    @else
+                                        <span class="badge badge-pill bg-danger">{{$pod->getPhase()}}</span>
+                                    @endif
+                                </td>
                                 <td>
                                     @foreach(json_decode($pod->toJson())->status->containerStatuses??[json_decode('{"restartCount":"-"}')] as $status)
                                         {{$status->restartCount}}<br>
@@ -347,7 +355,7 @@
                                     <div class="pod" id="{{$pod->getNamespace().$pod->getName()}}" style="display: none">{{$podDataArr[$pod->getNamespace().$pod->getName()]}}</div>
                                 </td>
                             </tr>
-                        @endif
+{{--                        @endif--}}
                     @endforeach
 
                     </tbody>

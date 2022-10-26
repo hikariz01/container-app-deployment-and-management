@@ -32,7 +32,7 @@
                                     @endif
                                 @endforeach
                             </td>
-                            <td>{{$namespace->toArray()['status']['phase']}}</td>
+                            <td><span class="badge badge-pill @if($namespace->getStatus('phase') === 'Active') bg-success @else bg-danger @endif">{{$namespace->getStatus('phase')}}</span></td>
                             <td>{{\Carbon\Carbon::createFromTimeString($namespace->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                             <td style="overflow: visible">
                                 <div class="dropdown">
@@ -158,7 +158,7 @@
                             <td>{{$persistentvolume->getSpec('persistentVolumeReclaimPolicy')}}</td>
                             <td>{{$persistentvolume->getStatus('phase')}}</td>
                             <td><a href="{{ route('pvc-details', ['name'=>$persistentvolume->getSpec('claimRef')['name'], 'namespace'=>$persistentvolume->getSpec('claimRef')['namespace']]) }}">{{$persistentvolume->getSpec('claimRef')['namespace'].'/'.$persistentvolume->getSpec('claimRef')['name']}}</a></td>
-                            <td>{{$persistentvolume->getSpec('storageClassName')}}</td>
+                            <td><a href="{{ route('storageclass-details', ['name'=>$persistentvolume->getSpec('storageClassName')]) }}">{{$persistentvolume->getSpec('storageClassName')}}</a></td>
                             <td>{{$persistentvolume->getStatus('reason')??'-'}}</td>
                             <td>{{\Carbon\Carbon::createFromTimeString($persistentvolume->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                             <td style="overflow: visible">

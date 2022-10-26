@@ -44,7 +44,7 @@
                     @else
                         <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                     @endif
                 @endforeach
             </td>
@@ -77,7 +77,6 @@
         <tr>
             <td colspan="10">
                 <h3 style="padding-left: 30px"id="deployment_table">Resource Information</h3>
-
             </td>
         </tr>
         </thead>
@@ -86,7 +85,15 @@
             <th>Ingress Class Name</th>
         </tr>
         <tr>
-            <td><h4>{{$ingress->getSpec('ingressClassName')??'-'}}</h4></td>
+            <td>
+                <h4>
+                    @if($ingress->getSpec('ingressClassName') !== null)
+                        <a href="{{route('ingressclass-details', ['name'=>$ingress->getSpec('ingressClassName')])}}">{{$ingress->getSpec('ingressClassName')??'-'}}</a>
+                    @else
+                        -
+                    @endif
+                </h4>
+            </td>
         </tr>
         <tr>
             <th>Endpoints</th>

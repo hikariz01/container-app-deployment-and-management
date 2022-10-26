@@ -252,4 +252,13 @@ class EditController extends DashboardController
         }
     }
 
+    public function getFile(Request $request) {
+
+        $temp = tempnam(sys_get_temp_dir(), 'cacert');
+        $temp_file = fwrite($temp, $request->get('downloadData'));
+
+        dd($temp_file);
+
+//        TODO MAKE DOWNLOADFILE
+    }
 }

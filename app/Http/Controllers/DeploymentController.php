@@ -42,15 +42,17 @@ class DeploymentController extends DashboardController
 
         $events = $deployment->getEvents();
 
-        $hrztPodAutoScalers = $this->curlAPI(DashboardController::$api_url . '/apis/autoscaling/v1/namespaces/'.$namespace.'/horizontalpodautoscalers')['items'];
+//        $hrztPodAutoScalers = $this->curlAPI(DashboardController::$api_url . '/apis/autoscaling/v1/namespaces/'.$namespace.'/horizontalpodautoscalers')['items'];
+
+        $hrztPodAutoScalers = $cluster->getAllHorizontalPodAutoscalers($deployment->getNamespace());
 
         $hrztPodAutoScaler = [];
 
         foreach ($hrztPodAutoScalers as $podAutoScaler) {
-            if ($podAutoScaler['spec']['scaleTargetRef']['name'] === $deployment->getName()) {
-                $hrztPodAutoScaler[] = $podAutoScaler;
+            if ($podAutoScaler->toArray()['spec']['scaleTargetRef']['name'] === $deployment->getName()) {
+                $hrztPodAutoScaler[] = $podAutoScaler->toArray();
             }
-    }
+        }
 
         return view('workloads.deployment', compact('namespaces', 'deployment', 'age', 'conditions', 'events','replicasets', 'replicasetAge', 'hrztPodAutoScaler'));
     }

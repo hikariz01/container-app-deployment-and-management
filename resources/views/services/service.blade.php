@@ -41,7 +41,7 @@
                     @else
                         <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                     @endif
                 @endforeach
             </td>
@@ -127,22 +127,22 @@
             </tr>
             @foreach($endpoints['subsets'] as $subset)
                 @foreach($subset['ports'] as $port)
-                        @foreach($subset['addresses'] as $key => $address)
+                    @foreach($subset['addresses'] as $key => $address)
+                    <tr>
+                        <td>{{$address['ip']}}</td>
+                        <td>{{$port['name']??'-'}}, {{$port['port']??'-'}}, {{$port['protocol']??'-'}}</td>
+                        <td>{{$address['nodeName']??'none'}}</td>
+                        <td>true</td>
+                    </tr>
+                    @endforeach
+                    @foreach($subset['notReadyAddresses']??[] as $key => $address)
                         <tr>
                             <td>{{$address['ip']}}</td>
                             <td>{{$port['name']??'-'}}, {{$port['port']??'-'}}, {{$port['protocol']??'-'}}</td>
                             <td>{{$address['nodeName']??'none'}}</td>
-                            <td>true</td>
+                            <td>false</td>
                         </tr>
-                        @endforeach
-                        @foreach($subset['notReadyAddresses']??[] as $key => $address)
-                            <tr>
-                                <td>{{$address['ip']}}</td>
-                                <td>{{$port['name']??'-'}}, {{$port['port']??'-'}}, {{$port['protocol']??'-'}}</td>
-                                <td>{{$address['nodeName']??'none'}}</td>
-                                <td>false</td>
-                            </tr>
-                        @endforeach
+                    @endforeach
                 @endforeach
             @endforeach
         @else
@@ -191,7 +191,7 @@
                         @else
                             <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                         @endif
                     @endforeach
                 </td>
@@ -241,7 +241,7 @@
                             @else
                                 <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                             @endif
                         @endforeach
                     </td>

@@ -58,7 +58,7 @@
                     @else
                         <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                     @endif
                 @endforeach
             </td>
@@ -106,7 +106,15 @@
         </tr>
         <tr>
             <td><a href="{{ route('node-details', ['name'=>$pod->getSpec('nodeName')])??'#' }}">{{$pod->toArray()['spec']['nodeName']}}</a></td>
-            <td>{{$pod->getStatus('phase')}}</td>
+            <td>
+                @if ($pod->getPhase() === 'Running' || $pod->getPhase() === 'Succeeded')
+                    <span class="badge badge-pill bg-success">{{$pod->getPhase()}}</span>
+                @elseif($pod->getPhase() === 'Pending')
+                    <span class="badge badge-pill bg-warning">{{$pod->getPhase()}}</span>
+                @else
+                    <span class="badge badge-pill bg-danger">{{$pod->getPhase()}}</span>
+                @endif
+            </td>
             <td>
                 @foreach($pod->getPodIps() as $podIP)
                     {{$podIP['ip']}}<br>
@@ -176,7 +184,6 @@
             </tr>
             <tr>
                 @foreach($owners as $key => $owner)
-    {{--                TODO ทำ Route ที่สามารถเลือก kind ของ workloads ได้--}}
                     @if($owner['kind'] === 'ReplicaSet')
                         <td><a href="{{ route('replicaset-details', ['name'=>$owner['metadata']['name'], 'namespace'=>$owner['metadata']['namespace']??'default']) }}">{{$owner['metadata']['name']}}</a></td>
                     @elseif($owner['kind'] === 'StatefulSet')
@@ -199,7 +206,7 @@
                         @else
                             <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                         @endif
                     @endforeach
                 </td>
@@ -253,7 +260,7 @@
                         @foreach($pvc->getLabels() as $key => $label)
                             <div class="badge badge-pill bg-primary">
                             {{$key}}: {{$label}}
-                        </div><br>
+                        </div>
                         @endforeach
                     </td>
                     <td>{{$pvc->getStatus('phase')??'?'}}</td>
