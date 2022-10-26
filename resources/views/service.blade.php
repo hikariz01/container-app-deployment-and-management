@@ -59,7 +59,7 @@
                                 @endforeach
                             </td>
                             <td>{{\Carbon\Carbon::createFromTimeString($service->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -139,7 +139,7 @@
                                 @endforeach
                             </td>
                             <td>{{\Carbon\Carbon::createFromTimeString($ingress->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -182,7 +182,7 @@
                             <td><a href="{{ route('ingressclass-details', ['name'=>$ingressclass['metadata']['name']]) }}">{{$ingressclass['metadata']['name']}}</a></td>
                             <td>{{$ingressclass['spec']['controller']}}</td>
                             <td>{{\Carbon\Carbon::createFromTimeString($ingressclass['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>

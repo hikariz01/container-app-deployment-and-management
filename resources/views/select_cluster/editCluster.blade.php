@@ -41,7 +41,7 @@
                                     </form>
                                 @endif
                             </td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>

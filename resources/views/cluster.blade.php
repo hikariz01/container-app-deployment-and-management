@@ -34,7 +34,7 @@
                             </td>
                             <td>{{$namespace->toArray()['status']['phase']}}</td>
                             <td>{{\Carbon\Carbon::createFromTimeString($namespace->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -103,7 +103,7 @@
                             <td>{{$node->getAllocatableInfo()['memory']}}</td>
                             <td>{{count($podCount[$node->getName()])}}</td>
                             <td>{{\Carbon\Carbon::createFromTimeString($node->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -161,7 +161,7 @@
                             <td>{{$persistentvolume->getSpec('storageClassName')}}</td>
                             <td>{{$persistentvolume->getStatus('reason')??'-'}}</td>
                             <td>{{\Carbon\Carbon::createFromTimeString($persistentvolume->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -200,7 +200,7 @@
                         <tr>
                             <td><a href="{{ route('clusterrole-details', ['name'=>$clusterRole->getName()]) }}">{{$clusterRole->getName()}}</a></td>
                             <td>{{\Carbon\Carbon::createFromTimeString($clusterRole->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -239,7 +239,7 @@
                         <tr>
                             <td><a href="{{ route('clusterrolebinding-details', ['name'=>$clusterRoleBinding->getName()]) }}">{{$clusterRoleBinding->getName()}}</a></td>
                             <td>{{\Carbon\Carbon::createFromTimeString($clusterRoleBinding->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -335,7 +335,7 @@
                                 @endforeach
                             </td>
                             <td>{{\Carbon\Carbon::createFromTimeString($serviceAccount->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -380,7 +380,7 @@
                                 <td>{{$role->getMetadata()['namespace']??'-'}}</td>
                             @endif
                             <td>{{\Carbon\Carbon::createFromTimeString($role->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
@@ -424,7 +424,7 @@
                                 <td>{{$roleBinding->getMetadata()['namespace']??'-'}}</td>
                             @endif
                             <td>{{\Carbon\Carbon::createFromTimeString($roleBinding->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
-                            <td>
+                            <td style="overflow: visible">
                                 <div class="dropdown">
                                     <button class="btn btn-outline-info dropdown-toggle" role="button" id="dropdownEditButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>

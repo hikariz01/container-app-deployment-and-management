@@ -180,9 +180,9 @@
                                 <a href="{{route('edit-cluster')}}" class="dropdown-item">
                                     Edit Cluster
                                 </a>
-                                <a href="{{route('select-cluster')}}" class="dropdown-item">
-                                    Select Cluster
-                                </a>
+{{--                                <a href="{{route('select-cluster')}}" class="dropdown-item">--}}
+{{--                                    Select Cluster--}}
+{{--                                </a>--}}
 
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
