@@ -245,6 +245,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editFormLabel">Edit Resource</h5>
+                    <form action="{{ route('download-file') }}" method="POST" onsubmit="updateData()" style="margin-left: 20px">
+                        @csrf
+                        <input type="hidden" style="display: none" name="resourceName" id="resourceName">
+                        <input type="hidden" style="display: none" name="downloadData" id="downloadData">
+                        <button type="submit" class="btn btn-success">Download Code</button>
+                    </form>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('edit') }}" method="POST" onsubmit="updateData()">
@@ -305,6 +311,7 @@
             let classname = e.className.split(' ')
             let data = document.getElementById(classname[2]+classname[3]).innerHTML
             aceEditor.session.setValue(data)
+            document.getElementById('resourceName').value = classname[3]
         }
 
         function deleteData(e) {
@@ -326,6 +333,7 @@
 
         function updateData() {
             document.getElementById('editorValue').value = aceEditor.session.getValue()
+            document.getElementById('downloadData').value = aceEditor.session.getValue()
         }
     </script>
 

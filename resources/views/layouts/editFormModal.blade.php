@@ -3,6 +3,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editFormLabel">Edit Resource</h5>
+                <form action="{{ route('download-file') }}" method="POST" onsubmit="updateDownloadData()" style="margin-left: 20px">
+                    @csrf
+                    <input type="hidden" style="display: none" name="resourceName" id="resourceName">
+                    <input type="hidden" style="display: none" name="downloadData" id="downloadData">
+                    <button type="submit" class="btn btn-success">Download Code</button>
+                </form>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('edit') }}" method="POST" onsubmit="updateData()">

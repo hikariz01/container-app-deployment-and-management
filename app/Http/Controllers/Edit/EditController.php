@@ -254,10 +254,16 @@ class EditController extends DashboardController
 
     public function getFile(Request $request) {
 
-        $temp = tempnam(sys_get_temp_dir(), 'cacert');
-        $temp_file = fwrite($temp, $request->get('downloadData'));
+        $temp_file = tempnam(sys_get_temp_dir(), 'yml');
+        $fp = fopen($temp_file, 'w');
+        fwrite($fp, $request->get('downloadData'));
+        fclose($fp);
 
-        dd($temp_file);
+        $headers = [
+            'Content-Type' => 'application/yaml',
+        ];
+
+        return response()->download($temp_file, $request->get('resourceName').'.yml', $headers);
 
 //        TODO MAKE DOWNLOADFILE
     }

@@ -14,5 +14,13 @@
         aceJSONEditor.session.setValue(jsonData)
     }
 
+    function updateDownloadData() {
+        let downloadName = document.querySelector('#resourceName')
+        let downloadData = document.querySelector('#downloadData')
+
+        downloadName.value = name
+        downloadData.value = aceData
+    }
+
  </script>
 

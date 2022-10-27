@@ -243,6 +243,13 @@
 
         document.getElementById('deleteValue').value = kind + ' ' + namespace + ' ' + name
 
+        function updateDownloadData() {
+            let downloadName = document.querySelector('#resourceName')
+            let downloadData = document.querySelector('#downloadData')
+
+            downloadName.value = name
+            downloadData.value = aceData
+        }
 
     </script>
 
