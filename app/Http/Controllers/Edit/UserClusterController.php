@@ -65,9 +65,15 @@ class UserClusterController extends Controller
             $namespaces = ['not selected'];
         }
 
-        $user = $request->user();
+        try {
+            $user = $request->user();
 
-        $clusters = $user->clusters;
+            $clusters = $user->clusters;
+        }
+        catch (\ErrorException $e) {
+            return redirect('login');
+        }
+
 
         return view('select_cluster.editCluster', compact('namespaces', 'clusters'));
     }
