@@ -128,26 +128,29 @@ class CreateController extends DashboardController
                 } catch (FileNotFoundException $e) {
                     return redirect('dashboard')->with('error', $e->getMessage());
                 }
-                $resource = Yaml::parse($data);
-                try {
-                    if ($resource['kind'] === 'ReplicaSet') {
-                        $replicaset = new ReplicaSet($cluster, $resource);
-                        $response[] = $replicaset->createOrUpdate();
+                $yaml_data = file_get_contents($yaml);
+                $resources = yaml_parse($yaml_data, -1);
+                foreach ($resources as $resource) {
+                    try {
+                        if ($resource['kind'] === 'ReplicaSet') {
+                            $replicaset = new ReplicaSet($cluster, $resource);
+                            $response[] = $replicaset->createOrUpdate();
+                        }
+                        elseif ($resource['kind'] === 'IngressClass') {
+                            $ingressclass = new IngressClass($cluster, $resource);
+                            $response[] = $ingressclass->createOrUpdate();
+                        }
+                        else {
+                            $resourceToCreate = $cluster->fromYaml(yaml_emit($resource));
+                            $response[] = $resourceToCreate->createOrUpdate();
+                        }
                     }
-                    elseif ($resource['kind'] === 'IngressClass') {
-                        $ingressclass = new IngressClass($cluster, $resource);
-                        $response[] = $ingressclass->createOrUpdate();
+                    catch (KubernetesAPIException $e) {
+                        return redirect('dashboard')->with('error', $e->getMessage());
                     }
-                    else {
-                        $resourceToCreate = $cluster->fromYaml($data);
-                        $response[] = $resourceToCreate->createOrUpdate();
+                    foreach ($response as $res) {
+                        $result .= $res->getKind().'[' . $res->getName() . '] ';
                     }
-                }
-                catch (KubernetesAPIException $e) {
-                    return redirect('dashboard')->with('error', $e->getMessage());
-                }
-                foreach ($response as $res) {
-                    $result .= $res->getKind().'[' . $res->getName() . '] ';
                 }
             }
 
