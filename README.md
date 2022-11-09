@@ -7,6 +7,9 @@
 - Namespace Switchable.
 - Multi-Cluster Manageable.
 
+## Cons
+- `Custom Define Resources` is not supported.
+
 ## How to install
 ### Clone this project
 ```
