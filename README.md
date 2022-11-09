@@ -1,29 +1,49 @@
 <p align="center">Container-App Deploy and Management Web-App</p>
 
 ## Function of this Web-Application
-- create/edit/delete Kubernetes Object.
+- Create/Edit/Delete Kubernetes Object.
 - View details of Kubernetes Object.
+- Namespace Switchable.
 - Multi-Cluster Manageable.
 
 ## How to install
-### TL;DR
-```
-git clone https://github.com/hikariz01/container-app-deployment-and-management.git
-cd container-app-deployment-and-management
-docker-compose up -d
-```
-#### Clone this repo and change directory to Clone repo
+### Clone this project
 ```
 git clone https://github.com/hikariz01/container-app-deployment-and-management.git
 cd container-app-deployment-and-management
 ```
+### Setting your `.env` file
+```
+cp .env.example .env
+nano .env
+```
+### Example of `.env` file
+- you must set `DB_HOST` and `DB_DATABASE` to same name
+```
+APP_NAME=Container-App-Deploy-and-Manage
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
 
-#### Use docker-compose to run Application
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=Laravel-DB
+DB_PORT=3306
+DB_DATABASE=Laravel-DB
+DB_USERNAME=changeme
+DB_PASSWORD=changeme
+```
+
+### Use `docker-compose` to run Application
 ```
 docker-compose up -d
 ```
 
-#### When you're done with Application you can STOP or REMOVE
+### When you're done with Application you can `STOP` or `REMOVE`
 - Stop
 ```
 docker-compose stop
