@@ -9,6 +9,7 @@
 
 ## Cons
 - `Custom Define Resources` is not supported.
+- Cannot delete multiple resources at the same time.
 
 ## How to install
 ### Clone this project
