@@ -3,6 +3,7 @@
 ## Function of this Web-Application
 - Create/Edit/Delete Kubernetes Object.
 - View details of Kubernetes Object.
+- View Logs of Pod
 - Namespace Switchable.
 - Multi-Cluster Manageable.
 
