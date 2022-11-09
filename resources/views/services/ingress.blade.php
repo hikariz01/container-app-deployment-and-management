@@ -101,13 +101,15 @@
 {{--            TODO CURL ENDPOINTS AND USE IT--}}
         @foreach($ep as $endpoint)
             <tr>
-                @foreach($endpoint['endpoints'] as $address)
-                    @foreach($address['addresses'] as $addr)
-                        @foreach($endpoint['ports'] as $port)
-                            <td>{{$addr}}:{{$port['port']}}</td>
+                <td>
+                    @foreach($endpoint['endpoints'] as $address)
+                        @foreach($address['addresses'] as $addr)
+                            @foreach($endpoint['ports'] as $port)
+                                <span class="badge badge-pill bg-primary">{{$addr}}:{{$port['port']}}</span>
+                            @endforeach
                         @endforeach
                     @endforeach
-                @endforeach
+                </td>
             </tr>
         @endforeach
         </tbody>
