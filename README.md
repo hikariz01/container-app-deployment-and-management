@@ -48,6 +48,13 @@ DB_PASSWORD=changeme
 docker-compose up -d
 ```
 
+### Then you can access by this link
+```
+http://localhost:8000
+
+http://<your-ip>:8000
+```
+
 ### When you're done with Application you can `STOP` or `REMOVE`
 - Stop
 ```
