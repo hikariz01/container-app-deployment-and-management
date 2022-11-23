@@ -59,6 +59,13 @@
             overflow: auto;
         }
 
+         .codebox {
+             background-color: #6c757d;
+             width: 100%;
+             padding: 15px;
+             color: white;
+         }
+
     </style>
 </head>
 
@@ -422,7 +429,7 @@
 {{--                            <span class="hide-menu">Error 404</span>--}}
 {{--                        </a>--}}
 {{--                    </li>--}}
-                    <li class="text-center p-20 upgrade-btn">
+                    <li class="text-center p-20">
                         <a role="button" data-bs-toggle="modal" data-bs-target="#monitor" href="#"
                            class="btn d-grid btn-warning text-white">
                             (Optional) Monitor your Cluster</a>
@@ -472,9 +479,36 @@
                             <div class="col">
                                 <h3>Quick Setup</h3>
                                 <h4>Connect to your Control Plane Node (Master Node) and type these command</h4>
-                                <pre style="margin: auto">
-kubectl apply -f     
-                                </pre>
+                                <div class="codebox">
+                                    <pre style="margin: auto">
+kubectl apply -f https://raw.githubusercontent.com/hikariz01/container-app-deployment-and-management/main/public/yaml/prometheus%2Bgrafana_k8s.yaml
+                                    </pre>
+                                </div>
+                                <h4 class="mt-2">Or use this web-app by download code <a href="https://raw.githubusercontent.com/hikariz01/container-app-deployment-and-management/main/public/yaml/prometheus%2Bgrafana_k8s.yaml" class="btn btn-success" target="_blank">Download</a> (right click and save as)</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h3>Access Grafana</h3>
+                                <div class="codebox">
+                                    <pre style="margin: auto">
+access to grafana by http://&lt;node-ip&gt;:32000
+
+login by username <b>admin</b> and password <b>admin</b>
+                                    </pre>
+                                </div>
+                                <img class="img-fluid mt-2" src="{{asset('img/grafana_login.png')}}" alt="">
+                                <h3 class="mt-2">Setup your data sources</h3>
+                                <p>on left side go to <b>configurations</b> and <b>Data sources</b> and press <b>Add data source</b></p>
+                                <img class="img-fluid" src="{{ asset('img/grafana_data.png') }}" alt="">
+                                <p class="mt-3">select <b>Prometheus</b> and fill <b>url</b> in HTTP section with your <b>http://&lt;node-ip&gt;:30900</b> and scroll to bottom and press <b>Save & Test</b></p>
+                                <img class="img-fluid" src="{{ asset('img/grafana_data_done.png') }}" alt="">
+                                <p class="mt-3">on left side go to <b>Dashboard</b> and <b>Import</b> then use <b>ID 13332</b> then press <b>load</b></p>
+                                <img class="img-fluid" src="{{ asset('img/grafana_import_dashboard.png') }}" alt="">
+                                <p class="mt-3">select your data source and press <b>import</b></p>
+                                <img src="{{ asset('img/grafana_13332.png') }}" alt="" class="img-fluid">
+                                <p class="mt-3">access your dashboard by browse dashboard</p>
+                                <img class="img-fluid" src="{{ asset('img/grafana_13332_dashboard.png') }}" alt="">
                             </div>
                         </div>
                     </div>

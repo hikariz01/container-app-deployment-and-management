@@ -133,3 +133,4 @@ Route::group(['prefix' => 'logs'], function () {
 
 //Download
 Route::post('download-file', [\App\Http\Controllers\Edit\EditController::class, 'getFile'])->name('download-file');
+Route::post('download-prometheus_grafana', [\App\Http\Controllers\Edit\EditController::class, 'getMonitorFile'])->name('monitor-file');

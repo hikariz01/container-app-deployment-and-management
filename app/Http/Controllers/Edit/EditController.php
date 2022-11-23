@@ -267,4 +267,14 @@ class EditController extends DashboardController
 
 //        TODO MAKE DOWNLOADFILE
     }
+
+    public function getMonitorFile(Request $request) {
+
+        $headers = [
+            'Content-Type' => 'application/yaml',
+        ];
+
+        return response()->download(public_path('yaml/prometheus+grafana_k8s.yaml'), 'prometheus+grafana_k8s.yaml', $headers);
+
+    }
 }
