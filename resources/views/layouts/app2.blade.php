@@ -422,11 +422,11 @@
 {{--                            <span class="hide-menu">Error 404</span>--}}
 {{--                        </a>--}}
 {{--                    </li>--}}
-{{--                    <li class="text-center p-20 upgrade-btn">--}}
-{{--                        <a href="https://www.wrappixel.com/templates/ampleadmin/"--}}
-{{--                           class="btn d-grid btn-danger text-white" target="_blank">--}}
-{{--                            Upgrade to Pro</a>--}}
-{{--                    </li>--}}
+                    <li class="text-center p-20 upgrade-btn">
+                        <a role="button" data-bs-toggle="modal" data-bs-target="#monitor" href="#"
+                           class="btn d-grid btn-warning text-white">
+                            (Optional) Monitor your Cluster</a>
+                    </li>
                 </ul>
 
             </nav>
@@ -459,6 +459,33 @@
         <!-- ============================================================== -->
         <!-- End footer -->
         <!-- ============================================================== -->
+
+        <div class="modal fade" id="monitor" tabindex="-1" aria-labelledby="monitorLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="monitorLabel">How to Setup Prometheus+Grafana on your K8s Cluster</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h3>Quick Setup</h3>
+                                <h4>Connect to your Control Plane Node (Master Node) and type these command</h4>
+                                <pre style="margin: auto">
+kubectl apply -f     
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="deleteValue" name="deleteValue" value="" style="display: none">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- ============================================================== -->
     <!-- End Page wrapper  -->
