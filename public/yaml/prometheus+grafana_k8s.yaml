@@ -161,7 +161,7 @@ data:
 ---
 #create a node exporter daemonsets to export node data
 
-aapiVersion: apps/v1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
