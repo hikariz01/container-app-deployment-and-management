@@ -1,4 +1,4 @@
-<p align="center">Container-App Deploy and Management Web-App</p>
+# <p align="center">Container-App Deploy and Management Web-App</p>
 
 ## Function of this Web-Application
 - Create/Edit/Delete Kubernetes Object.
@@ -87,6 +87,35 @@ echo $KUBE_API_ENDPOINT
 cat token.txt
 cat ca.crt
 ```
+
+## (Optional) Monitor your Kubernetes Cluster (`Prometheus` + `Grafana`)
+### Installation
+- Apply this command on your Control Plane Node (Master Node)
+```
+kubectl apply -f https://raw.githubusercontent.com/hikariz01/container-app-deployment-and-management/main/public/yaml/prometheus%2Bgrafana_k8s.yaml
+```
+- Or you can use this web-app to deploy `Prometheus` + `Grafana` [Download Yaml File](https://raw.githubusercontent.com/hikariz01/container-app-deployment-and-management/main/public/yaml/prometheus%2Bgrafana_k8s.yaml) (Right Click and Save As)
+
+### Grafana Login
+- Access your Grafana by `http://<node-ip>:32000`
+- Use the username `admin` and password `admin`
+![alt text](https://github.com/hikariz01/container-app-deployment-and-management/raw/main/public/img/grafana_login.png)
+
+### Setup Data Sources
+- on left side go to `configurations` and `Data sources` and press `Add data source`
+![alt text](https://github.com/hikariz01/container-app-deployment-and-management/raw/main/public/img/grafana_data.png)
+- select `Prometheus` and fill `url` in HTTP section with your `http://<node-ip>:30900` and scroll to bottom and press `Save & Test`
+![alt text](https://github.com/hikariz01/container-app-deployment-and-management/raw/main/public/img/grafana_data_done.png)
+
+### Setup Dashboard
+- on left side go to `Dashboard` and `Import` then use ID `13332` or `315` then press `Load`
+![alt text](https://github.com/hikariz01/container-app-deployment-and-management/raw/main/public/img/grafana_import_dashboard.png)
+- select your data source and press `Import`
+![alt text](https://github.com/hikariz01/container-app-deployment-and-management/raw/main/public/img/grafana_13332.png)
+- Access your Dashboard by browse the dashboard
+![alt text](https://github.com/hikariz01/container-app-deployment-and-management/raw/main/public/img/grafana_13332_dashboard.png)
+
+
 
 ## Development Tools
 - Laravel

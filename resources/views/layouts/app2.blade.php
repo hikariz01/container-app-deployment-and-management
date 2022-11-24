@@ -504,7 +504,7 @@ login by username <b>admin</b> and password <b>admin</b>
                                 <p class="mt-3">select <b>Prometheus</b> and fill <b>url</b> in HTTP section with your <b>http://&lt;node-ip&gt;:30900</b> and scroll to bottom and press <b>Save & Test</b></p>
                                 <img class="img-fluid" src="{{ asset('img/grafana_data_done.png') }}" alt="">
                                 <h3 class="mt-3">Import Dashboard</h3>
-                                <p>on left side go to <b>Dashboard</b> and <b>Import</b> then use <b>ID 13332</b> then press <b>load</b></p>
+                                <p>on left side go to <b>Dashboard</b> and <b>Import</b> then use <b>ID 13332</b> or <b>ID 315</b> then press <b>load</b></p>
                                 <img class="img-fluid" src="{{ asset('img/grafana_import_dashboard.png') }}" alt="">
                                 <p class="mt-3">select your data source and press <b>import</b></p>
                                 <img src="{{ asset('img/grafana_13332.png') }}" alt="" class="img-fluid">
