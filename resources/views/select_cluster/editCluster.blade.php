@@ -101,8 +101,8 @@
                     </div>
                 </div>
             </div>
-            <button role="button" data-bs-toggle="modal" data-bs-target="#monitor" href="#"
-               class="btn btn-outline-warning text-white">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#monitor" href="#"
+               class="btn btn-outline-warning">
                 (Optional) Monitor your Cluster</button>
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#getToken"><i class="fa fa-info-circle" aria-hidden="true"></i> How to get Token&CACert</button>
             <button type="submit" class="btn btn-outline-success" style="width: 10vw"><i class="fa fa-arrow-right" aria-hidden="true"></i> Continue</button>
