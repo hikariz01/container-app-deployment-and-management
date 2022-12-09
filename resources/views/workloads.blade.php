@@ -48,7 +48,7 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>{{json_decode($deployment->toJson())->status->readyReplicas??"0"}}/{{json_decode($deployment->toJson())->status->replicas}}</td>
+                                <td>{{$deployment->getReadyReplicasCount()??"0"}}/{{$deployment->getDesiredReplicasCount()}}</td>
                                 <td>{{\Carbon\Carbon::createFromTimeString($deployment->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                                 <td style="overflow: visible;">
                                     <div class="dropdown">
