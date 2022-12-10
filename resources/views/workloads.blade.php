@@ -256,7 +256,11 @@
                             <td>{{$cronjob->getSpec('schedule')}}</td>
                             <td>{{$cronjob->getSpec('suspend') ? 'true' : 'false'}}</td>
                             <td>{{count($cronjob->getActiveJobs()->toArray())}}</td>
-                            <td>{{date('d-m-Y H:i:s',$cronjob->getLastSchedule()->getTimestamp()??0)}}</td>
+                            @if(is_null($cronjob->getLastSchedule()))
+                                <td>-</td>
+                            @else
+                                <td>{{date('d-m-Y H:i:s',$cronjob->getLastSchedule()->getTimestamp())}}</td>
+                            @endif
                             <td>{{\Carbon\Carbon::createFromTimeString($cronjob->toArray()['metadata']['creationTimestamp'], 'UTC')->addHours(7)->toDayDateTimeString()}}</td>
                             <td style="overflow: visible">
                                 <div class="dropdown">
