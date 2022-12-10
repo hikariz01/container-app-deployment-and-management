@@ -74,9 +74,7 @@ class DashboardController extends Controller
 
 
     public function curlAPI($endpoint) {
-        return Http::withHeaders(
-            ['Authorization'=>'Bearer '.env('KUBE_API_TOKEN')],
-        )->withoutVerifying()->get($endpoint)->json();
+        return Http::withoutVerifying()->get($endpoint)->json();
     }
 
 
