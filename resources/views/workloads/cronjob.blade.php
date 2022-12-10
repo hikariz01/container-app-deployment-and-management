@@ -93,7 +93,11 @@
             <td>{{$cronjob->getSpec('schedule')}}</td>
             <td>{{count($cronjob->getActiveJobs()->toArray())}}</td>
             <td>{{$cronjob->getSpec('suspend') ? 'true' : 'false'}}</td>
-            <td>{{date('d-m-Y H:i:s',$cronjob->getLastSchedule()->getTimestamp())}}</td>
+            @if(is_null($cronjob->getLastSchedule()))
+                <td>-</td>
+            @else
+                <td>{{date('d-m-Y H:i:s',$cronjob->getLastSchedule()->getTimestamp())}}</td>
+            @endif
             <td>{{$cronjob->getSpec('concurrencyPolicy')??'-'}}</td>
         </tr>
         </tbody>
